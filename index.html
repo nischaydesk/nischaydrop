@@ -15,6 +15,7 @@
   <meta name="theme-color" content="#00a884">
 
   <style>
+    /* ---------------- THEME VARIABLES ---------------- */
     :root[data-theme="dark"] {
       --bg: #0b141a;
       --surface: #111b21;
@@ -52,6 +53,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; transition: background-color 0.25s ease, color 0.2s ease, border-color 0.2s ease; }
     body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
 
+    /* Header */
     header {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
@@ -80,50 +82,51 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      text-decoration: none;
     }
     .control-btn:hover { border-color: var(--primary); }
 
+    /* Main Container */
     main { flex: 1; max-width: 900px; width: 100%; margin: 0 auto; padding: 20px 16px; display: flex; flex-direction: column; gap: 20px; }
 
-    .how-it-works {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 12px;
-    }
-    .step-card {
+    /* Premium Trust Hero Banner (Replace old 3 boxes) */
+    .trust-hero {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px 16px;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      box-shadow: 0 2px 8px var(--shadow);
-      cursor: pointer;
-      user-select: none;
-      transition: transform 0.15s ease, border-color 0.2s ease, background-color 0.2s ease;
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 14px var(--shadow);
+      border-top: 3px solid var(--primary);
     }
-    .step-card:hover {
-      transform: translateY(-2px);
-      border-color: var(--primary);
-      background: var(--card);
-    }
-    .step-badge {
+    .trust-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       background: var(--badge-bg);
       color: var(--primary);
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 0.85rem;
-      flex-shrink: 0;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
     }
-    .step-info h4 { font-size: 0.9rem; margin-bottom: 3px; color: var(--text); display: flex; align-items: center; gap: 6px; }
-    .step-info p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; }
+    .trust-hero h2 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+    .trust-hero p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      max-width: 650px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
 
+    /* Mode Switcher Tabs */
     .mode-switcher {
       display: flex;
       background: var(--surface);
@@ -154,9 +157,11 @@
       border-bottom: 3px solid var(--primary);
     }
 
+    /* Views */
     .view-panel { display: none; }
     .view-panel.active { display: flex; flex-direction: column; gap: 18px; }
 
+    /* Cards */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -165,6 +170,7 @@
       box-shadow: 0 4px 14px var(--shadow);
     }
 
+    /* Receiver View */
     .qr-hero-section {
       display: flex;
       flex-direction: column;
@@ -204,6 +210,7 @@
     }
     .status-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
 
+    /* Incoming Queue List */
     .incoming-list { display: flex; flex-direction: column; gap: 14px; margin-top: 14px; }
     .incoming-card {
       background: var(--card);
@@ -214,7 +221,10 @@
       flex-direction: column;
       gap: 12px;
       border-left: 4px solid var(--primary);
+      animation: fileEntrance 0.3s ease-out;
     }
+    @keyframes fileEntrance { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
     .incoming-header {
       display: flex;
       justify-content: space-between;
@@ -264,7 +274,7 @@
       transition: transform 0.3s ease;
     }
 
-    /* Fixed Clean Camera Container */
+    /* Clean Camera Container */
     #scannerContainer {
       display: none;
       position: relative;
@@ -389,6 +399,7 @@
       outline: none;
     }
 
+    /* Modal Windows */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -417,9 +428,10 @@
     @keyframes modalFade { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
     .modal-icon { font-size: 3rem; margin-bottom: 12px; }
 
+    /* Footer */
     footer {
       border-top: 1px solid var(--border);
-      padding: 16px 20px;
+      padding: 20px 16px;
       text-align: center;
       font-size: 0.85rem;
       color: var(--text-muted);
@@ -434,13 +446,18 @@
 </head>
 <body>
 
+  <!-- Header -->
   <header>
-    <a href="index.html" class="brand">
+    <a href="./index.html" class="brand">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary)"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
       Nischay<span>Drop</span>
     </a>
 
     <div class="header-controls">
+      <a href="./security.html" class="control-btn">
+        🛡️ <span data-i18n="navSecurity">सुरक्षा</span>
+      </a>
+
       <button class="control-btn" onclick="toggleLanguage()" id="langToggleBtn">
         🌐 <span id="langLabel">English</span>
       </button>
@@ -451,31 +468,21 @@
     </div>
   </header>
 
+  <!-- Main Content Workspace -->
   <main>
-    <div class="how-it-works">
-      <div class="step-card" onclick="stepAction(1)">
-        <div class="step-badge">1</div>
-        <div class="step-info">
-          <h4><span data-i18n="step1Title">QR स्कैन करें</span> 🚀</h4>
-          <p data-i18n="step1Desc">काउंटर का QR कोड स्कैन करें या 6-अक्षरों का कोड डालें।</p>
-        </div>
+
+    <!-- Clean Trust Hero Banner (Replaced old confusing 3 boxes) -->
+    <div class="trust-hero">
+      <div class="trust-tag">
+        ⚡ 100% P2P • ZERO SERVER STORAGE • ZERO CONTACT
       </div>
-      <div class="step-card" onclick="stepAction(2)">
-        <div class="step-badge">2</div>
-        <div class="step-info">
-          <h4><span data-i18n="step2Title">फ़ाइलें चुनें</span> 📁</h4>
-          <p data-i18n="step2Desc">PDF या फ़ोटो चुनें, कॉपी व कलर चुनें और 1-क्लिक में भेजें।</p>
-        </div>
-      </div>
-      <div class="step-card" onclick="stepAction(3)">
-        <div class="step-badge">3</div>
-        <div class="step-info">
-          <h4><span data-i18n="step3Title">डायरेक्ट प्रिंट व नष्ट</span> 🖨️</h4>
-          <p data-i18n="step3Desc">दुकानदार सीधे प्रिंट निकालेगा, काम होते ही फ़ाइल खुद नष्ट!</p>
-        </div>
-      </div>
+      <h2 data-i18n="heroTitle">नो नंबर, नो रिस्क — सीधा सुरक्षित प्रिंट!</h2>
+      <p data-i18n="heroDesc">
+        बिना दुकानदार का मोबाइल नंबर सेव किए अपने दस्तावेज (PDF/फोटो) सीधे प्रिंटर पर भेजें। फाइल किसी सर्वर पर अपलोड नहीं होती और प्रिंट होते ही खुद नष्ट हो जाती है।
+      </p>
     </div>
     
+    <!-- Mode Switcher Tabs -->
     <div class="mode-switcher">
       <button class="tab-btn active" id="btnTabReceive" onclick="switchMode('receive')">
         🖨️ <span data-i18n="tabReceive">दुकानदार मोड (Receiver)</span>
@@ -485,7 +492,7 @@
       </button>
     </div>
 
-    <!-- 1. RECEIVER VIEW -->
+    <!-- 1. RECEIVER VIEW (COUNTER) -->
     <div id="viewReceive" class="view-panel active">
       <div class="card qr-hero-section">
         <div class="connection-status">
@@ -505,6 +512,7 @@
         </div>
       </div>
 
+      <!-- Live Incoming Files Queue -->
       <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <h3 style="font-size: 1.05rem;" data-i18n="incomingTitle">📥 आई हुई फाइल्स (Live Queue)</h3>
@@ -519,10 +527,12 @@
       </div>
     </div>
 
-    <!-- 2. SENDER VIEW -->
+    <!-- 2. SENDER VIEW (CUSTOMER) -->
     <div id="viewSend" class="view-panel">
+      
+      <!-- Connect Section -->
       <div class="card">
-        <h3 style="margin-bottom: 6px; font-size: 1.05rem;" data-i18n="connectTitle">दुकान से कनेक्ट करें</h3>
+        <h3 style="margin-bottom: 6px; font-size: 1.05rem;" data-i18n="connectTitle">1. दुकान के काउंटर से लिंक करें</h3>
         <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 14px;" data-i18n="connectDesc">
           दुकान के काउंटर पर दिख रहा QR स्कैन करें या कोड डालकर लिंक करें।
         </p>
@@ -532,7 +542,6 @@
             📷 <span data-i18n="btnScanCamera">दुकान का QR स्कैन करें</span>
           </button>
 
-          <!-- Native Clean Camera Scanner -->
           <div id="scannerContainer">
             <video id="scannerVideo" playsinline autoplay muted></video>
             <div class="scanner-overlay"></div>
@@ -563,8 +572,9 @@
         <div id="customerConnAlert" style="font-size: 0.8rem; margin-top: 10px; font-weight: 600;"></div>
       </div>
 
-      <div class="card" id="senderTransferBox" style="opacity: 0.45; pointer-events: none;">
-        <h3 style="margin-bottom: 12px; font-size: 1.05rem;" data-i18n="filesTitle">फाइलें चुनें व प्रिंट निर्देश दें</h3>
+      <!-- File Select Section (Always Fully Open and Accessible!) -->
+      <div class="card" id="senderTransferBox">
+        <h3 style="margin-bottom: 12px; font-size: 1.05rem;" data-i18n="filesTitle">2. फाइलें चुनें व प्रिंट निर्देश दें</h3>
         
         <div class="dropzone" onclick="document.getElementById('fileUploadInput').click()">
           <input type="file" id="fileUploadInput" multiple onchange="handleFileSelection(event)">
@@ -610,6 +620,7 @@
   <iframe id="printFrame"></iframe>
   <canvas id="qrScanCanvas" style="display: none;"></canvas>
 
+  <!-- Success Celebration Modal -->
   <div class="modal-overlay" id="successModal">
     <div class="modal-card">
       <div class="modal-icon">🎉</div>
@@ -619,28 +630,19 @@
     </div>
   </div>
 
+  <!-- Footer with How It Works Link Included -->
   <footer>
     <div data-i18n="footerNote">100% Client-Side Peer-to-Peer Transfer • कोई डेटा सर्वर पर स्टोर नहीं होता</div>
-    <div style="margin-top: 8px;">
-      <a href="privicy.html" data-i18n="navPrivacy">गोपनीयता नीति</a> | 
-      <a href="terms.html" data-i18n="navTerms">नियम व शर्तें</a> | 
-      <a href="security.html" data-i18n="navSecurity">सुरक्षा संरचना</a>
+    <div style="margin-top: 10px; display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
+      <a href="./how-it-works.html" data-i18n="navHow">💡 यह कैसे काम करता है?</a>
+      <a href="./privicy.html" data-i18n="navPrivacy">🛡️ गोपनीयता नीति</a>
+      <a href="./terms.html" data-i18n="navTerms">📜 नियम व शर्तें</a>
+      <a href="./security.html" data-i18n="navSecurity">🔐 सुरक्षा संरचना</a>
     </div>
   </footer>
 
+  <!-- SCRIPT LOGIC -->
   <script>
-    function stepAction(stepNum) {
-      if (stepNum === 1) {
-        switchMode('send');
-        startNativeScanner();
-      } else if (stepNum === 2) {
-        switchMode('send');
-        document.getElementById('fileUploadInput').click();
-      } else if (stepNum === 3) {
-        switchMode('receive');
-      }
-    }
-
     function playBeepSound() {
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -660,14 +662,10 @@
 
     const translations = {
       hi: {
+        heroTitle: "नो नंबर, नो रिस्क — सीधा सुरक्षित प्रिंट!",
+        heroDesc: "बिना दुकानदार का मोबाइल नंबर सेव किए अपने दस्तावेज (PDF/फोटो) सीधे प्रिंटर पर भेजें। फाइल किसी सर्वर पर अपलोड नहीं होती और प्रिंट होते ही खुद नष्ट हो जाती है।",
         tabReceive: "दुकानदार मोड (Receiver)",
         tabSend: "ग्राहक मोड (Sender)",
-        step1Title: "QR स्कैन करें",
-        step1Desc: "काउंटर का QR कोड स्कैन करें या 6-अक्षरों का कोड डालें।",
-        step2Title: "फ़ाइलें चुनें",
-        step2Desc: "PDF या फ़ोटो चुनें, कॉपी व कलर चुनें और 1-क्लिक में भेजें।",
-        step3Title: "डायरेक्ट प्रिंट व नष्ट",
-        step3Desc: "दुकानदार सीधे प्रिंट निकालेगा, काम होते ही फ़ाइल खुद नष्ट!",
         statusConnecting: "काउंटर तैयार हो रहा है...",
         statusLive: "काउंटर तैयार है (Live)",
         statusError: "कनेक्शन त्रुटि - पुनः प्रयास करें",
@@ -675,7 +673,7 @@
         counterCodeLabel: "काउंटर कोड",
         incomingTitle: "📥 आई हुई फाइल्स (Live Queue)",
         emptyQueue: "जैसे ही ग्राहक फाइल भेजेगा, आवाज के साथ वह यहाँ बिना डाउनलोड किए सीधे प्रिंट के लिए आ जाएगी।",
-        connectTitle: "दुकान से कनेक्ट करें",
+        connectTitle: "1. दुकान के काउंटर से लिंक करें",
         connectDesc: "दुकान के काउंटर पर दिख रहा QR स्कैन करें या कोड डालकर लिंक करें।",
         btnScanCamera: "दुकान का QR स्कैन करें",
         btnCloseCamera: "❌ बंद करें",
@@ -685,7 +683,7 @@
         connectingWait: "काउंटर से कनेक्ट हो रहा है... कृपया प्रतीक्षा करें",
         connectedAlert: "✓ काउंटर से सुरक्षित रूप से कनेक्टेड! अब फाइलें भेजें।",
         connFailedAlert: "काउंटर से संपर्क नहीं हो सका। कृपया कोड दोबारा जांचें।",
-        filesTitle: "फाइलें चुनें व प्रिंट निर्देश दें",
+        filesTitle: "2. फाइलें चुनें व प्रिंट निर्देश दें",
         dropzonePrompt: "यहाँ टैप करके PDF या फोटो चुनें",
         dropzoneSub: "कोई साइज सीमा नहीं (100% P2P डायरेक्ट ट्रांसफर)",
         lblCopies: "कॉपी (Copies)",
@@ -700,23 +698,20 @@
         successDesc: "दुकानदार के काउंटर पर आपकी फाइलें सीधे पहुँच चुकी हैं। आप प्रिंट ले सकते हैं।",
         btnOk: "ठीक है (OK)",
         footerNote: "100% Client-Side Peer-to-Peer Transfer • कोई डेटा सर्वर पर स्टोर नहीं होता",
-        navPrivacy: "गोपनीयता नीति",
-        navTerms: "नियम व शर्तें",
-        navSecurity: "सुरक्षा संरचना",
+        navHow: "💡 यह कैसे काम करता है?",
+        navPrivacy: "🛡️ गोपनीयता नीति",
+        navTerms: "📜 नियम व शर्तें",
+        navSecurity: "🔐 सुरक्षा संरचना",
         filesSelectedText: "फाइलें चुनी गईं",
         alertNoCode: "कृपया काउंटर का कोड डालें!",
-        alertNoConn: "काउंटर कनेक्टेड नहीं है!",
+        alertNoConn: "कृपया पहले ऊपर दुकान के काउंटर से लिंक करें!",
         alertNoFiles: "कृपया पहले फाइल चुनें!"
       },
       en: {
+        heroTitle: "No Numbers. Zero Risk. Direct Safe Print!",
+        heroDesc: "Transmit documents directly to counter printers without sharing mobile numbers. Zero cloud uploads, 100% volatile RAM with immediate memory destruction.",
         tabReceive: "Shopkeeper Mode (Receiver)",
         tabSend: "Customer Mode (Sender)",
-        step1Title: "Scan Counter QR",
-        step1Desc: "Scan shop's QR code or enter the 6-character room code.",
-        step2Title: "Pick Documents",
-        step2Desc: "Select PDFs or photos, choose copies and hit send in 1-tap.",
-        step3Title: "Zero-Trace Print",
-        step3Desc: "Shopkeeper prints directly; memory auto-destructs instantly!",
         statusConnecting: "Initializing Counter...",
         statusLive: "Counter Online (Live)",
         statusError: "Connection Error - Please retry",
@@ -724,7 +719,7 @@
         counterCodeLabel: "Counter Code",
         incomingTitle: "📥 Incoming Queue (Live)",
         emptyQueue: "Files sent by customers will appear here with an audio chime ready for direct printing.",
-        connectTitle: "Connect to Counter",
+        connectTitle: "1. Link with Shop Counter",
         connectDesc: "Scan the counter QR or enter code manually to pair.",
         btnScanCamera: "Scan Shop QR Code",
         btnCloseCamera: "❌ Close",
@@ -734,7 +729,7 @@
         connectingWait: "Connecting to counter... Please wait a moment",
         connectedAlert: "✓ Securely connected to counter! Ready to transfer.",
         connFailedAlert: "Failed to connect to counter. Please verify code.",
-        filesTitle: "Select Files & Print Preferences",
+        filesTitle: "2. Select Files & Print Preferences",
         dropzonePrompt: "Tap here to select PDFs or Images",
         dropzoneSub: "No file size limit (100% direct P2P transfer)",
         lblCopies: "Copies",
@@ -749,12 +744,13 @@
         successDesc: "Your files have arrived securely at the counter terminal.",
         btnOk: "Got It",
         footerNote: "100% Client-Side Peer-to-Peer Transfer • Zero Server Storage",
-        navPrivacy: "Privacy Policy",
-        navTerms: "Terms of Service",
-        navSecurity: "Security Specs",
+        navHow: "💡 How It Works",
+        navPrivacy: "🛡️ Privacy Policy",
+        navTerms: "📜 Terms of Service",
+        navSecurity: "🔐 Security Specs",
         filesSelectedText: "files selected",
         alertNoCode: "Please enter counter code!",
-        alertNoConn: "Counter is not connected!",
+        alertNoConn: "Please connect to counter first!",
         alertNoFiles: "Please select files first!"
       }
     };
@@ -968,7 +964,6 @@
       if (!peer) peer = new Peer();
     }
 
-    // Direct, Robust & Fast Camera Starter (Fixes Black Screen Completely)
     async function startNativeScanner() {
       const scannerBox = document.getElementById("scannerContainer");
       const btnScan = document.getElementById("btnStartScan");
@@ -1005,7 +1000,6 @@
 
         await startStreamWithDeviceId(backCamerasList[currentCameraIndex]?.deviceId);
       } catch (err) {
-        console.warn("Direct enum failed, falling back to basic facingMode:", err);
         await startStreamWithDeviceId(null);
       }
     }
@@ -1017,8 +1011,6 @@
       }
 
       const video = document.getElementById("scannerVideo");
-
-      // Super flexible constraints without hardcoded width/height lock
       const constraints = {
         video: deviceId 
           ? { deviceId: { exact: deviceId } }
@@ -1029,8 +1021,6 @@
       try {
         videoStream = await navigator.mediaDevices.getUserMedia(constraints);
         video.srcObject = videoStream;
-        
-        // Wait for video frame to load cleanly before triggering loop
         video.onloadedmetadata = () => {
           video.play().then(() => {
             scanningActive = true;
@@ -1038,7 +1028,6 @@
           }).catch(e => console.error("Video play error:", e));
         };
       } catch (e) {
-        console.error("Camera access failed with exact constraint, retrying default:", e);
         try {
           videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false });
           video.srcObject = videoStream;
@@ -1140,8 +1129,6 @@
         connectingBox.style.display = "none";
         alertBox.style.color = "var(--primary)";
         alertBox.innerText = translations[currentLang].connectedAlert;
-        document.getElementById("senderTransferBox").style.opacity = "1";
-        document.getElementById("senderTransferBox").style.pointerEvents = "all";
       });
 
       conn.on("error", () => {
