@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="hi" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How It Works — NischayDrop</title>
+  <style>
+    :root[data-theme="dark"] {
+      --bg: #0b141a; --surface: #111b21; --card: #202c33; --primary: #00a884;
+      --text: #e9edef; --text-muted: #8696a0; --border: #2a3942;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; line-height: 1.6; }
+    header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .brand { font-weight: 800; font-size: 1.25rem; color: #fff; text-decoration: none; }
+    .brand span { color: var(--primary); }
+    main { max-width: 800px; width: 100%; margin: 0 auto; padding: 30px 16px; flex: 1; display: flex; flex-direction: column; gap: 20px; }
+    .back-btn { color: var(--primary); text-decoration: none; font-weight: 600; margin-bottom: 8px; display: inline-block; }
+    .guide-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px; }
+    .step-badge { background: rgba(0, 168, 132, 0.15); color: var(--primary); font-weight: 800; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; display: inline-block; margin-bottom: 10px; }
+    h2 { font-size: 1.25rem; margin-bottom: 8px; color: var(--text); }
+    p { color: var(--text-muted); font-size: 0.95rem; }
+    footer { border-top: 1px solid var(--border); padding: 20px; text-align: center; font-size: 0.85rem; color: var(--text-muted); background: var(--surface); margin-top: auto; }
+    footer a { color: var(--primary); text-decoration: none; margin: 0 8px; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="./index.html" class="brand">Nischay<span>Drop</span></a>
+    <a href="./index.html" style="color:var(--primary); text-decoration:none; font-weight:600;">होम पेज</a>
+  </header>
+  <main>
+    <a href="./index.html" class="back-btn">← मुख्य पेज पर वापस जाएं</a>
+
+    <div class="guide-card" style="border-top: 3px solid var(--primary);">
+      <h1 style="font-size: 1.6rem; margin-bottom: 8px;">💡 NischayDrop कैसे काम करता है?</h1>
+      <p>यह टूल साइबर कैफे और ग्राहकों के बीच बिना किसी सर्वर या नंबर शेयर किए 100% प्राइवेट प्रिंट ट्रांसफर की सुविधा देता है।</p>
+    </div>
+
+    <div class="guide-card">
+      <div class="step-badge">स्टेप 1</div>
+      <h2>📱 QR स्कैन या 6-अक्षरों का कोड लिंक</h2>
+      <p>ग्राहक अपने फोन से दुकान के कंप्यूटर स्क्रीन पर दिख रहा QR कोड स्कैन करता है। इससे दोनों के बीच सीधे P2P WebRTC टनल बन जाती है।</p>
+    </div>
+
+    <div class="guide-card">
+      <div class="step-badge">स्टेप 2</div>
+      <h2>📁 सुरक्षित फ़ाइल चयन व प्रिंट निर्देश</h2>
+      <p>ग्राहक बिना किसी झिझक के अपनी PDF या फोटो चुनता है, कॉपी की संख्या और B/W या Color मोड सेट करके 'सेंड' दबाता है।</p>
+    </div>
+
+    <div class="guide-card">
+      <div class="step-badge">स्टेप 3</div>
+      <h2>🖨️ डायरेक्ट प्रिंट व ऑटो-डिस्ट्रक्शन (Auto-Destruct)</h2>
+      <p>फ़ाइल सीधे दुकानदार के कंप्यूटर की RAM में पहुँचती है। दुकानदार बिना डाउनलोड किए सीधा प्रिंट निकालता है और 'Delete' दबाते ही फ़ाइल हमेशा के लिए नष्ट हो जाती है!</p>
+    </div>
+  </main>
+  <footer>
+    <div>100% Client-Side Peer-to-Peer Transfer • कोई डेटा सर्वर पर स्टोर नहीं होता</div>
+    <div style="margin-top: 8px;">
+      <a href="./privicy.html">गोपनीयता नीति</a> | 
+      <a href="./terms.html">नियम व शर्तें</a> | 
+      <a href="./security.html">सुरक्षा संरचना</a>
+    </div>
+  </footer>
+</body>
+</html>
