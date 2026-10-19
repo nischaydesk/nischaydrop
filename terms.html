@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Terms of Service — NischayDrop | Legal Framework</title>
+  <meta name="description" content="Terms of Service and End-User Agreement for NischayDrop. Safe Harbor provisions under Information Technology Act 2000 and user conduct standards.">
+
+  <style>
+    /* ---------------- THEME VARIABLES ---------------- */
+    :root[data-theme="dark"] {
+      --bg: #0b141a;
+      --surface: #111b21;
+      --card: #1f2c34;
+      --primary: #00a884;
+      --primary-hover: #02906f;
+      --text: #e9edef;
+      --text-muted: #8696a0;
+      --border: #2a3942;
+      --badge-bg: rgba(0, 168, 132, 0.15);
+      --shadow: rgba(0, 0, 0, 0.45);
+      --accent: #53bdeb;
+      --warning: #f59e0b;
+      --warning-bg: rgba(245, 158, 11, 0.12);
+    }
+
+    :root[data-theme="light"] {
+      --bg: #f0f2f5;
+      --surface: #ffffff;
+      --card: #ffffff;
+      --primary: #008069;
+      --primary-hover: #006a57;
+      --text: #111b21;
+      --text-muted: #54656f;
+      --border: #e9edef;
+      --badge-bg: rgba(0, 128, 105, 0.12);
+      --shadow: rgba(11, 20, 26, 0.08);
+      --accent: #027eb5;
+      --warning: #b45309;
+      --warning-bg: rgba(245, 158, 11, 0.15);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; transition: background-color 0.25s ease, color 0.2s ease, border-color 0.2s ease; }
+    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; line-height: 1.6; }
+
+    /* Header */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 1px 4px var(--shadow);
+    }
+    .brand { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1.3rem; color: var(--text); text-decoration: none; }
+    .brand span { color: var(--primary); }
+
+    .header-controls { display: flex; align-items: center; gap: 10px; }
+    .control-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .control-btn:hover { border-color: var(--primary); }
+
+    /* Main Container */
+    main { flex: 1; max-width: 860px; width: 100%; margin: 0 auto; padding: 32px 16px; display: flex; flex-direction: column; gap: 24px; }
+
+    .back-btn {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 4px 16px var(--shadow);
+    }
+    .legal-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--badge-bg);
+      color: var(--primary);
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 14px;
+    }
+    .hero-banner h1 { font-size: 2rem; font-weight: 800; margin-bottom: 10px; color: var(--text); }
+    .hero-banner p { font-size: 0.98rem; color: var(--text-muted); max-width: 680px; margin: 0 auto; line-height: 1.6; }
+    .meta-details { display: flex; justify-content: center; gap: 20px; font-size: 0.8rem; color: var(--text-muted); margin-top: 16px; font-weight: 500; }
+
+    /* Accordion */
+    .accordion-list { display: flex; flex-direction: column; gap: 14px; }
+    .accordion-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px var(--shadow);
+      transition: border-color 0.2s;
+    }
+    .accordion-item.open { border-color: var(--primary); }
+
+    .accordion-trigger {
+      width: 100%;
+      background: transparent;
+      border: none;
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      color: var(--text);
+      text-align: left;
+    }
+    .trigger-content { display: flex; align-items: center; gap: 14px; font-size: 1.05rem; font-weight: 700; }
+    .trigger-icon { font-size: 1.25rem; }
+    .chevron-icon {
+      width: 20px;
+      height: 20px;
+      stroke: var(--text-muted);
+      stroke-width: 2.5;
+      fill: none;
+      transition: transform 0.3s ease;
+    }
+    .accordion-item.open .chevron-icon { transform: rotate(180deg); stroke: var(--primary); }
+
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      background: var(--surface);
+    }
+    .accordion-inner {
+      padding: 0 20px 22px 20px;
+      color: var(--text);
+      font-size: 0.94rem;
+      border-top: 1px solid var(--border);
+      margin-top: 6px;
+      padding-top: 16px;
+    }
+    .accordion-inner p { margin-bottom: 12px; }
+    .accordion-inner ul { padding-left: 24px; margin-bottom: 14px; color: var(--text-muted); }
+    .accordion-inner li { margin-bottom: 8px; }
+    .accordion-inner strong { color: var(--text); }
+
+    .warning-box {
+      background: var(--warning-bg);
+      border-left: 4px solid var(--warning);
+      padding: 14px 18px;
+      border-radius: 0 8px 8px 0;
+      margin: 14px 0;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 20px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      background: var(--surface);
+      margin-top: auto;
+    }
+    footer a { color: var(--primary); text-decoration: none; margin: 0 8px; }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header>
+    <a href="index.html" class="brand">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary)"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      Nischay<span>Drop</span>
+    </a>
+
+    <div class="header-controls">
+      <button class="control-btn" onclick="toggleLanguage()" id="langToggleBtn">
+        🌐 <span id="langLabel">हिंदी</span>
+      </button>
+
+      <button class="control-btn" onclick="toggleTheme()" id="themeToggleBtn">
+        <span id="themeIcon">☀️</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Legal Main Workspace -->
+  <main>
+    <a href="index.html" class="back-btn">
+      ← <span data-i18n="backHome">Back to Home</span>
+    </a>
+
+    <!-- Hero Banner -->
+    <div class="hero-banner">
+      <div class="legal-badge">
+        📜 <span data-i18n="termsBadge">Statutory Terms of Service</span>
+      </div>
+      <h1 data-i18n="heroTitle">Terms of Service & Usage Governance</h1>
+      <p data-i18n="heroDesc">
+        By initializing a file transfer or pairing with a counter terminal on NischayDrop, you agree to the legal boundaries, intermediary safe-harbor limits, and acceptable use terms outlined below.
+      </p>
+      <div class="meta-details">
+        <span><strong>Jurisdiction:</strong> India (IT Act 2000 Compliant)</span>
+        <span>•</span>
+        <span><strong>Version:</strong> 2.0 (Active)</span>
+      </div>
+    </div>
+
+    <!-- Accordion Clauses -->
+    <div class="accordion-list">
+
+      <!-- ITEM 1: ACCEPTANCE -->
+      <div class="accordion-item open">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+          <div class="trigger-content">
+            <span class="trigger-icon">🤝</span>
+            <span data-i18n="acc1Header">1. Acceptance of Terms & Core Mandate</span>
+          </div>
+          <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="accordion-body" style="max-height: 1000px;">
+          <div class="accordion-inner">
+            <p data-i18n="acc1P1">
+              These Terms of Service constitute an enforceable legal agreement between you (the "User", whether acting as a document Sender or commercial Receiver/Shopkeeper) and <strong>NischayDrop</strong> (a product under the <strong>Nischay Ecosystem</strong>).
+            </p>
+            <p data-i18n="acc1P2">
+              NischayDrop provides browser-to-browser peer-to-peer data transport software. If you do not agree to every clause herein, you must immediately terminate your session and refrain from utilizing the service.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ITEM 2: SAFE HARBOR & INTERMEDIARY STATUS -->
+      <div class="accordion-item">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+          <div class="trigger-content">
+            <span class="trigger-icon">🛡️</span>
+            <span data-i18n="acc2Header">2. Intermediary Status & Safe Harbor (Section 79, IT Act)</span>
+          </div>
+          <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-inner">
+            <p data-i18n="acc2P1">
+              NischayDrop operates purely as a transient, mathematical communication facility under the definition of an <strong>Intermediary</strong> as specified in Section 2(1)(w) of the <strong>Information Technology Act, 2000 (India)</strong>:
+            </p>
+            <ul>
+              <li data-i18n="acc2Li1"><strong>No Editorial Control:</strong> NischayDrop does not initiate transmissions, select receivers, or inspect/modify the content of transferred files.</li>
+              <li data-i18n="acc2Li2"><strong>Safe Harbor Protection:</strong> As per Section 79 of the IT Act, 2000, NischayDrop, its developers, and contributors bear zero civil or criminal liability for any third-party documents, files, or information transmitted through this peer-to-peer utility.</li>
+            </ul>
+            <div class="warning-box" data-i18n="acc2Warning">
+              <strong>Statutory Declaration:</strong> The developer of NischayDrop maintains no central database or file inspection apparatus. Full civil and penal accountability for transmitted materials rests solely with the individual endpoints.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ITEM 3: PROHIBITED CONDUCT -->
+      <div class="accordion-item">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+          <div class="trigger-content">
+            <span class="trigger-icon">🚫</span>
+            <span data-i18n="acc3Header">3. Prohibited Content & Criminal Misuse</span>
+          </div>
+          <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-inner">
+            <p data-i18n="acc3P1">
+              Users are strictly forbidden from utilizing NischayDrop for transmitting or printing:
+            </p>
+            <ul>
+              <li data-i18n="acc3Li1">Forged government credentials, counterfeit currency, or fraudulent identification records.</li>
+              <li data-i18n="acc3Li2">Material infringing upon patents, trademarks, copyrights, or trade secrets without documented license.</li>
+              <li data-i18n="acc3Li3">Pornographic, child-exploitative, obscene, or defamatory content violating the Bharatiya Nyaya Sanhita (BNS) or IT Rules.</li>
+              <li data-i18n="acc3Li4">Executable malware, viruses, trojans, or malicious payloads designed to impair endpoint computers.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ITEM 4: TERMINAL OPERATOR INDEMNIFICATION -->
+      <div class="accordion-item">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+          <div class="trigger-content">
+            <span class="trigger-icon">🏢</span>
+            <span data-i18n="acc4Header">4. Commercial Terminal & Cyber Cafe Terms</span>
+          </div>
+          <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-inner">
+            <p data-i18n="acc4P1">
+              Cyber cafe proprietors and printing operators utilizing Receiver Mode explicitly agree that:
+            </p>
+            <ul>
+              <li data-i18n="acc4Li1">They are independent service providers and not commercial agents or employees of NischayDrop.</li>
+              <li data-i18n="acc4Li2">They are solely responsible for physical print quality, billing disputes, and paper pricing collected from end consumers.</li>
+              <li data-i18n="acc4Li3">They must respect consumer privacy and execute memory-wipe commands immediately following print job completion.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ITEM 5: NO WARRANTY & LIMITATION OF LIABILITY -->
+      <div class="accordion-item">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+          <div class="trigger-content">
+            <span class="trigger-icon">⚖️</span>
+            <span data-i18n="acc5Header">5. "As-Is" Service & Limitation of Liability</span>
+          </div>
+          <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-inner">
+            <p data-i18n="acc5P1">
+              NischayDrop is provided on an <strong>"AS-IS"</strong> and <strong>"AS-AVAILABLE"</strong> basis without warranties of uninterrupted uptime or error-free hardware communication.
+            </p>
+            <ul>
+              <li data-i18n="acc5Li1">Under no circumstances shall NischayDrop or its developers be liable for direct, consequential, or exemplary damages resulting from printer malfunctions, browser crashes, network packet loss, or missed governmental application deadlines.</li>
+              <li data-i18n="acc5Li2">Users must verify paper printouts for fidelity before submitting documents to official authorities.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div data-i18n="footerNote">100% Client-Side Peer-to-Peer Transfer • Zero Server Footprint</div>
+    <div style="margin-top: 6px;">
+      <a href="privacy.html" data-i18n="navPrivacy">Privacy Policy</a> | 
+      <a href="terms.html" style="font-weight: bold;" data-i18n="navTerms">Terms of Service</a> | 
+      <a href="security.html" data-i18n="navSecurity">Security Architecture</a>
+    </div>
+  </footer>
+
+  <!-- SCRIPT LOGIC -->
+  <script>
+    function toggleAccordion(btn) {
+      const item = btn.closest(".accordion-item");
+      const body = item.querySelector(".accordion-body");
+      const isOpen = item.classList.contains("open");
+
+      document.querySelectorAll(".accordion-item").forEach(other => {
+        if (other !== item) {
+          other.classList.remove("open");
+          other.querySelector(".accordion-body").style.maxHeight = null;
+        }
+      });
+
+      if (!isOpen) {
+        item.classList.add("open");
+        body.style.maxHeight = body.scrollHeight + 60 + "px";
+      } else {
+        item.classList.remove("open");
+        body.style.maxHeight = null;
+      }
+    }
+
+    // ---------------- I18N DICTIONARY ----------------
+    const translations = {
+      en: {
+        backHome: "Back to Home",
+        termsBadge: "Statutory Terms of Service",
+        heroTitle: "Terms of Service & Usage Governance",
+        heroDesc: "By initializing a file transfer or pairing with a counter terminal on NischayDrop, you agree to the legal boundaries, intermediary safe-harbor limits, and acceptable use terms outlined below.",
+        acc1Header: "1. Acceptance of Terms & Core Mandate",
+        acc1P1: "These Terms of Service constitute an enforceable legal agreement between you (the \"User\", whether acting as a document Sender or commercial Receiver/Shopkeeper) and <strong>NischayDrop</strong> (a product under the <strong>Nischay Ecosystem</strong>).",
+        acc1P2: "NischayDrop provides browser-to-browser peer-to-peer data transport software. If you do not agree to every clause herein, you must immediately terminate your session and refrain from utilizing the service.",
+        acc2Header: "2. Intermediary Status & Safe Harbor (Section 79, IT Act)",
+        acc2P1: "NischayDrop operates purely as a transient, mathematical communication facility under the definition of an <strong>Intermediary</strong> as specified in Section 2(1)(w) of the <strong>Information Technology Act, 2000 (India)</strong>:",
+        acc2Li1: "<strong>No Editorial Control:</strong> NischayDrop does not initiate transmissions, select receivers, or inspect/modify the content of transferred files.",
+        acc2Li2: "<strong>Safe Harbor Protection:</strong> As per Section 79 of the IT Act, 2000, NischayDrop, its developers, and contributors bear zero civil or criminal liability for any third-party documents, files, or information transmitted through this peer-to-peer utility.",
+        acc2Warning: "<strong>Statutory Declaration:</strong> The developer of NischayDrop maintains no central database or file inspection apparatus. Full civil and penal accountability for transmitted materials rests solely with the individual endpoints.",
+        acc3Header: "3. Prohibited Content & Criminal Misuse",
+        acc3P1: "Users are strictly forbidden from utilizing NischayDrop for transmitting or printing:",
+        acc3Li1: "Forged government credentials, counterfeit currency, or fraudulent identification records.",
+        acc3Li2: "Material infringing upon patents, trademarks, copyrights, or trade secrets without documented license.",
+        acc3Li3: "Pornographic, child-exploitative, obscene, or defamatory content violating the Bharatiya Nyaya Sanhita (BNS) or IT Rules.",
+        acc3Li4: "Executable malware, viruses, trojans, or malicious payloads designed to impair endpoint computers.",
+        acc4Header: "4. Commercial Terminal & Cyber Cafe Terms",
+        acc4P1: "Cyber cafe proprietors and printing operators utilizing Receiver Mode explicitly agree that:",
+        acc4Li1: "They are independent service providers and not commercial agents or employees of NischayDrop.",
+        acc4Li2: "They are solely responsible for physical print quality, billing disputes, and paper pricing collected from end consumers.",
+        acc4Li3: "They must respect consumer privacy and execute memory-wipe commands immediately following print job completion.",
+        acc5Header: "5. \"As-Is\" Service & Limitation of Liability",
+        acc5P1: "NischayDrop is provided on an <strong>\"AS-IS\"</strong> and <strong>\"AS-AVAILABLE\"</strong> basis without warranties of uninterrupted uptime or error-free hardware communication.",
+        acc5Li1: "Under no circumstances shall NischayDrop or its developers be liable for direct, consequential, or exemplary damages resulting from printer malfunctions, browser crashes, network packet loss, or missed governmental application deadlines.",
+        acc5Li2: "Users must verify paper printouts for fidelity before submitting documents to official authorities.",
+        footerNote: "100% Client-Side Peer-to-Peer Transfer • Zero Server Footprint",
+        navPrivacy: "Privacy Policy",
+        navTerms: "Terms of Service",
+        navSecurity: "Security Architecture"
+      },
+      hi: {
+        backHome: "मुख्य पेज पर वापस जाएं",
+        termsBadge: "वैधानिक सेवा नियम व शर्तें",
+        heroTitle: "सेवा की शर्तें एवं उपयोग नियमावली",
+        heroDesc: "NischayDrop पर फाइल भेजने अथवा काउंटर से जुड़ने के साथ ही आप नीचे दिए गए कानूनी प्रावधानों, मध्यस्थ सेफ-हार्बर सुरक्षा एवं स्वीकार्य उपयोग शर्तों से बंध जाते हैं।",
+        acc1Header: "1. नियमों की स्वीकृति एवं मूल जनादेश",
+        acc1P1: "यह सेवा की शर्तें आपके (उपयोगकर्ता/प्रेषक अथवा साइबर कैफे संचालक) तथा <strong>निश्चय इकोसिस्टम (Nischay Ecosystem)</strong> के उत्पाद <strong>NischayDrop</strong> के मध्य एक कानूनी अनुबंध हैं।",
+        acc1P2: "NischayDrop केवल ब्राउज़र-टू-ब्राउज़र डेटा ट्रांसफर सॉफ्टवेयर है। यदि आप इन सभी शर्तों से सहमत नहीं हैं, तो कृपया सेवा का उपयोग न करें।",
+        acc2Header: "2. मध्यस्थ (Intermediary) स्थिति एवं सेफ हार्बर सुरक्षा (आईटी एक्ट धारा 79)",
+        acc2P1: "NischayDrop <strong>सूचना प्रौद्योगिकी अधिनियम, 2000 (भारत)</strong> की धारा 2(1)(w) के तहत केवल एक क्षणिक मध्यस्थ (Intermediary Conduit) के रूप में कार्य करता है:",
+        acc2Li1: "<strong>संपादकीय नियंत्रण शून्य:</strong> NischayDrop न तो फाइलें बनाता है, न ही भेजी गई फाइलों की सामग्री को देखता या बदलता है।",
+        acc2Li2: "<strong>सेफ-हार्बर कानूनी संरक्षण:</strong> आईटी अधिनियम की धारा 79 के अनुसार, इस टूल से भेजे गए किसी भी दस्तावेज के लिए NischayDrop या इसके डेवलपर पर कोई दीवानी या आपराधिक दायित्व नहीं बनता।",
+        acc2Warning: "<strong>वैधानिक घोषणा:</strong> NischayDrop का कोई केंद्रीय सर्वर या डेटाबेस नहीं है। भेजी जाने वाली किसी भी सामग्री की संपूर्ण कानूनी ज़िम्मेदारी स्वयं भेजने वाले की होगी।",
+        acc3Header: "3. प्रतिबंधित सामग्री एवं गैर-कानूनी उपयोग",
+        acc3P1: "उपयोगकर्ताओं को निम्नलिखित प्रकार की सामग्री भेजना अथवा प्रिंट करना पूर्णतः वर्जित है:",
+        acc3Li1: "जाली सरकारी पहचान पत्र, नकली नोट या धोखाधड़ी से जुड़े फर्जी दस्तावेज।",
+        acc3Li2: "कॉपीराइट, ट्रेडमार्क अथवा बौद्धिक संपदा का उल्लंघन करने वाली सामग्री।",
+        acc3Li3: "भारतीय न्याय संहिता (BNS) अथवा आईटी नियमों का उल्लंघन करने वाली अश्लील या मानहानिकारक सामग्री।",
+        acc3Li4: "कंप्यूटर को नुकसान पहुँचाने वाले वायरस, मैलवेयर या दुर्भावनापूर्ण कोड।",
+        acc4Header: "4. साइबर कैफे एवं प्रिंट ऑपरेटरों की शर्तें",
+        acc4P1: "रिसीवर मोड का उपयोग करने वाले साइबर कैफे संचालक स्पष्ट रूप से सहमत हैं कि:",
+        acc4Li1: "वे स्वतंत्र सेवा प्रदाता हैं, NischayDrop के कर्मचारी या एजेंट नहीं।",
+        acc4Li2: "प्रिंट की गुणवत्ता, शुल्क और ग्राहकों से लेन-देन की पूरी ज़िम्मेदारी संचालक की होगी।",
+        acc4Li3: "संचालक को ग्राहक की निजता का सम्मान करना होगा और प्रिंट निकलते ही '🔥 नष्ट करें' बटन दबाना होगा।",
+        acc5Header: "5. 'जैसी है वैसी' सेवा एवं दायित्व की सीमा",
+        acc5P1: "NischayDrop <strong>'जैसी है वैसी' (As-Is)</strong> आधार पर बिना किसी गारंटी के प्रदान किया जाता है।",
+        acc5Li1: "प्रिंटर खराब होने, नेटवर्क कटने, सरकारी फॉर्म की अंतिम तिथि छूटने या किसी तकनीकी त्रुटि के लिए डेवलपर कानूनी रूप से उत्तरदायी नहीं होंगे।",
+        acc5Li2: "सरकारी कार्यालयों में कागजात जमा करने से पूर्व उपयोगकर्ता स्वयं प्रिंटआउट की जांच करें।",
+        footerNote: "100% क्लाइंट-साइड पीयर-टू-पीयर ट्रांसफर • शून्य सर्वर स्टोरेज",
+        navPrivacy: "गोपनीयता नीति",
+        navTerms: "नियम व शर्तें",
+        navSecurity: "सुरक्षा संरचना"
+      }
+    };
+
+    let currentLang = localStorage.getItem("nischay_lang") || "en";
+    let currentTheme = localStorage.getItem("nischay_theme") || "dark";
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      document.getElementById("themeIcon").innerText = theme === "dark" ? "☀️" : "🌙";
+      localStorage.setItem("nischay_theme", theme);
+    }
+
+    function toggleTheme() {
+      currentTheme = currentTheme === "dark" ? "light" : "dark";
+      applyTheme(currentTheme);
+    }
+
+    function applyLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem("nischay_lang", lang);
+      document.getElementById("langLabel").innerText = lang === "en" ? "हिंदी" : "English";
+
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (translations[lang][key]) {
+          el.innerHTML = translations[lang][key];
+        }
+      });
+    }
+
+    function toggleLanguage() {
+      applyLanguage(currentLang === "en" ? "hi" : "en");
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      applyTheme(currentTheme);
+      applyLanguage(currentLang);
+    });
+  </script>
+</body>
+</html>
