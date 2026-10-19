@@ -473,8 +473,7 @@
   </style>
 </head>
 <body>
-
-  <!-- Header -->
+  <!-- Clean Header: Only Logo, Language and Theme -->
   <header>
     <a href="./index.html" class="brand">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary)"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
@@ -482,15 +481,6 @@
     </a>
 
     <div class="header-controls">
-      <!-- Direct Portal Link to NischayDesk -->
-      <a href="https://nischaydesk.github.io/" class="control-btn" style="border-color:var(--primary);color:var(--primary)">
-        🏛️ <span>NischayDesk</span>
-      </a>
-
-      <a href="./security.html" class="control-btn">
-        🛡️ <span data-i18n="navSecurity">सुरक्षा</span>
-      </a>
-
       <button class="control-btn" onclick="toggleLanguage()" id="langToggleBtn">
         🌐 <span id="langLabel">English</span>
       </button>
@@ -501,7 +491,7 @@
     </div>
   </header>
 
-  <!-- Main Content Workspace -->
+ <!-- Main Content Workspace -->
   <main>
 
     <!-- Clean Trust Hero Banner -->
@@ -662,20 +652,18 @@
       <button class="btn btn-primary" style="justify-content: center; padding: 12px;" onclick="closeSuccessModal()" data-i18n="btnOk">ठीक है (OK)</button>
     </div>
   </div>
-
-  <!-- Footer with Full Ecosystem Links -->
+    <!-- Footer with Correct Link Names -->
   <footer>
     <div data-i18n="footerNote">100% Client-Side Peer-to-Peer Transfer • कोई डेटा सर्वर पर स्टोर नहीं होता</div>
     <div style="margin-top: 10px; display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
-      <a href="https://nischaydesk.github.io/">🏛️ NischayDesk Portal</a>
+      <a href="https://nischaydesk.github.io/" style="color:var(--primary); font-weight:700;">🏛️ NischayDesk</a>
       <a href="./how-it-works.html" data-i18n="navHow">💡 यह कैसे काम करता है?</a>
       <a href="./privicy.html" data-i18n="navPrivacy">🛡️ गोपनीयता नीति</a>
       <a href="./terms.html" data-i18n="navTerms">📜 नियम व शर्तें</a>
       <a href="./security.html" data-i18n="navSecurity">🔐 सुरक्षा संरचना</a>
     </div>
   </footer>
-
-  <!-- SCRIPT LOGIC -->
+ <!-- SCRIPT LOGIC -->
   <script>
     function playBeepSound() {
       try {
