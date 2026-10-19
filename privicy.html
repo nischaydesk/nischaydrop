@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Privacy Policy — NischayDrop | Zero-Knowledge P2P Infrastructure</title>
+  <meta name="description" content="Comprehensive Privacy Policy & Cryptographic Data Architecture of NischayDrop. Zero cloud servers, volatile RAM processing, and absolute digital sovereignty.">
+
+  <style>
+    /* ---------------- THEME VARIABLES ---------------- */
+    :root[data-theme="dark"] {
+      --bg: #0b141a;
+      --surface: #111b21;
+      --card: #1f2c34;
+      --card-hover: #23333e;
+      --primary: #00a884;
+      --primary-hover: #02906f;
+      --text: #e9edef;
+      --text-muted: #8696a0;
+      --border: #2a3942;
+      --badge-bg: rgba(0, 168, 132, 0.15);
+      --shadow: rgba(0, 0, 0, 0.45);
+      --accent: #53bdeb;
+    }
+
+    :root[data-theme="light"] {
+      --bg: #f0f2f5;
+      --surface: #ffffff;
+      --card: #ffffff;
+      --card-hover: #f8f9fa;
+      --primary: #008069;
+      --primary-hover: #006a57;
+      --text: #111b21;
+      --text-muted: #54656f;
+      --border: #e9edef;
+      --badge-bg: rgba(0, 128, 105, 0.12);
+      --shadow: rgba(11, 20, 26, 0.08);
+      --accent: #027eb5;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; transition: background-color 0.25s ease, color 0.2s ease, border-color 0.2s ease; }
+    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; line-height: 1.6; }
+
+    /* Header */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 1px 4px var(--shadow);
+    }
+    .brand { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1.3rem; color: var(--text); text-decoration: none; }
+    .brand span { color: var(--primary); }
+
+    .header-controls { display: flex; align-items: center; gap: 10px; }
+    .control-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .control-btn:hover { border-color: var(--primary); }
+
+    /* Content Layout */
+    main { flex: 1; max-width: 860px; width: 100%; margin: 0 auto; padding: 32px 16px; display: flex; flex-direction: column; gap: 24px; }
+
+    .back-btn {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 4px 16px var(--shadow);
+    }
+    .compliance-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--badge-bg);
+      color: var(--primary);
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 14px;
+    }
+    .hero-banner h1 { font-size: 2rem; font-weight: 800; margin-bottom: 10px; color: var(--text); }
+    .hero-banner p { font-size: 0.98rem; color: var(--text-muted); max-width: 680px; margin: 0 auto; line-height: 1.6; }
+    .meta-details { display: flex; justify-content: center; gap: 20px; font-size: 0.8rem; color: var(--text-muted); margin-top: 16px; font-weight: 500; }
+
+    /* Interactive Accordion Layout */
+    .accordion-list { display: flex; flex-direction: column; gap: 14px; }
+
+    .accordion-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px var(--shadow);
+      transition: border-color 0.2s;
+    }
+    .accordion-item.open { border-color: var(--primary); }
+
+    .accordion-trigger {
+      width: 100%;
+      background: transparent;
+      border: none;
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      color: var(--text);
+      text-align: left;
+    }
+    .trigger-content { display: flex; align-items: center; gap: 14px; font-size: 1.08rem; font-weight: 700; }
+    .trigger-icon { font-size: 1.25rem; display: flex; align-items: center; }
+    .chevron-icon {
+      width: 20px;
+      height: 20px;
+      stroke: var(--text-muted);
+      stroke-width: 2.5;
+      fill: none;
+      transition: transform 0.3s ease;
+    }
+    .accordion-item.open .chevron-icon { transform: rotate(180deg); stroke: var(--primary); }
+
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      background: var(--surface);
+    }
+    .accordion-inner {
+      padding: 0 20px 22px 20px;
+      color: var(--text);
+      font-size: 0.94rem;
+      border-top: 1px solid var(--border);
+      margin-top: 6px;
+      padding-top: 16px;
+    }
+    .accordion-inner p { margin-bottom: 12px; color: var(--text); }
+    .accordion-inner ul { padding-left: 24px; margin-bottom: 14px; color: var(--text-muted); }
+    .accordion-inner li { margin-bottom: 8px; }
+    .accordion-inner strong { color: var(--text); }
+
+    .callout-box {
+      background: var(--card);
+      border-left: 4px solid var(--primary);
+      padding: 14px 18px;
+      border-radius: 0 8px 8px 0;
+      margin: 14px 0;
+      font-size: 0.9rem;
+    }
+    .callout-box.info { border-left-color: var(--accent); }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 20px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      background: var(--surface);
+      margin-top: auto;
+    }
+    footer a { color: var(--primary); text-decoration: none; margin: 0 8px; }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header>
+    <a href="index.html" class="brand">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary)"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      Nischay<span>Drop</span>
+    </a>
+
+    <div class="header-controls">
+      <!-- Language Switcher -->
+      <button class="control-btn" onclick="toggleLanguage()" id="langToggleBtn">
+        🌐 <span id="langLabel">हिंदी</span>
+      </button>
+
+      <!-- Theme Switcher -->
+      <button class="control-btn" onclick="toggleTheme()" id="themeToggleBtn">
+        <span id="themeIcon">☀️</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Legal Main Workspace -->
+  <main>
+    <a href="index.html" class="back-btn">
+      ← <span data-i18n="backHome">Back to Home</span>
+    </a>
+
+    <!-- Hero Banner -->
+    <div class="hero-banner">
+      <div class="compliance-pill">
+        🛡️ <span data-i18n="complianceBadge">Cryptographic Zero-Knowledge Architecture</span>
+      </div>
+      <h1 data-i18n="heroTitle">Privacy & Data Governance Policy</h1>
+      <p data-i18n="heroDesc">
+        NischayDrop is engineered on an absolute Zero-Server principle. We do not inspect, intercept, store, or monetize your documents. Tap each clause below to review our technical protocols and statutory protections.
+      </p>
+      <div class="meta-details">
+        <span><strong>Effective:</strong> October 2026</span>
+        <span>•</span>
+        <span><strong>Jurisdiction:</strong> Republic of India (DPDP Act Aligned)</span>
+      </div>
+    </div>
+
+    <!-- Accordion Section Wrapper -->
+    <div class="accordion-list">
+
+      <!-- ITEM 1: INTRODUCTION -->
+      <div class="accordion-item open">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+          <div class="trigger-content">
+            <span class="trigger-icon">📖</span>
+            <span data-i18n="acc1Header">1. Introduction & Executive Statement</span>
+          </div>
+          <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="accordion-body" style="max-height: 1000px;">
+          <div class="accordion-inner">
+            <p data-i18n="acc1P1">
+              Welcome to <strong>NischayDrop</strong>, a mission-critical utility developed under the <strong>Nischay Ecosystem</strong>. This platform provides an instantaneous, direct bridge between citizen mobile devices and commercial print terminals (cyber cafes, stationery hubs, academic institutions, and administrative centers) without the traditional risks of contact disclosure or data leakage.
+            </p>
+            <p data-i18n="acc1P2">
+              Historically, printing official paperwork (e.g., Aadhaar identification cards, PAN credentials, land registry certificates, bank statements, or academic degrees) required consumers to register the private mobile phone numbers of unknown shop operators on WhatsApp, or send personal attachments via unencrypted public email terminals. This resulted in systematic identity exposure, permanent hard-disk file residue, and unauthorized contact harvesting.
+            </p>
+            <div class="callout-box" data-i18n="acc1Callout">
+              <strong>Core Covenant:</strong> NischayDrop completely eliminates this intermediary surface. We do not act as a storage repository. We function exclusively as a mathematical, ephemeral signaling pipeline that connects the sender's web browser directly to the recipient's local browser memory.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ITEM 2: ZERO-SERVER REPOSITORY -->
+      <div class="accordion-item">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+          <div class="trigger-content">
+            <span class="trigger-icon">☁️</span>
+            <span data-i18n="acc2Header">2. Zero-Server Repository & P2P Stream Model</span>
+          </div>
+          <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-inner">
+            <p data-i18n="acc2P1">
+              Unlike cloud-storage services (Google Drive, WhatsApp Web, Telegram, Dropbox), NischayDrop does not maintain, rent, or operate a central database or file-holding server.
+            </p>
+            <ul>
+              <li data-i18n="acc2Li1"><strong>Peer-to-Peer (WebRTC) Transport:</strong> Data chunks are transmitted directly across encrypted WebRTC data channels negotiated directly between the customer’s phone and the counter display.</li>
+              <li data-i18n="acc2Li2"><strong>Transient RAM Execution:</strong> When a file arrives at the receiving console, it is reconstructed exclusively within the volatile memory (RAM) of the destination browser using HTML5 Blob objects.</li>
+              <li data-i18n="acc2Li3"><strong>Zero Persistence on Physical Disk:</strong> The document is never silently written or saved to the operating system's local hard drive or Download folders during transmission.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ITEM 3: ANONYMITY & IDENTITY -->
+      <div class="accordion-item">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+          <div class="trigger-content">
+            <span class="trigger-icon">👤</span>
+            <span data-i18n="acc3Header">3. Absolute Identity & Telephone Number Protection</span>
+          </div>
+          <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-inner">
+            <p data-i18n="acc3P1">
+              Privacy begins with identity decoupling. NischayDrop does not demand, collect, or transmit personally identifiable contact tokens:
+            </p>
+            <ul>
+              <li data-i18n="acc3Li1"><strong>Zero Account Requirement:</strong> There are no sign-ups, passwords, social logins, or OTP (One-Time Password) validations required.</li>
+              <li data-i18n="acc3Li2"><strong>No Phone Number Exposure:</strong> Senders and receivers connect entirely through ephemeral 6-character room badges or cryptographic QR matrix hashes. Neither party sees the other’s SIM or mobile number.</li>
+              <li data-i18n="acc3Li3"><strong>Protection of Social Footprints:</strong> Senders prevent third-party access to their personal WhatsApp Profile Photos, status updates, or last seen indicators.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ITEM 4: AUTO-DESTRUCT & MEMORY PURGE -->
+      <div class="accordion-item">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+          <div class="trigger-content">
+            <span class="trigger-icon">🔥</span>
+            <span data-i18n="acc4Header">4. Active Memory Wipe & Auto-Destruct Protocols</span>
+          </div>
+          <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-inner">
+            <p data-i18n="acc4P1">
+              To prevent residual extraction after a document is printed, NischayDrop incorporates deterministic cleanup mechanisms:
+            </p>
+            <ul>
+              <li data-i18n="acc4Li1"><strong>Manual Burn Command:</strong> The shopkeeper dashboard features a dedicated "🔥 Destroy (Wipe)" command. Triggering this button invokes <code>URL.revokeObjectURL()</code>, permanently releasing memory pointers and rendering recovery impossible.</li>
+              <li data-i18n="acc4Li2"><strong>Tab-Closure Evaporation:</strong> Closing the active browser window immediately flushes all loaded documents from active device memory with zero file recovery trails.</li>
+              <li data-i18n="acc4Li3"><strong>Silent Print Isolation:</strong> Direct print calls route rendering instructions into an isolated DOM sandbox without spawning temporary cache files.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ITEM 5: STATUTORY COMPLIANCE (DPDP ACT 2023) -->
+      <div class="accordion-item">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+          <div class="trigger-content">
+            <span class="trigger-icon">⚖️</span>
+            <span data-i18n="acc5Header">5. Legal Compliance (India DPDP Act 2023)</span>
+          </div>
+          <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-inner">
+            <p data-i18n="acc5P1">
+              NischayDrop is architected to exceed the stringent requirements established under India’s <strong>Digital Personal Data Protection (DPDP) Act, 2023</strong>:
+            </p>
+            <ul>
+              <li data-i18n="acc5Li1"><strong>Zero Data Fiduciary Liability:</strong> Since NischayDrop never stores, indexes, or processes personal data on central hardware, it operates purely as an infrastructure conduit rather than a data repository.</li>
+              <li data-i18n="acc5Li2"><strong>Purpose Limitation:</strong> Transferred files exist solely for the immediate purpose of local physical printing as intended by the data principal (the customer).</li>
+              <li data-i18n="acc5Li3"><strong>Right to Erasure by Design:</strong> Instant manual memory revocation ensures compliance with the right to data minimization and automatic erasure.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ITEM 6: NO LOGS & AD TRACKING -->
+      <div class="accordion-item">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+          <div class="trigger-content">
+            <span class="trigger-icon">🚫</span>
+            <span data-i18n="acc6Header">6. Strict No-Logs & Zero-Monetization Clause</span>
+          </div>
+          <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-inner">
+            <p data-i18n="acc6P1">
+              We reject the surveillance capitalism model that dominates today's web utilities:
+            </p>
+            <ul>
+              <li data-i18n="acc6Li1">No persistent tracking cookies, fingerprinting pixels, or ad-broker scripts (such as Meta Pixel or Google Analytics advertising trackers) are deployed.</li>
+              <li data-i18n="acc6Li2">We do not log transferred file names, page numbers, internal document content, or device identifiers.</li>
+              <li data-i18n="acc6Li3">Your personal identification cards will never be mined or used to train third-party artificial intelligence models.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ITEM 7: SHOP OPERATOR DUTIES -->
+      <div class="accordion-item">
+        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+          <div class="trigger-content">
+            <span class="trigger-icon">🏪</span>
+            <span data-i18n="acc7Header">7. Responsibilities of Commercial Terminal Operators</span>
+          </div>
+          <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="accordion-body">
+          <div class="accordion-inner">
+            <p data-i18n="acc7P1">
+              While NischayDrop secures the digital transmission channel, cyber cafe owners and printing kiosk operators are subject to the following professional standards:
+            </p>
+            <ul>
+              <li data-i18n="acc7Li1">Operators must not capture screen recordings or photos of incoming customer documents using secondary mobile devices.</li>
+              <li data-i18n="acc7Li2">Operators are urged to execute the "🔥 Destroy" button immediately after physical paper prints are collected by the customer.</li>
+              <li data-i18n="acc7Li3">Any physical misprints or paper jams containing sensitive personal info should be shredded responsibly.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div data-i18n="footerNote">100% Client-Side Peer-to-Peer Transfer • Zero Server Footprint</div>
+    <div style="margin-top: 6px;">
+      <a href="privacy.html" style="font-weight: bold;" data-i18n="navPrivacy">Privacy Policy</a> | 
+      <a href="terms.html" data-i18n="navTerms">Terms of Service</a> | 
+      <a href="security.html" data-i18n="navSecurity">Security Architecture</a>
+    </div>
+  </footer>
+
+  <!-- SCRIPT LOGIC -->
+  <script>
+    // ---------------- ACCORDION TOGGLE ----------------
+    function toggleAccordion(btn) {
+      const item = btn.closest(".accordion-item");
+      const body = item.querySelector(".accordion-body");
+      const isOpen = item.classList.contains("open");
+
+      // Close all other accordions for clean focus
+      document.querySelectorAll(".accordion-item").forEach(other => {
+        if (other !== item) {
+          other.classList.remove("open");
+          other.querySelector(".accordion-body").style.maxHeight = null;
+        }
+      });
+
+      if (!isOpen) {
+        item.classList.add("open");
+        body.style.maxHeight = body.scrollHeight + 60 + "px";
+      } else {
+        item.classList.remove("open");
+        body.style.maxHeight = null;
+      }
+    }
+
+    // ---------------- I18N DICTIONARY ----------------
+    const translations = {
+      en: {
+        backHome: "Back to Home",
+        complianceBadge: "Cryptographic Zero-Knowledge Architecture",
+        heroTitle: "Privacy & Data Governance Policy",
+        heroDesc: "NischayDrop is engineered on an absolute Zero-Server principle. We do not inspect, intercept, store, or monetize your documents. Tap each clause below to review our technical protocols and statutory protections.",
+        acc1Header: "1. Introduction & Executive Statement",
+        acc1P1: "Welcome to <strong>NischayDrop</strong>, a mission-critical utility developed under the <strong>Nischay Ecosystem</strong>. This platform provides an instantaneous, direct bridge between citizen mobile devices and commercial print terminals (cyber cafes, stationery hubs, academic institutions, and administrative centers) without the traditional risks of contact disclosure or data leakage.",
+        acc1P2: "Historically, printing official paperwork (e.g., Aadhaar identification cards, PAN credentials, land registry certificates, bank statements, or academic degrees) required consumers to register the private mobile phone numbers of unknown shop operators on WhatsApp, or send personal attachments via unencrypted public email terminals. This resulted in systematic identity exposure, permanent hard-disk file residue, and unauthorized contact harvesting.",
+        acc1Callout: "<strong>Core Covenant:</strong> NischayDrop completely eliminates this intermediary surface. We do not act as a storage repository. We function exclusively as a mathematical, ephemeral signaling pipeline that connects the sender's web browser directly to the recipient's local browser memory.",
+        acc2Header: "2. Zero-Server Repository & P2P Stream Model",
+        acc2P1: "Unlike cloud-storage services (Google Drive, WhatsApp Web, Telegram, Dropbox), NischayDrop does not maintain, rent, or operate a central database or file-holding server.",
+        acc2Li1: "<strong>Peer-to-Peer (WebRTC) Transport:</strong> Data chunks are transmitted directly across encrypted WebRTC data channels negotiated directly between the customer’s phone and the counter display.",
+        acc2Li2: "<strong>Transient RAM Execution:</strong> When a file arrives at the receiving console, it is reconstructed exclusively within the volatile memory (RAM) of the destination browser using HTML5 Blob objects.",
+        acc2Li3: "<strong>Zero Persistence on Physical Disk:</strong> The document is never silently written or saved to the operating system's local hard drive or Download folders during transmission.",
+        acc3Header: "3. Absolute Identity & Telephone Number Protection",
+        acc3P1: "Privacy begins with identity decoupling. NischayDrop does not demand, collect, or transmit personally identifiable contact tokens:",
+        acc3Li1: "<strong>Zero Account Requirement:</strong> There are no sign-ups, passwords, social logins, or OTP (One-Time Password) validations required.",
+        acc3Li2: "<strong>No Phone Number Exposure:</strong> Senders and receivers connect entirely through ephemeral 6-character room badges or cryptographic QR matrix hashes. Neither party sees the other’s SIM or mobile number.",
+        acc3Li3: "<strong>Protection of Social Footprints:</strong> Senders prevent third-party access to their personal WhatsApp Profile Photos, status updates, or last seen indicators.",
+        acc4Header: "4. Active Memory Wipe & Auto-Destruct Protocols",
+        acc4P1: "To prevent residual extraction after a document is printed, NischayDrop incorporates deterministic cleanup mechanisms:",
+        acc4Li1: "<strong>Manual Burn Command:</strong> The shopkeeper dashboard features a dedicated \"🔥 Destroy (Wipe)\" command. Triggering this button invokes <code>URL.revokeObjectURL()</code>, permanently releasing memory pointers and rendering recovery impossible.",
+        acc4Li2: "<strong>Tab-Closure Evaporation:</strong> Closing the active browser window immediately flushes all loaded documents from active device memory with zero file recovery trails.",
+        acc4Li3: "<strong>Silent Print Isolation:</strong> Direct print calls route rendering instructions into an isolated DOM sandbox without spawning temporary cache files.",
+        acc5Header: "5. Legal Compliance (India DPDP Act 2023)",
+        acc5P1: "NischayDrop is architected to exceed the stringent requirements established under India’s <strong>Digital Personal Data Protection (DPDP) Act, 2023</strong>:",
+        acc5Li1: "<strong>Zero Data Fiduciary Liability:</strong> Since NischayDrop never stores, indexes, or processes personal data on central hardware, it operates purely as an infrastructure conduit rather than a data repository.",
+        acc5Li2: "<strong>Purpose Limitation:</strong> Transferred files exist solely for the immediate purpose of local physical printing as intended by the data principal (the customer).",
+        acc5Li3: "<strong>Right to Erasure by Design:</strong> Instant manual memory revocation ensures compliance with the right to data minimization and automatic erasure.",
+        acc6Header: "6. Strict No-Logs & Zero-Monetization Clause",
+        acc6P1: "We reject the surveillance capitalism model that dominates today's web utilities:",
+        acc6Li1: "No persistent tracking cookies, fingerprinting pixels, or ad-broker scripts (such as Meta Pixel or Google Analytics advertising trackers) are deployed.",
+        acc6Li2: "We do not log transferred file names, page numbers, internal document content, or device identifiers.",
+        acc6Li3: "Your personal identification cards will never be mined or used to train third-party artificial intelligence models.",
+        acc7Header: "7. Responsibilities of Commercial Terminal Operators",
+        acc7P1: "While NischayDrop secures the digital transmission channel, cyber cafe owners and printing kiosk operators are subject to the following professional standards:",
+        acc7Li1: "Operators must not capture screen recordings or photos of incoming customer documents using secondary mobile devices.",
+        acc7Li2: "Operators are urged to execute the \"🔥 Destroy\" button immediately after physical paper prints are collected by the customer.",
+        acc7Li3: "Any physical misprints or paper jams containing sensitive personal info should be shredded responsibly.",
+        footerNote: "100% Client-Side Peer-to-Peer Transfer • Zero Server Footprint",
+        navPrivacy: "Privacy Policy",
+        navTerms: "Terms of Service",
+        navSecurity: "Security Architecture"
+      },
+      hi: {
+        backHome: "मुख्य पेज पर वापस जाएं",
+        complianceBadge: "क्रिप्टोग्राफिक ज़ीरो-नॉलेज डेटा आर्किटेक्चर",
+        heroTitle: "गोपनीयता एवं डेटा सुरक्षा नीति",
+        heroDesc: "NischayDrop पूर्णतः शून्य-सर्वर सिद्धांत पर निर्मित है। हम आपकी फाइलों की निगरानी, भंडारण अथवा व्यावसायीकरण नहीं करते। तकनीकी और कानूनी प्रावधानों को पढ़ने हेतु नीचे दिए गए बिंदुओं पर टैप करें।",
+        acc1Header: "1. परिचय एवं कार्यकारी घोषणा",
+        acc1P1: "<strong>निश्चय इकोसिस्टम (Nischay Ecosystem)</strong> के अंतर्गत विकसित <strong>NischayDrop</strong> में आपका स्वागत है। यह प्लेटफॉर्म नागरिक के स्मार्टफोन और प्रिंट काउंटरों (साइबर कैफे, ज़ेरॉक्स केंद्र, कॉलेज) के बीच बिना नंबर साझा किए सीधा संपर्क स्थापित करता है।",
+        acc1P2: "पारंपरिक रूप से सरकारी कागजात (जैसे आधार कार्ड, पैन कार्ड, अंकपत्र, बैंक पासबुक) प्रिंट करवाने के लिए अनजान कैफे संचालक का नंबर व्हाट्सएप पर जोड़ना पड़ता था, जिससे निजी नंबर, डीपी व दस्तावेज सदा के लिए अनजान कंप्यूटरों में जमा रह जाते थे।",
+        acc1Callout: "<strong>हमारा मुख्य संकल्प:</strong> NischayDrop इस खतरे को जड़ से मिटाता है। हम कोई स्टोरेज सर्वर नहीं चलाते। यह केवल दो ब्राउज़रों के बीच सीधे डेटा प्रवाहित करने वाली सुरक्षित पाइपलाइन है।",
+        acc2Header: "2. शून्य-सर्वर एवं पीयर-टू-पीयर (P2P) डेटा मॉडल",
+        acc2P1: "क्लाउड स्टोरेज सेवाओं (गूगल ड्राइव, व्हाट्सएप वेब, ड्रॉपबॉक्स) के विपरीत, NischayDrop कोई केंद्रीय डेटाबेस या सर्वर नहीं रखता।",
+        acc2Li1: "<strong>WebRTC पीयर-टू-पीयर एन्क्रिप्शन:</strong> फाइलें सीधे ग्राहक के मोबाइल से कैफे के कंप्यूटर तक बिना किसी बिचौलिए सर्वर के जाती हैं।",
+        acc2Li2: "<strong>अस्थायी रैम (RAM) निष्पादन:</strong> प्राप्त फाइलें केवल कैफे ब्राउज़र की सक्रिय रैम मेमोरी में HTML5 Blob के रूप में क्षणिक तौर पर जुड़ती हैं।",
+        acc2Li3: "<strong>हार्ड डिस्क पर शून्य उपस्थिति:</strong> फाइलें कंप्यूटर की हार्ड डिस्क या डाउनलोड फोल्डर में चुपचाप सेव नहीं होतीं।",
+        acc3Header: "3. पूर्ण पहचान एवं मोबाइल नंबर सुरक्षा",
+        acc3P1: "सुरक्षा की शुरुआत पहचान को छिपाने से होती है। NischayDrop किसी भी प्रकार की व्यक्तिगत जानकारी नहीं मांगता:",
+        acc3Li1: "<strong>खाता-मुक्त प्रणाली:</strong> कोई रजिस्ट्रेशन, पासवर्ड या ओटीपी की आवश्यकता नहीं है।",
+        acc3Li2: "<strong>नंबर एक्सपोज़र शून्य:</strong> दोनों पक्ष केवल 6-अक्षरों के काउंटर कोड अथवा QR कोड से जुड़ते हैं। किसी को किसी का नंबर नहीं दिखता।",
+        acc3Li3: "<strong>सोशल प्रोफाइल सुरक्षा:</strong> आपकी व्हाट्सएप प्रोफाइल फोटो, स्टेटस और निजी जानकारी पूरी तरह सुरक्षित रहती है।",
+        acc4Header: "4. तत्काल मेमोरी वाइप व स्वतः नष्ट (Auto-Destruct) प्रोटोकॉल",
+        acc4P1: "प्रिंटिंग प्रक्रिया समाप्त होते ही फाइलों को पूरी तरह नष्ट करने हेतु ठोस तकनीकी नियंत्रण प्रदान किए गए हैं:",
+        acc4Li1: "<strong>मैन्युअल बर्न कमांड:</strong> दुकानदार के डैशबोर्ड पर \"🔥 नष्ट करें (Delete)\" बटन दबाते ही <code>URL.revokeObjectURL()</code> निष्पादित होता है और फाइल रैम से हमेशा के लिए गायब हो जाती है।",
+        acc4Li2: "<strong>टैब बंद होने पर स्वतः सफाई:</strong> ब्राउज़र टैब बंद करते ही पूरा सेशन डेटा शून्य हो जाता है।",
+        acc4Li3: "<strong>डायरेक्ट प्रिंट अलगाव:</strong> प्रिंटिंग प्रक्रिया ब्राउज़र के अलग सैंडबॉक्स में होती है जिससे कोई कैशे फाइल नहीं बनती।",
+        acc5Header: "5. कानूनी अनुपालन (भारत DPDP अधिनियम 2023)",
+        acc5P1: "NischayDrop को भारत के <strong>डिजिटल पर्सनल डेटा प्रोटेक्शन (DPDP) एक्ट 2023</strong> के कड़े मानकों के अनुरूप बनाया गया है:",
+        acc5Li1: "<strong>डेटा फिड्यूशरी देनदारी शून्य:</strong> चूंकि कोई भी व्यक्तिगत डेटा सर्वर पर स्टोर नहीं होता, अतः यह केवल एक बुनियादी पियर-टू-पियर पाइप है।",
+        acc5Li2: "<strong>उद्देश्य सीमा:</strong> दस्तावेज केवल तात्कालिक फिजिकल प्रिंटिंग के उद्देश्य हेतु ही प्रोसेस किए जाते हैं।",
+        acc5Li3: "<strong>स्वतः मिटाने का अधिकार:</strong> तात्कालिक मेमोरी वाइप प्रोटोकॉल द्वारा डेटा मिनिमाइजेशन का पूर्ण पालन सुनिश्चित होता है।",
+        acc6Header: "6. नो-लॉग्स एवं नो-ट्रैकिंग नीति",
+        acc6P1: "हम उपयोगकर्ताओं के डेटा की निगरानी या विज्ञापनों द्वारा कमाई की नीति का विरोध करते हैं:",
+        acc6Li1: "साइट पर कोई ट्रैकिंग कुकीज़, पिक्सल या विज्ञापन ट्रैकर स्थापित नहीं हैं।",
+        acc6Li2: "हम फाइल का नाम, आकार अथवा आंतरिक सामग्री का कोई लॉग नहीं रखते।",
+        acc6Li3: "आपके पहचान पत्रों का उपयोग किसी भी AI मॉडल को प्रशिक्षित करने के लिए कभी नहीं किया जाएगा।",
+        acc7Header: "7. व्यावसायिक प्रिंट ऑपरेटरों के कर्तव्य",
+        acc7P1: "डिजिटल चैनल सुरक्षित होने के उपरांत साइबर कैफे संचालकों से निम्नलिखित अनुशासन अपेक्षित है:",
+        acc7Li1: "ऑपरेटर ग्राहक के दस्तावेजों की फोटो अपने निजी मोबाइल कैमरे से न खींचे।",
+        acc7Li2: "प्रिंट निकलते ही स्क्रीन पर \"🔥 नष्ट करें\" बटन दबाकर फाइल तत्काल मेमोरी से हटाएं।",
+        acc7Li3: "प्रिंटर में खराब निकले कागजों को सुरक्षित रूप से फाड़कर नष्ट करें।",
+        footerNote: "100% क्लाइंट-साइड पीयर-टू-पीयर ट्रांसफर • शून्य सर्वर स्टोरेज",
+        navPrivacy: "गोपनीयता नीति",
+        navTerms: "नियम व शर्तें",
+        navSecurity: "सुरक्षा संरचना"
+      }
+    };
+
+    // Default to English as requested
+    let currentLang = localStorage.getItem("nischay_lang") || "en";
+    let currentTheme = localStorage.getItem("nischay_theme") || "dark";
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      document.getElementById("themeIcon").innerText = theme === "dark" ? "☀️" : "🌙";
+      localStorage.setItem("nischay_theme", theme);
+    }
+
+    function toggleTheme() {
+      currentTheme = currentTheme === "dark" ? "light" : "dark";
+      applyTheme(currentTheme);
+    }
+
+    function applyLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem("nischay_lang", lang);
+      document.getElementById("langLabel").innerText = lang === "en" ? "हिंदी" : "English";
+
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (translations[lang][key]) {
+          el.innerHTML = translations[lang][key];
+        }
+      });
+    }
+
+    function toggleLanguage() {
+      applyLanguage(currentLang === "en" ? "hi" : "en");
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      applyTheme(currentTheme);
+      applyLanguage(currentLang);
+    });
+  </script>
+</body>
+</html>
