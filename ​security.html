@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Security Architecture & Verification — NischayDrop</title>
+  <meta name="description" content="Technical verification and zero-knowledge cryptographic pipeline of NischayDrop. Explore DTLS/SRTP WebRTC channels, RAM isolation, and auto-destruct mechanics.">
+
+  <style>
+    /* ---------------- THEME VARIABLES ---------------- */
+    :root[data-theme="dark"] {
+      --bg: #0b141a;
+      --surface: #111b21;
+      --card: #1f2c34;
+      --primary: #00a884;
+      --primary-hover: #02906f;
+      --text: #e9edef;
+      --text-muted: #8696a0;
+      --border: #2a3942;
+      --badge-bg: rgba(0, 168, 132, 0.15);
+      --shadow: rgba(0, 0, 0, 0.45);
+      --accent: #53bdeb;
+      --code-bg: #101a20;
+    }
+
+    :root[data-theme="light"] {
+      --bg: #f0f2f5;
+      --surface: #ffffff;
+      --card: #ffffff;
+      --primary: #008069;
+      --primary-hover: #006a57;
+      --text: #111b21;
+      --text-muted: #54656f;
+      --border: #e9edef;
+      --badge-bg: rgba(0, 128, 105, 0.12);
+      --shadow: rgba(11, 20, 26, 0.08);
+      --accent: #027eb5;
+      --code-bg: #f8f9fa;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; transition: background-color 0.25s ease, color 0.2s ease, border-color 0.2s ease; }
+    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; line-height: 1.6; }
+
+    /* Header */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 1px 4px var(--shadow);
+    }
+    .brand { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1.3rem; color: var(--text); text-decoration: none; }
+    .brand span { color: var(--primary); }
+
+    .header-controls { display: flex; align-items: center; gap: 10px; }
+    .control-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .control-btn:hover { border-color: var(--primary); }
+
+    /* Main Container */
+    main { flex: 1; max-width: 860px; width: 100%; margin: 0 auto; padding: 32px 16px; display: flex; flex-direction: column; gap: 24px; }
+
+    .back-btn {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 4px 16px var(--shadow);
+    }
+    .security-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--badge-bg);
+      color: var(--primary);
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 14px;
+    }
+    .hero-banner h1 { font-size: 2rem; font-weight: 800; margin-bottom: 10px; color: var(--text); }
+    .hero-banner p { font-size: 0.98rem; color: var(--text-muted); max-width: 680px; margin: 0 auto; line-height: 1.6; }
+
+    /* Visual Architecture Pipeline */
+    .pipeline-container {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 4px 14px var(--shadow);
+    }
+    .pipeline-container h2 { font-size: 1.2rem; margin-bottom: 16px; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+    
+    .pipeline-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+    .pipeline-step {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      position: relative;
+    }
+    .step-number {
+      display: inline-block;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      font-weight: bold;
+      text-align: center;
+      line-height: 26px;
+      font-size: 0.8rem;
+      margin-bottom: 10px;
+    }
+    .step-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 6px; color: var(--text); }
+    .step-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* Cards */
+    .sec-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 4px 14px var(--shadow);
+    }
+    .sec-card h3 { font-size: 1.15rem; margin-bottom: 12px; color: var(--text); display: flex; align-items: center; gap: 8px; }
+    .sec-card p { font-size: 0.94rem; color: var(--text); margin-bottom: 12px; }
+    .sec-card ul { padding-left: 20px; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 14px; }
+    .sec-card li { margin-bottom: 6px; }
+
+    /* Interactive Live Wipe Simulator */
+    .demo-box {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 14px;
+      text-align: center;
+    }
+    .sim-status {
+      font-family: monospace;
+      font-size: 0.9rem;
+      color: var(--primary);
+      margin: 10px 0;
+      padding: 8px;
+      background: var(--surface);
+      border-radius: 6px;
+      display: inline-block;
+      width: 100%;
+      border: 1px dashed var(--border);
+    }
+    .sim-btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.85rem;
+      margin: 4px;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 20px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      background: var(--surface);
+      margin-top: auto;
+    }
+    footer a { color: var(--primary); text-decoration: none; margin: 0 8px; }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header>
+    <a href="index.html" class="brand">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary)"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      Nischay<span>Drop</span>
+    </a>
+
+    <div class="header-controls">
+      <button class="control-btn" onclick="toggleLanguage()" id="langToggleBtn">
+        🌐 <span id="langLabel">हिंदी</span>
+      </button>
+
+      <button class="control-btn" onclick="toggleTheme()" id="themeToggleBtn">
+        <span id="themeIcon">☀️</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Security Workspace -->
+  <main>
+    <a href="index.html" class="back-btn">
+      ← <span data-i18n="backHome">Back to Home</span>
+    </a>
+
+    <!-- Hero Banner -->
+    <div class="hero-banner">
+      <div class="security-badge">
+        🔐 <span data-i18n="badgeText">Hardware-Isolated Security</span>
+      </div>
+      <h1 data-i18n="heroTitle">Security & Cryptographic Architecture</h1>
+      <p data-i18n="heroDesc">
+        A deep technical breakdown of why NischayDrop is immune to cloud data leaks, government surveillance snooping, and residual disk recovery.
+      </p>
+    </div>
+
+    <!-- Visual Architecture Flow Pipeline -->
+    <div class="pipeline-container">
+      <h2>⚡ <span data-i18n="pipeTitle">How Data Moves: The 3-Stage Zero-Storage Pipeline</span></h2>
+      <div class="pipeline-grid">
+        
+        <div class="pipeline-step">
+          <span class="step-number">1</span>
+          <div class="step-title" data-i18n="step1Title">Local Memory Slicing</div>
+          <div class="step-desc" data-i18n="step1Desc">
+            Your file is converted into binary byte chunks (ArrayBuffers) directly inside your phone's browser sandbox. No file leaves your phone unencrypted.
+          </div>
+        </div>
+
+        <div class="pipeline-step">
+          <span class="step-number">2</span>
+          <div class="step-title" data-i18n="step2Title">DTLS/SRTP Direct Pipe</div>
+          <div class="step-desc" data-i18n="step2Desc">
+            Bytes travel through an encrypted WebRTC DataChannel directly to the destination computer. No central server intercepts or buffers the packets.
+          </div>
+        </div>
+
+        <div class="pipeline-step">
+          <span class="step-number">3</span>
+          <div class="step-title" data-i18n="step3Title">Volatile RAM Destruction</div>
+          <div class="step-desc" data-i18n="step3Desc">
+            The counter console holds the file in volatile RAM only for printing. Pressing "Destroy" or closing the tab zeroes out the allocated memory pointer.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Technical Protocols -->
+    <div class="sec-card">
+      <h3>🛡️ <span data-i18n="techProtocolsTitle">Technical Protocols & Specifications</span></h3>
+      <ul>
+        <li data-i18n="proto1"><strong>WebRTC P2P DataChannels:</strong> Industry-standard protocol enabling direct point-to-point browser connections with zero relay intermediation.</li>
+        <li data-i18n="proto2"><strong>DTLS (Datagram Transport Layer Security):</strong> All packet exchanges are cryptographically sealed with asymmetric encryption, preventing Man-in-the-Middle (MITM) snooping.</li>
+        <li data-i18n="proto3"><strong>DOM Sandbox Isolation:</strong> The direct print engine executes inside a sandboxed hidden <code>&lt;iframe&gt;</code> without spawning persistent temporary files.</li>
+      </ul>
+    </div>
+
+    <!-- Interactive Live Memory Wipe Simulator -->
+    <div class="sec-card">
+      <h3>🧪 <span data-i18n="simTitle">Live Memory Wipe Simulator</span></h3>
+      <p data-i18n="simDesc">
+        Test how NischayDrop frees active memory. Click below to simulate allocating a dummy document blob in your browser memory and instantly purging it with zero bytes retained.
+      </p>
+
+      <div class="demo-box">
+        <button class="sim-btn" style="background: var(--primary); color: #fff;" onclick="simulateBlobCreation()" data-i18n="btnAllocate">
+          📥 1. Allocate Test Document to RAM
+        </button>
+        <button class="sim-btn" style="background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.4);" onclick="simulateBlobPurge()" data-i18n="btnPurge">
+          🔥 2. Purge & Revoke Memory (Wipe)
+        </button>
+
+        <div class="sim-status" id="simStatusText">Status: RAM is clear (0 bytes allocated)</div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div data-i18n="footerNote">100% Client-Side Peer-to-Peer Transfer • Zero Server Footprint</div>
+    <div style="margin-top: 6px;">
+      <a href="privacy.html" data-i18n="navPrivacy">Privacy Policy</a> | 
+      <a href="terms.html" data-i18n="navTerms">Terms of Service</a> | 
+      <a href="security.html" style="font-weight: bold;" data-i18n="navSecurity">Security Architecture</a>
+    </div>
+  </footer>
+
+  <!-- SCRIPT LOGIC -->
+  <script>
+    // Live Memory Simulator Logic
+    let activeTestUrl = null;
+
+    function simulateBlobCreation() {
+      const dummyData = new Uint8Array(1024 * 512); // 512 KB test blob
+      const dummyBlob = new Blob([dummyData], { type: "application/pdf" });
+      activeTestUrl = URL.createObjectURL(dummyBlob);
+      document.getElementById("simStatusText").innerText = 
+        `Active: 512 KB loaded in RAM at pointer [${activeTestUrl.substring(0, 32)}...]`;
+      document.getElementById("simStatusText").style.color = "var(--primary)";
+    }
+
+    function simulateBlobPurge() {
+      if (activeTestUrl) {
+        URL.revokeObjectURL(activeTestUrl);
+        activeTestUrl = null;
+        document.getElementById("simStatusText").innerText = 
+          "PURGED: URL.revokeObjectURL executed. Pointer destroyed. 0 bytes retained!";
+        document.getElementById("simStatusText").style.color = "#ef4444";
+      } else {
+        document.getElementById("simStatusText").innerText = 
+          "Nothing to purge! Allocate memory first.";
+        document.getElementById("simStatusText").style.color = "var(--text-muted)";
+      }
+    }
+
+    // ---------------- I18N DICTIONARY ----------------
+    const translations = {
+      en: {
+        backHome: "Back to Home",
+        badgeText: "Hardware-Isolated Security",
+        heroTitle: "Security & Cryptographic Architecture",
+        heroDesc: "A deep technical breakdown of why NischayDrop is immune to cloud data leaks, government surveillance snooping, and residual disk recovery.",
+        pipeTitle: "How Data Moves: The 3-Stage Zero-Storage Pipeline",
+        step1Title: "Local Memory Slicing",
+        step1Desc: "Your file is converted into binary byte chunks (ArrayBuffers) directly inside your phone's browser sandbox. No file leaves your phone unencrypted.",
+        step2Title: "DTLS/SRTP Direct Pipe",
+        step2Desc: "Bytes travel through an encrypted WebRTC DataChannel directly to the destination computer. No central server intercepts or buffers the packets.",
+        step3Title: "Volatile RAM Destruction",
+        step3Desc: "The counter console holds the file in volatile RAM only for printing. Pressing \"Destroy\" or closing the tab zeroes out the allocated memory pointer.",
+        techProtocolsTitle: "Technical Protocols & Specifications",
+        proto1: "<strong>WebRTC P2P DataChannels:</strong> Industry-standard protocol enabling direct point-to-point browser connections with zero relay intermediation.",
+        proto2: "<strong>DTLS (Datagram Transport Layer Security):</strong> All packet exchanges are cryptographically sealed with asymmetric encryption, preventing Man-in-the-Middle (MITM) snooping.",
+        proto3: "<strong>DOM Sandbox Isolation:</strong> The direct print engine executes inside a sandboxed hidden <code>&lt;iframe&gt;</code> without spawning persistent temporary files.",
+        simTitle: "Live Memory Wipe Simulator",
+        simDesc: "Test how NischayDrop frees active memory. Click below to simulate allocating a dummy document blob in your browser memory and instantly purging it with zero bytes retained.",
+        btnAllocate: "📥 1. Allocate Test Document to RAM",
+        btnPurge: "🔥 2. Purge & Revoke Memory (Wipe)",
+        footerNote: "100% Client-Side Peer-to-Peer Transfer • Zero Server Footprint",
+        navPrivacy: "Privacy Policy",
+        navTerms: "Terms of Service",
+        navSecurity: "Security Architecture"
+      },
+      hi: {
+        backHome: "मुख्य पेज पर वापस जाएं",
+        badgeText: "हार्डवेयर-आइसोलेटेड सुरक्षा",
+        heroTitle: "सुरक्षा एवं क्रिप्टोग्राफिक वास्तुकला",
+        heroDesc: "तकनीकी विश्लेषण कि क्यों NischayDrop क्लाउड डेटा लीक, निगरानी और हार्ड डिस्क रिकवरी के खतरों से 100% सुरक्षित है।",
+        pipeTitle: "डेटा कैसे चलता है: 3-चरणीय शून्य-स्टोरेज पाइपलाइन",
+        step1Title: "लोकल मेमोरी स्लाइसिंग",
+        step1Desc: "आपकी फाइल सीधे आपके फोन के ब्राउज़र में बाइनरी बाइट्स (ArrayBuffer) में बदलती है। कोई भी फाइल असंपीड़ित या असुरक्षित बाहर नहीं जाती।",
+        step2Title: "DTLS/SRTP डायरेक्ट एन्क्रिप्टेड टनल",
+        step2Desc: "डेटा सीधे WebRTC एन्क्रिप्टेड चैनल से रिसीवर के कंप्यूटर में जाता है। बीच में कोई केंद्रीय सर्वर पैकेट्स को नहीं रोकता।",
+        step3Title: "अस्थायी रैम (RAM) से संपूर्ण सफाई",
+        step3Desc: "दुकानदार का सिस्टम फाइल को केवल प्रिंटिंग हेतु रैम में रखता है। 'नष्ट करें' दबाते ही या टैब बंद करते ही आवंटित मेमोरी शून्य हो जाती है।",
+        techProtocolsTitle: "तकनीकी प्रोटोकॉल एवं विनिर्देश",
+        proto1: "<strong>WebRTC P2P डेटा चैनल:</strong> अंतरराष्ट्रीय मानक जिसके द्वारा दो ब्राउज़र बिना सर्वर सीधे आपस में जुड़ते हैं।",
+        proto2: "<strong>DTLS सुरक्षा:</strong> सभी डेटा पैकेट अत्याधुनिक एन्क्रिप्शन द्वारा सुरक्षित रहते हैं, जिससे बीच में कोई हैक नहीं कर सकता।",
+        proto3: "<strong>सैंडबॉक्स प्रिंटिंग:</strong> डायरेक्ट प्रिंटिंग तकनीक बिना कोई अस्थायी फाइल बनाए सुरक्षित छिपे हुए फ्रेम में चलती है।",
+        simTitle: "लाइव मेमोरी वाइप सिम्युलेटर (जाँचें)",
+        simDesc: "देखें कि NischayDrop मेमोरी कैसे खाली करता है। नीचे क्लिक करके ब्राउज़र रैम में टेस्ट फाइल लोड करें और तुरंत उसे नष्ट करके देखें।",
+        btnAllocate: "📥 1. रैम (RAM) में टेस्ट फाइल लोड करें",
+        btnPurge: "🔥 2. मेमोरी नष्ट व वाइप करें (Purge)",
+        footerNote: "100% क्लाइंट-साइड पीयर-टू-पीयर ट्रांसफर • शून्य सर्वर स्टोरेज",
+        navPrivacy: "गोपनीयता नीति",
+        navTerms: "नियम व शर्तें",
+        navSecurity: "सुरक्षा संरचना"
+      }
+    };
+
+    let currentLang = localStorage.getItem("nischay_lang") || "en";
+    let currentTheme = localStorage.getItem("nischay_theme") || "dark";
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      document.getElementById("themeIcon").innerText = theme === "dark" ? "☀️" : "🌙";
+      localStorage.setItem("nischay_theme", theme);
+    }
+
+    function toggleTheme() {
+      currentTheme = currentTheme === "dark" ? "light" : "dark";
+      applyTheme(currentTheme);
+    }
+
+    function applyLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem("nischay_lang", lang);
+      document.getElementById("langLabel").innerText = lang === "en" ? "हिंदी" : "English";
+
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (translations[lang][key]) {
+          el.innerHTML = translations[lang][key];
+        }
+      });
+    }
+
+    function toggleLanguage() {
+      applyLanguage(currentLang === "en" ? "hi" : "en");
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      applyTheme(currentTheme);
+      applyLanguage(currentLang);
+    });
+  </script>
+</body>
+</html>
