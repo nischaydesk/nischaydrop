@@ -10,13 +10,11 @@
   <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
-  <!-- Confetti Celebration Library for High-End UX -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <meta name="theme-color" content="#00a884">
 
   <style>
-    /* ---------------- THEME VARIABLES ---------------- */
     :root[data-theme="dark"] {
       --bg: #0b141a;
       --surface: #111b21;
@@ -54,14 +52,6 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; transition: background-color 0.25s ease, color 0.2s ease, border-color 0.2s ease; }
     body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
 
-    /* Page Entrance Animation */
-    @keyframes entranceAnim {
-      from { opacity: 0; transform: translateY(16px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    main { animation: entranceAnim 0.45s ease-out; }
-
-    /* Header */
     header {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
@@ -93,10 +83,8 @@
     }
     .control-btn:hover { border-color: var(--primary); }
 
-    /* Main Container */
     main { flex: 1; max-width: 900px; width: 100%; margin: 0 auto; padding: 20px 16px; display: flex; flex-direction: column; gap: 20px; }
 
-    /* How It Works Showcase */
     .how-it-works {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -111,6 +99,14 @@
       align-items: flex-start;
       gap: 12px;
       box-shadow: 0 2px 8px var(--shadow);
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.15s ease, border-color 0.2s ease, background-color 0.2s ease;
+    }
+    .step-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+      background: var(--card);
     }
     .step-badge {
       background: var(--badge-bg);
@@ -125,10 +121,9 @@
       font-size: 0.85rem;
       flex-shrink: 0;
     }
-    .step-info h4 { font-size: 0.9rem; margin-bottom: 3px; }
+    .step-info h4 { font-size: 0.9rem; margin-bottom: 3px; color: var(--text); display: flex; align-items: center; gap: 6px; }
     .step-info p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; }
 
-    /* Mode Switcher Tabs */
     .mode-switcher {
       display: flex;
       background: var(--surface);
@@ -159,11 +154,9 @@
       border-bottom: 3px solid var(--primary);
     }
 
-    /* Views */
     .view-panel { display: none; }
     .view-panel.active { display: flex; flex-direction: column; gap: 18px; }
 
-    /* Cards */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -172,7 +165,6 @@
       box-shadow: 0 4px 14px var(--shadow);
     }
 
-    /* Receiver View */
     .qr-hero-section {
       display: flex;
       flex-direction: column;
@@ -212,12 +204,6 @@
     }
     .status-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
 
-    /* Incoming Queue List with Bounce */
-    @keyframes fileCardEntrance {
-      0% { opacity: 0; transform: translateY(-16px) scale(0.96); }
-      70% { transform: translateY(2px) scale(1.01); }
-      100% { opacity: 1; transform: translateY(0) scale(1); }
-    }
     .incoming-list { display: flex; flex-direction: column; gap: 14px; margin-top: 14px; }
     .incoming-card {
       background: var(--card);
@@ -227,7 +213,6 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
-      animation: fileCardEntrance 0.35s ease-out;
       border-left: 4px solid var(--primary);
     }
     .incoming-header {
@@ -260,7 +245,6 @@
     .btn-danger { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(239,68,68,0.3); }
     .btn-danger:hover { background: var(--danger); color: #ffffff; }
 
-    /* In-App Image Live Rotate Viewport */
     .preview-box {
       max-height: 220px;
       width: 100%;
@@ -280,7 +264,7 @@
       transition: transform 0.3s ease;
     }
 
-    /* Native Camera Scanner */
+    /* Fixed Clean Camera Container */
     #scannerContainer {
       display: none;
       position: relative;
@@ -290,14 +274,17 @@
       overflow: hidden;
       border: 2px solid var(--primary);
       width: 100%;
-      max-height: 340px;
+      min-height: 240px;
+      max-height: 320px;
     }
     #scannerVideo {
       width: 100%;
       height: 100%;
-      max-height: 340px;
+      min-height: 240px;
+      max-height: 320px;
       object-fit: cover;
       display: block;
+      background: #000;
     }
     .scanner-overlay {
       position: absolute;
@@ -337,7 +324,6 @@
       gap: 6px;
     }
 
-    /* Connecting Spinner State */
     .connecting-box {
       display: none;
       align-items: center;
@@ -362,7 +348,6 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Sender View */
     .input-field {
       width: 100%;
       background: var(--card);
@@ -404,7 +389,6 @@
       outline: none;
     }
 
-    /* Modal Windows (Success & Previews) */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -433,7 +417,6 @@
     @keyframes modalFade { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
     .modal-icon { font-size: 3rem; margin-bottom: 12px; }
 
-    /* Footer */
     footer {
       border-top: 1px solid var(--border);
       padding: 16px 20px;
@@ -451,7 +434,6 @@
 </head>
 <body>
 
-  <!-- Top Navigation Bar -->
   <header>
     <a href="index.html" class="brand">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary)"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
@@ -469,35 +451,31 @@
     </div>
   </header>
 
-  <!-- Main Content Workspace -->
   <main>
-
-    <!-- How It Works Showcase Banner -->
     <div class="how-it-works">
-      <div class="step-card">
+      <div class="step-card" onclick="stepAction(1)">
         <div class="step-badge">1</div>
         <div class="step-info">
-          <h4 data-i18n="step1Title">QR स्कैन करें</h4>
+          <h4><span data-i18n="step1Title">QR स्कैन करें</span> 🚀</h4>
           <p data-i18n="step1Desc">काउंटर का QR कोड स्कैन करें या 6-अक्षरों का कोड डालें।</p>
         </div>
       </div>
-      <div class="step-card">
+      <div class="step-card" onclick="stepAction(2)">
         <div class="step-badge">2</div>
         <div class="step-info">
-          <h4 data-i18n="step2Title">फ़ाइलें चुनें</h4>
+          <h4><span data-i18n="step2Title">फ़ाइलें चुनें</span> 📁</h4>
           <p data-i18n="step2Desc">PDF या फ़ोटो चुनें, कॉपी व कलर चुनें और 1-क्लिक में भेजें।</p>
         </div>
       </div>
-      <div class="step-card">
+      <div class="step-card" onclick="stepAction(3)">
         <div class="step-badge">3</div>
         <div class="step-info">
-          <h4 data-i18n="step3Title">डायरेक्ट प्रिंट व नष्ट</h4>
+          <h4><span data-i18n="step3Title">डायरेक्ट प्रिंट व नष्ट</span> 🖨️</h4>
           <p data-i18n="step3Desc">दुकानदार सीधे प्रिंट निकालेगा, काम होते ही फ़ाइल खुद नष्ट!</p>
         </div>
       </div>
     </div>
     
-    <!-- Mode Switcher Tabs -->
     <div class="mode-switcher">
       <button class="tab-btn active" id="btnTabReceive" onclick="switchMode('receive')">
         🖨️ <span data-i18n="tabReceive">दुकानदार मोड (Receiver)</span>
@@ -507,7 +485,7 @@
       </button>
     </div>
 
-    <!-- 1. RECEIVER VIEW (CYBER CAFE COUNTER) -->
+    <!-- 1. RECEIVER VIEW -->
     <div id="viewReceive" class="view-panel active">
       <div class="card qr-hero-section">
         <div class="connection-status">
@@ -527,7 +505,6 @@
         </div>
       </div>
 
-      <!-- Live Incoming Files Queue -->
       <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <h3 style="font-size: 1.05rem;" data-i18n="incomingTitle">📥 आई हुई फाइल्स (Live Queue)</h3>
@@ -542,7 +519,7 @@
       </div>
     </div>
 
-    <!-- 2. SENDER VIEW (CUSTOMER PHONE) -->
+    <!-- 2. SENDER VIEW -->
     <div id="viewSend" class="view-panel">
       <div class="card">
         <h3 style="margin-bottom: 6px; font-size: 1.05rem;" data-i18n="connectTitle">दुकान से कनेक्ट करें</h3>
@@ -550,7 +527,6 @@
           दुकान के काउंटर पर दिख रहा QR स्कैन करें या कोड डालकर लिंक करें।
         </p>
 
-        <!-- Scanner Launch & Manual Input Bar -->
         <div style="display: flex; flex-direction: column; gap: 10px;">
           <button class="btn btn-primary" style="justify-content: center; padding: 12px; font-size: 1rem;" onclick="startNativeScanner()" id="btnStartScan">
             📷 <span data-i18n="btnScanCamera">दुकान का QR स्कैन करें</span>
@@ -558,7 +534,7 @@
 
           <!-- Native Clean Camera Scanner -->
           <div id="scannerContainer">
-            <video id="scannerVideo" playsinline muted autoplay></video>
+            <video id="scannerVideo" playsinline autoplay muted></video>
             <div class="scanner-overlay"></div>
             
             <div class="scanner-action-bar">
@@ -571,7 +547,6 @@
             </div>
           </div>
 
-          <!-- Connecting Loader UI -->
           <div class="connecting-box" id="connectingBox">
             <div class="spinner"></div>
             <span id="connectingStatusText" data-i18n="connectingWait">काउंटर से कनेक्ट हो रहा है... कृपया प्रतीक्षा करें</span>
@@ -588,7 +563,6 @@
         <div id="customerConnAlert" style="font-size: 0.8rem; margin-top: 10px; font-weight: 600;"></div>
       </div>
 
-      <!-- File Drop & Settings Section -->
       <div class="card" id="senderTransferBox" style="opacity: 0.45; pointer-events: none;">
         <h3 style="margin-bottom: 12px; font-size: 1.05rem;" data-i18n="filesTitle">फाइलें चुनें व प्रिंट निर्देश दें</h3>
         
@@ -599,7 +573,6 @@
           <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;" data-i18n="dropzoneSub">कोई साइज सीमा नहीं (100% P2P डायरेक्ट ट्रांसफर)</div>
         </div>
 
-        <!-- Print Parameters -->
         <div class="settings-grid">
           <div class="setting-item">
             <label data-i18n="lblCopies">कॉपी (Copies)</label>
@@ -637,7 +610,6 @@
   <iframe id="printFrame"></iframe>
   <canvas id="qrScanCanvas" style="display: none;"></canvas>
 
-  <!-- Success Celebration Modal -->
   <div class="modal-overlay" id="successModal">
     <div class="modal-card">
       <div class="modal-icon">🎉</div>
@@ -647,7 +619,6 @@
     </div>
   </div>
 
-  <!-- Footer Links directly connected to your GitHub files -->
   <footer>
     <div data-i18n="footerNote">100% Client-Side Peer-to-Peer Transfer • कोई डेटा सर्वर पर स्टोर नहीं होता</div>
     <div style="margin-top: 8px;">
@@ -657,33 +628,36 @@
     </div>
   </footer>
 
-  <!-- SCRIPT LOGIC -->
   <script>
-    // ---------------- AUDIO NOTIFICATION ENGINE (Web Audio API) ----------------
+    function stepAction(stepNum) {
+      if (stepNum === 1) {
+        switchMode('send');
+        startNativeScanner();
+      } else if (stepNum === 2) {
+        switchMode('send');
+        document.getElementById('fileUploadInput').click();
+      } else if (stepNum === 3) {
+        switchMode('receive');
+      }
+    }
+
     function playBeepSound() {
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-        
         osc.type = "sine";
-        osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5 Tone
-        osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.12); // A5 Tone
-        
+        osc.frequency.setValueAtTime(587.33, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.12);
         gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
-        
         osc.connect(gain);
         gain.connect(audioCtx.destination);
-        
         osc.start();
         osc.stop(audioCtx.currentTime + 0.35);
-      } catch (e) {
-        console.log("Audio alert not triggered:", e);
-      }
+      } catch (e) {}
     }
 
-    // ---------------- I18N DICTIONARY ----------------
     const translations = {
       hi: {
         tabReceive: "दुकानदार मोड (Receiver)",
@@ -816,7 +790,6 @@
       applyLanguage(currentLang === "hi" ? "en" : "hi");
     }
 
-    // ---------------- PEERJS ENGINE & MULTI-LENS NATIVE SCANNER ----------------
     let peer = null;
     let peerId = null;
     let conn = null;
@@ -825,7 +798,7 @@
     let scanningActive = false;
     let backCamerasList = [];
     let currentCameraIndex = 0;
-    let fileRotations = {}; // Tracks live rotation angles
+    let fileRotations = {};
 
     function generateCounterCode() {
       const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -852,7 +825,6 @@
       }
     }
 
-    // 1. Receiver Peer (Cyber Cafe)
     function initReceiverPeer() {
       const generatedId = generateCounterCode();
       peer = new Peer(generatedId);
@@ -878,14 +850,13 @@
       peer.on("connection", (c) => {
         c.on("data", (payload) => {
           if (payload.type === "FILE_TRANSFER") {
-            playBeepSound(); // Sweet chime on incoming file!
+            playBeepSound();
             renderIncomingFile(payload);
           }
         });
       });
 
       peer.on("error", (err) => {
-        console.error("PeerJS Error:", err);
         document.getElementById("p2pStatus").innerText = translations[currentLang].statusError;
       });
     }
@@ -945,13 +916,10 @@
       updateQueueCount();
     }
 
-    // 90-Degree Live Rotation
     function rotateImage(fileId) {
       fileRotations[fileId] = (fileRotations[fileId] + 90) % 360;
       const img = document.getElementById("img_" + fileId);
-      if (img) {
-        img.style.transform = `rotate(${fileRotations[fileId]}deg)`;
-      }
+      if (img) img.style.transform = `rotate(${fileRotations[fileId]}deg)`;
     }
 
     function directPrintDoc(url, type, fileId) {
@@ -959,7 +927,6 @@
       const rotation = fileRotations[fileId] || 0;
 
       if (type.startsWith("image/") && rotation !== 0) {
-        // If image is rotated, print rotated view cleanly
         const pWin = window.open("", "_blank");
         pWin.document.write(`
           <html><head><title>Print</title></head>
@@ -997,17 +964,22 @@
       }
     }
 
-    // 2. Sender Peer & Multi-Lens Native Scanner
     function initSenderPeer() {
       if (!peer) peer = new Peer();
     }
 
+    // Direct, Robust & Fast Camera Starter (Fixes Black Screen Completely)
     async function startNativeScanner() {
       const scannerBox = document.getElementById("scannerContainer");
+      const btnScan = document.getElementById("btnStartScan");
       scannerBox.style.display = "block";
-      document.getElementById("btnStartScan").style.display = "none";
+      btnScan.style.display = "none";
 
       try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+          throw new Error("MediaDevices not supported");
+        }
+
         const devices = await navigator.mediaDevices.enumerateDevices();
         const videoDevices = devices.filter(d => d.kind === "videoinput");
 
@@ -1033,41 +1005,59 @@
 
         await startStreamWithDeviceId(backCamerasList[currentCameraIndex]?.deviceId);
       } catch (err) {
-        console.error("Camera access failed:", err);
+        console.warn("Direct enum failed, falling back to basic facingMode:", err);
         await startStreamWithDeviceId(null);
       }
     }
 
     async function startStreamWithDeviceId(deviceId) {
-      if (videoStream) videoStream.getTracks().forEach(t => t.stop());
+      if (videoStream) {
+        videoStream.getTracks().forEach(t => t.stop());
+        videoStream = null;
+      }
 
+      const video = document.getElementById("scannerVideo");
+
+      // Super flexible constraints without hardcoded width/height lock
       const constraints = {
         video: deviceId 
-          ? { deviceId: { exact: deviceId }, width: { ideal: 640 }, height: { ideal: 480 } }
-          : { facingMode: { ideal: "environment" }, width: { ideal: 640 }, height: { ideal: 480 } }
+          ? { deviceId: { exact: deviceId } }
+          : { facingMode: { ideal: "environment" } },
+        audio: false
       };
 
       try {
         videoStream = await navigator.mediaDevices.getUserMedia(constraints);
-        const video = document.getElementById("scannerVideo");
         video.srcObject = videoStream;
-        await video.play();
-
-        scanningActive = true;
-        requestAnimationFrame(scanQRCodeLoop);
+        
+        // Wait for video frame to load cleanly before triggering loop
+        video.onloadedmetadata = () => {
+          video.play().then(() => {
+            scanningActive = true;
+            requestAnimationFrame(scanQRCodeLoop);
+          }).catch(e => console.error("Video play error:", e));
+        };
       } catch (e) {
-        videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
-        const video = document.getElementById("scannerVideo");
-        video.srcObject = videoStream;
-        await video.play();
-        scanningActive = true;
-        requestAnimationFrame(scanQRCodeLoop);
+        console.error("Camera access failed with exact constraint, retrying default:", e);
+        try {
+          videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false });
+          video.srcObject = videoStream;
+          video.onloadedmetadata = () => {
+            video.play().then(() => {
+              scanningActive = true;
+              requestAnimationFrame(scanQRCodeLoop);
+            });
+          };
+        } catch (finalErr) {
+          alert("कैमरा चालू नहीं हो सका। कृपया ब्राउज़र में कैमरा अनुमति दें!");
+          stopNativeScanner();
+        }
       }
     }
 
     async function cycleCameraLens() {
       if (backCamerasList.length <= 1) {
-        alert("दूसरा बैक कैमरा नहीं मिला।");
+        alert("दूसरा बैक लेंस नहीं मिला!");
         return;
       }
       currentCameraIndex = (currentCameraIndex + 1) % backCamerasList.length;
@@ -1108,6 +1098,8 @@
         videoStream.getTracks().forEach(track => track.stop());
         videoStream = null;
       }
+      const video = document.getElementById("scannerVideo");
+      video.srcObject = null;
       document.getElementById("scannerContainer").style.display = "none";
       document.getElementById("btnStartScan").style.display = "inline-flex";
     }
@@ -1215,7 +1207,6 @@
         btn.innerText = translations[currentLang].btnSendFiles;
         btn.style.opacity = "1";
         
-        // Trigger Celebration Confetti Animation!
         confetti({
           particleCount: 120,
           spread: 70,
@@ -1232,14 +1223,12 @@
       document.getElementById("successModal").classList.remove("active");
     }
 
-    // Service Worker Registration (for sw.js)
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
         navigator.serviceWorker.register("./sw.js").catch(() => {});
       });
     }
 
-    // Auto-detect URL parameters & Initialize
     window.addEventListener("DOMContentLoaded", () => {
       applyTheme(currentTheme);
       applyLanguage(currentLang);
