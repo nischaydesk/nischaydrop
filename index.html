@@ -10,6 +10,8 @@
   <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+  <!-- Confetti Celebration Library for High-End UX -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <meta name="theme-color" content="#00a884">
 
@@ -50,7 +52,14 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; transition: background-color 0.25s ease, color 0.2s ease, border-color 0.2s ease; }
-    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+
+    /* Page Entrance Animation */
+    @keyframes entranceAnim {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    main { animation: entranceAnim 0.45s ease-out; }
 
     /* Header */
     header {
@@ -86,6 +95,38 @@
 
     /* Main Container */
     main { flex: 1; max-width: 900px; width: 100%; margin: 0 auto; padding: 20px 16px; display: flex; flex-direction: column; gap: 20px; }
+
+    /* How It Works Showcase */
+    .how-it-works {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+    }
+    .step-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      box-shadow: 0 2px 8px var(--shadow);
+    }
+    .step-badge {
+      background: var(--badge-bg);
+      color: var(--primary);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    .step-info h4 { font-size: 0.9rem; margin-bottom: 3px; }
+    .step-info p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; }
 
     /* Mode Switcher Tabs */
     .mode-switcher {
@@ -171,26 +212,38 @@
     }
     .status-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
 
-    /* Incoming Queue List */
-    .incoming-list { display: flex; flex-direction: column; gap: 12px; margin-top: 14px; }
+    /* Incoming Queue List with Bounce */
+    @keyframes fileCardEntrance {
+      0% { opacity: 0; transform: translateY(-16px) scale(0.96); }
+      70% { transform: translateY(2px) scale(1.01); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .incoming-list { display: flex; flex-direction: column; gap: 14px; margin-top: 14px; }
     .incoming-card {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px;
+      border-radius: 12px;
+      padding: 16px;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      gap: 12px;
+      animation: fileCardEntrance 0.35s ease-out;
+      border-left: 4px solid var(--primary);
+    }
+    .incoming-header {
+      display: flex;
       justify-content: space-between;
-      gap: 14px;
+      align-items: center;
+      gap: 12px;
     }
     .file-details { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-    .file-name { font-weight: 600; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
+    .file-name { font-weight: 700; font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
     .file-meta { font-size: 0.8rem; color: var(--text-muted); display: flex; gap: 8px; align-items: center; }
-    .instruction-tag { background: var(--badge-bg); color: var(--primary); padding: 2px 6px; border-radius: 4px; font-weight: 600; font-size: 0.75rem; }
+    .instruction-tag { background: var(--badge-bg); color: var(--primary); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.78rem; }
     
-    .action-group { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+    .action-group { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
     .btn {
-      padding: 10px 14px;
+      padding: 9px 13px;
       border-radius: 8px;
       border: none;
       font-size: 0.85rem;
@@ -202,10 +255,30 @@
     }
     .btn-primary { background: var(--primary); color: #ffffff; }
     .btn-primary:hover { background: var(--primary-hover); }
-    .btn-secondary { background: var(--card); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
     .btn-secondary:hover { border-color: var(--primary); }
     .btn-danger { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(239,68,68,0.3); }
     .btn-danger:hover { background: var(--danger); color: #ffffff; }
+
+    /* In-App Image Live Rotate Viewport */
+    .preview-box {
+      max-height: 220px;
+      width: 100%;
+      background: #000;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 8px;
+      border: 1px dashed var(--border);
+    }
+    .preview-box img {
+      max-height: 200px;
+      max-width: 100%;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+    }
 
     /* Native Camera Scanner */
     #scannerContainer {
@@ -263,7 +336,6 @@
       align-items: center;
       gap: 6px;
     }
-    .scanner-pill-btn:hover { border-color: var(--primary); }
 
     /* Connecting Spinner State */
     .connecting-box {
@@ -332,6 +404,35 @@
       outline: none;
     }
 
+    /* Modal Windows (Success & Previews) */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      backdrop-filter: blur(4px);
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 30px var(--shadow);
+      text-align: center;
+      padding: 24px 20px;
+      animation: modalFade 0.25s ease-out;
+    }
+    @keyframes modalFade { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+    .modal-icon { font-size: 3rem; margin-bottom: 12px; }
+
     /* Footer */
     footer {
       border-top: 1px solid var(--border);
@@ -346,11 +447,6 @@
     footer a:hover { text-decoration: underline; }
 
     #printFrame { display: none; }
-
-    @media (max-width: 600px) {
-      .incoming-card { flex-direction: column; align-items: flex-start; }
-      .action-group { width: 100%; justify-content: flex-end; }
-    }
   </style>
 </head>
 <body>
@@ -375,6 +471,31 @@
 
   <!-- Main Content Workspace -->
   <main>
+
+    <!-- How It Works Showcase Banner -->
+    <div class="how-it-works">
+      <div class="step-card">
+        <div class="step-badge">1</div>
+        <div class="step-info">
+          <h4 data-i18n="step1Title">QR स्कैन करें</h4>
+          <p data-i18n="step1Desc">काउंटर का QR कोड स्कैन करें या 6-अक्षरों का कोड डालें।</p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-badge">2</div>
+        <div class="step-info">
+          <h4 data-i18n="step2Title">फ़ाइलें चुनें</h4>
+          <p data-i18n="step2Desc">PDF या फ़ोटो चुनें, कॉपी व कलर चुनें और 1-क्लिक में भेजें।</p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-badge">3</div>
+        <div class="step-info">
+          <h4 data-i18n="step3Title">डायरेक्ट प्रिंट व नष्ट</h4>
+          <p data-i18n="step3Desc">दुकानदार सीधे प्रिंट निकालेगा, काम होते ही फ़ाइल खुद नष्ट!</p>
+        </div>
+      </div>
+    </div>
     
     <!-- Mode Switcher Tabs -->
     <div class="mode-switcher">
@@ -415,7 +536,7 @@
 
         <div class="incoming-list" id="incomingList">
           <div id="emptyQueueMsg" style="text-align: center; padding: 36px 10px; color: var(--text-muted); font-size: 0.85rem;" data-i18n="emptyQueue">
-            जैसे ही ग्राहक फाइल भेजेगा, वह यहाँ बिना डाउनलोड किए सीधे प्रिंट के लिए आ जाएगी।
+            जैसे ही ग्राहक फाइल भेजेगा, आवाज के साथ वह यहाँ बिना डाउनलोड किए सीधे प्रिंट के लिए आ जाएगी।
           </div>
         </div>
       </div>
@@ -505,7 +626,7 @@
           </div>
         </div>
 
-        <button class="btn btn-primary" style="width: 100%; margin-top: 18px; padding: 13px; justify-content: center;" onclick="sendSelectedFiles()" data-i18n="btnSendFiles">
+        <button class="btn btn-primary" id="btnSendAction" style="width: 100%; margin-top: 18px; padding: 13px; justify-content: center;" onclick="sendSelectedFiles()" data-i18n="btnSendFiles">
           सुरक्षित सेंड करें 🚀
         </button>
       </div>
@@ -515,6 +636,16 @@
 
   <iframe id="printFrame"></iframe>
   <canvas id="qrScanCanvas" style="display: none;"></canvas>
+
+  <!-- Success Celebration Modal -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-card">
+      <div class="modal-icon">🎉</div>
+      <h3 style="margin-bottom: 8px; color: var(--primary);" data-i18n="successTitle">फाइलें सफलतापूर्वक भेज दी गईं!</h3>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;" data-i18n="successDesc">दुकानदार के काउंटर पर आपकी फाइलें सीधे पहुँच चुकी हैं। आप प्रिंट ले सकते हैं।</p>
+      <button class="btn btn-primary" style="justify-content: center; padding: 12px;" onclick="closeSuccessModal()" data-i18n="btnOk">ठीक है (OK)</button>
+    </div>
+  </div>
 
   <!-- Footer Links directly connected to your GitHub files -->
   <footer>
@@ -528,18 +659,48 @@
 
   <!-- SCRIPT LOGIC -->
   <script>
+    // ---------------- AUDIO NOTIFICATION ENGINE (Web Audio API) ----------------
+    function playBeepSound() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5 Tone
+        osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.12); // A5 Tone
+        
+        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+        
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.35);
+      } catch (e) {
+        console.log("Audio alert not triggered:", e);
+      }
+    }
+
     // ---------------- I18N DICTIONARY ----------------
     const translations = {
       hi: {
         tabReceive: "दुकानदार मोड (Receiver)",
         tabSend: "ग्राहक मोड (Sender)",
+        step1Title: "QR स्कैन करें",
+        step1Desc: "काउंटर का QR कोड स्कैन करें या 6-अक्षरों का कोड डालें।",
+        step2Title: "फ़ाइलें चुनें",
+        step2Desc: "PDF या फ़ोटो चुनें, कॉपी व कलर चुनें और 1-क्लिक में भेजें।",
+        step3Title: "डायरेक्ट प्रिंट व नष्ट",
+        step3Desc: "दुकानदार सीधे प्रिंट निकालेगा, काम होते ही फ़ाइल खुद नष्ट!",
         statusConnecting: "काउंटर तैयार हो रहा है...",
         statusLive: "काउंटर तैयार है (Live)",
         statusError: "कनेक्शन त्रुटि - पुनः प्रयास करें",
         qrInstruction: "प्रिंट निकालने के लिए कस्टमर से यह QR कोड स्कैन करवाएं या 6-अक्षरों का कोड डलवाएं।",
         counterCodeLabel: "काउंटर कोड",
         incomingTitle: "📥 आई हुई फाइल्स (Live Queue)",
-        emptyQueue: "जैसे ही ग्राहक फाइल भेजेगा, वह यहाँ बिना डाउनलोड किए सीधे प्रिंट के लिए आ जाएगी।",
+        emptyQueue: "जैसे ही ग्राहक फाइल भेजेगा, आवाज के साथ वह यहाँ बिना डाउनलोड किए सीधे प्रिंट के लिए आ जाएगी।",
         connectTitle: "दुकान से कनेक्ट करें",
         connectDesc: "दुकान के काउंटर पर दिख रहा QR स्कैन करें या कोड डालकर लिंक करें।",
         btnScanCamera: "दुकान का QR स्कैन करें",
@@ -558,7 +719,12 @@
         lblSide: "साइड (Sides)",
         btnSendFiles: "सुरक्षित सेंड करें 🚀",
         btnPrint: "🖨️ डायरेक्ट प्रिंट",
+        btnRotate: "🔄 घुमाएं (Rotate)",
+        btnDownload: "💾 सेव करें",
         btnDelete: "🔥 नष्ट करें (Delete)",
+        successTitle: "फाइलें सफलतापूर्वक भेज दी गईं!",
+        successDesc: "दुकानदार के काउंटर पर आपकी फाइलें सीधे पहुँच चुकी हैं। आप प्रिंट ले सकते हैं।",
+        btnOk: "ठीक है (OK)",
         footerNote: "100% Client-Side Peer-to-Peer Transfer • कोई डेटा सर्वर पर स्टोर नहीं होता",
         navPrivacy: "गोपनीयता नीति",
         navTerms: "नियम व शर्तें",
@@ -566,19 +732,24 @@
         filesSelectedText: "फाइलें चुनी गईं",
         alertNoCode: "कृपया काउंटर का कोड डालें!",
         alertNoConn: "काउंटर कनेक्टेड नहीं है!",
-        alertNoFiles: "कृपया पहले फाइल चुनें!",
-        alertSentSuccess: "फाइलें सीधे काउंटर पर सुरक्षित भेज दी गईं! 🎉"
+        alertNoFiles: "कृपया पहले फाइल चुनें!"
       },
       en: {
         tabReceive: "Shopkeeper Mode (Receiver)",
         tabSend: "Customer Mode (Sender)",
+        step1Title: "Scan Counter QR",
+        step1Desc: "Scan shop's QR code or enter the 6-character room code.",
+        step2Title: "Pick Documents",
+        step2Desc: "Select PDFs or photos, choose copies and hit send in 1-tap.",
+        step3Title: "Zero-Trace Print",
+        step3Desc: "Shopkeeper prints directly; memory auto-destructs instantly!",
         statusConnecting: "Initializing Counter...",
         statusLive: "Counter Online (Live)",
         statusError: "Connection Error - Please retry",
         qrInstruction: "Ask customer to scan this QR code or enter the 6-character code below to print.",
         counterCodeLabel: "Counter Code",
         incomingTitle: "📥 Incoming Queue (Live)",
-        emptyQueue: "Files sent by customers will appear here ready for direct printing without downloading.",
+        emptyQueue: "Files sent by customers will appear here with an audio chime ready for direct printing.",
         connectTitle: "Connect to Counter",
         connectDesc: "Scan the counter QR or enter code manually to pair.",
         btnScanCamera: "Scan Shop QR Code",
@@ -597,7 +768,12 @@
         lblSide: "Sides",
         btnSendFiles: "Send Securely 🚀",
         btnPrint: "🖨️ Direct Print",
+        btnRotate: "🔄 Rotate 90°",
+        btnDownload: "💾 Save File",
         btnDelete: "🔥 Destroy (Wipe)",
+        successTitle: "Files Sent Successfully!",
+        successDesc: "Your files have arrived securely at the counter terminal.",
+        btnOk: "Got It",
         footerNote: "100% Client-Side Peer-to-Peer Transfer • Zero Server Storage",
         navPrivacy: "Privacy Policy",
         navTerms: "Terms of Service",
@@ -605,8 +781,7 @@
         filesSelectedText: "files selected",
         alertNoCode: "Please enter counter code!",
         alertNoConn: "Counter is not connected!",
-        alertNoFiles: "Please select files first!",
-        alertSentSuccess: "Files transmitted directly to counter! 🎉"
+        alertNoFiles: "Please select files first!"
       }
     };
 
@@ -632,7 +807,7 @@
       document.querySelectorAll("[data-i18n]").forEach(el => {
         const key = el.getAttribute("data-i18n");
         if (translations[lang][key]) {
-          el.innerHTML = translations[lang][key];
+          el.innerText = translations[lang][key];
         }
       });
     }
@@ -650,6 +825,7 @@
     let scanningActive = false;
     let backCamerasList = [];
     let currentCameraIndex = 0;
+    let fileRotations = {}; // Tracks live rotation angles
 
     function generateCounterCode() {
       const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -702,6 +878,7 @@
       peer.on("connection", (c) => {
         c.on("data", (payload) => {
           if (payload.type === "FILE_TRANSFER") {
+            playBeepSound(); // Sweet chime on incoming file!
             renderIncomingFile(payload);
           }
         });
@@ -719,23 +896,45 @@
 
       const blob = new Blob([payload.fileData], { type: payload.fileType });
       const objectUrl = URL.createObjectURL(blob);
+      const isImg = payload.fileType.startsWith("image/");
+      fileRotations[payload.id] = 0;
 
       const card = document.createElement("div");
       card.className = "incoming-card";
       card.id = "file_" + payload.id;
 
       card.innerHTML = `
-        <div class="file-details">
-          <div class="file-name">${payload.fileName}</div>
-          <div class="file-meta">
-            <span>${(payload.fileSize / 1024).toFixed(1)} KB</span>
-            <span class="instruction-tag">${payload.instructions.copies} Copy • ${payload.instructions.color} • ${payload.instructions.side}</span>
+        <div class="incoming-header">
+          <div class="file-details">
+            <div class="file-name">${payload.fileName}</div>
+            <div class="file-meta">
+              <span>${(payload.fileSize / 1024).toFixed(1)} KB</span>
+              <span class="instruction-tag">${payload.instructions.copies} Copy • ${payload.instructions.color} • ${payload.instructions.side}</span>
+            </div>
           </div>
         </div>
+
+        ${isImg ? `
+          <div class="preview-box">
+            <img src="${objectUrl}" id="img_${payload.id}" alt="Preview">
+          </div>
+        ` : ''}
+
         <div class="action-group">
-          <button class="btn btn-primary" onclick="directPrintDoc('${objectUrl}', '${payload.fileType}')">
+          <button class="btn btn-primary" onclick="directPrintDoc('${objectUrl}', '${payload.fileType}', '${payload.id}')">
             ${translations[currentLang].btnPrint}
           </button>
+          
+          ${isImg ? `
+            <button class="btn btn-secondary" onclick="rotateImage('${payload.id}')">
+              ${translations[currentLang].btnRotate}
+            </button>
+          ` : ''}
+
+          <a class="btn btn-secondary" href="${objectUrl}" download="${payload.fileName}" style="text-decoration:none;">
+            ${translations[currentLang].btnDownload}
+          </a>
+
           <button class="btn btn-danger" onclick="burnDocument('${card.id}', '${objectUrl}')">
             ${translations[currentLang].btnDelete}
           </button>
@@ -746,17 +945,41 @@
       updateQueueCount();
     }
 
-    function directPrintDoc(url, type) {
+    // 90-Degree Live Rotation
+    function rotateImage(fileId) {
+      fileRotations[fileId] = (fileRotations[fileId] + 90) % 360;
+      const img = document.getElementById("img_" + fileId);
+      if (img) {
+        img.style.transform = `rotate(${fileRotations[fileId]}deg)`;
+      }
+    }
+
+    function directPrintDoc(url, type, fileId) {
       const frame = document.getElementById("printFrame");
-      frame.src = url;
-      frame.onload = () => {
-        try {
-          frame.contentWindow.focus();
-          frame.contentWindow.print();
-        } catch (e) {
-          window.open(url, "_blank").print();
-        }
-      };
+      const rotation = fileRotations[fileId] || 0;
+
+      if (type.startsWith("image/") && rotation !== 0) {
+        // If image is rotated, print rotated view cleanly
+        const pWin = window.open("", "_blank");
+        pWin.document.write(`
+          <html><head><title>Print</title></head>
+          <body style="margin:0; display:flex; justify-content:center; align-items:center; min-height:100vh;">
+            <img src="${url}" style="transform: rotate(${rotation}deg); max-width:95vw; max-height:95vh;">
+            <script>window.onload = function() { window.print(); window.close(); }<\/script>
+          </body></html>
+        `);
+        pWin.document.close();
+      } else {
+        frame.src = url;
+        frame.onload = () => {
+          try {
+            frame.contentWindow.focus();
+            frame.contentWindow.print();
+          } catch (e) {
+            window.open(url, "_blank").print();
+          }
+        };
+      }
     }
 
     function burnDocument(elementId, objectUrl) {
@@ -961,6 +1184,10 @@
         return;
       }
 
+      const btn = document.getElementById("btnSendAction");
+      btn.innerText = "ट्रांसफर हो रहा है... ⏳";
+      btn.style.opacity = "0.7";
+
       const instructions = {
         copies: document.getElementById("optCopies").value,
         color: document.getElementById("optColor").value,
@@ -984,9 +1211,25 @@
         reader.readAsArrayBuffer(file);
       });
 
-      alert(translations[currentLang].alertSentSuccess);
-      selectedFiles = [];
-      document.getElementById("fileSelectionLabel").innerText = translations[currentLang].dropzonePrompt;
+      setTimeout(() => {
+        btn.innerText = translations[currentLang].btnSendFiles;
+        btn.style.opacity = "1";
+        
+        // Trigger Celebration Confetti Animation!
+        confetti({
+          particleCount: 120,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+
+        document.getElementById("successModal").classList.add("active");
+        selectedFiles = [];
+        document.getElementById("fileSelectionLabel").innerText = translations[currentLang].dropzonePrompt;
+      }, 600);
+    }
+
+    function closeSuccessModal() {
+      document.getElementById("successModal").classList.remove("active");
     }
 
     // Service Worker Registration (for sw.js)
