@@ -238,7 +238,7 @@
     }
     .status-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
 
-    /* Incoming Queue List */
+    /* 🌟 सुपर कूल एनिमेटेड Incoming Queue List 🌟 */
     .incoming-list { display: flex; flex-direction: column; gap: 14px; margin-top: 14px; }
     .incoming-card {
       background: var(--card);
@@ -248,10 +248,26 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
-      border-left: 4px solid var(--primary);
-      animation: fileEntrance 0.3s ease-out;
+      border-left: 5px solid var(--primary);
+      box-shadow: 0 8px 24px rgba(0, 168, 132, 0.15);
+      animation: superFileEntrance 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
     }
-    @keyframes fileEntrance { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+    @keyframes superFileEntrance {
+      0% {
+        opacity: 0;
+        transform: translateY(-25px) scale(0.92);
+        box-shadow: 0 0 0 rgba(0, 168, 132, 0);
+      }
+      60% {
+        transform: translateY(4px) scale(1.02);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+      }
+    }
 
     .incoming-header {
       display: flex;
@@ -491,7 +507,7 @@
     </div>
   </header>
 
- <!-- Main Content Workspace -->
+  <!-- Main Content Workspace -->
   <main>
 
     <!-- Clean Trust Hero Banner -->
@@ -652,7 +668,8 @@
       <button class="btn btn-primary" style="justify-content: center; padding: 12px;" onclick="closeSuccessModal()" data-i18n="btnOk">ठीक है (OK)</button>
     </div>
   </div>
-    <!-- Footer with Correct Link Names -->
+
+  <!-- Footer with Correct Link Names -->
   <footer>
     <div data-i18n="footerNote">100% Client-Side Peer-to-Peer Transfer • कोई डेटा सर्वर पर स्टोर नहीं होता</div>
     <div style="margin-top: 10px; display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
@@ -663,7 +680,8 @@
       <a href="./security.html" data-i18n="navSecurity">🔐 सुरक्षा संरचना</a>
     </div>
   </footer>
- <!-- SCRIPT LOGIC -->
+
+  <!-- SCRIPT LOGIC -->
   <script>
     function playBeepSound() {
       try {
@@ -818,6 +836,10 @@
     let currentCameraIndex = 0;
     let fileRotations = {};
 
+    // 🌟 इनकमिंग फाइल क्यू - एक-एक करके स्मूथ लोड करने के लिए 🌟
+    let incomingQueue = [];
+    let isProcessingQueue = false;
+
     function generateCounterCode() {
       const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
       let code = "NC-";
@@ -868,8 +890,9 @@
       peer.on("connection", (c) => {
         c.on("data", (payload) => {
           if (payload.type === "FILE_TRANSFER") {
-            playBeepSound();
-            renderIncomingFile(payload);
+            // कतार में फाइल जोड़ें और क्रमशः लोड करें
+            incomingQueue.push(payload);
+            processIncomingQueue();
           }
         });
       });
@@ -877,6 +900,22 @@
       peer.on("error", (err) => {
         document.getElementById("p2pStatus").innerText = translations[currentLang].statusError;
       });
+    }
+
+    // 🌟 एक-एक करके मज़ेदार एनिमेशन और साउंड के साथ फाइल दिखाना 🌟
+    async function processIncomingQueue() {
+      if (isProcessingQueue || incomingQueue.length === 0) return;
+      isProcessingQueue = true;
+
+      while (incomingQueue.length > 0) {
+        const payload = incomingQueue.shift();
+        playBeepSound();
+        renderIncomingFile(payload);
+        // हर अगली फाइल के बीच 350 मिलीसेकंड का शानदार स्टैगर गैप
+        await new Promise(r => setTimeout(r, 350));
+      }
+
+      isProcessingQueue = false;
     }
 
     function renderIncomingFile(payload) {
@@ -970,8 +1009,15 @@
     function burnDocument(elementId, objectUrl) {
       URL.revokeObjectURL(objectUrl);
       const el = document.getElementById(elementId);
-      if (el) el.remove();
-      updateQueueCount();
+      if (el) {
+        el.style.transition = "all 0.35s ease";
+        el.style.opacity = "0";
+        el.style.transform = "translateX(40px)";
+        setTimeout(() => {
+          el.remove();
+          updateQueueCount();
+        }, 350);
+      }
     }
 
     function updateQueueCount() {
@@ -986,6 +1032,7 @@
       if (!peer) peer = new Peer();
     }
 
+    /* 🛡️ सुपर-स्मूथ कैमरा इंजन (Never-Fail Permission Fix) 🛡️ */
     async function startNativeScanner() {
       const scannerBox = document.getElementById("scannerContainer");
       const btnScan = document.getElementById("btnStartScan");
@@ -993,86 +1040,72 @@
       btnScan.style.display = "none";
 
       try {
-        if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
-          throw new Error("MediaDevices not supported");
-        }
-
-        const devices = await navigator.mediaDevices.enumerateDevices();
-        const videoDevices = devices.filter(d => d.kind === "videoinput");
-
-        const rearCandidates = [];
-        for (const device of videoDevices) {
-          const label = device.label.toLowerCase();
-          const isFront = label.includes("front") || label.includes("selfie") || label.includes("user");
-          if (!isFront) rearCandidates.push(device);
-        }
-
-        rearCandidates.sort((a, b) => {
-          const lA = a.label.toLowerCase();
-          const lB = b.label.toLowerCase();
-          const isA_Wide = lA.includes("wide") || lA.includes("ultra") || lA.includes("0.5") || lA.includes("0.6");
-          const isB_Wide = lB.includes("wide") || lB.includes("ultra") || lB.includes("0.5") || lB.includes("0.6");
-          if (isA_Wide && !isB_Wide) return 1;
-          if (!isA_Wide && isB_Wide) return -1;
-          return 0;
+        // सीधा बैक कैमरे के लिए साफ़ स्ट्रीम मंगाएँ
+        await startStreamWithConstraints({
+          video: { facingMode: { ideal: "environment" }, width: { ideal: 1280 }, height: { ideal: 720 } },
+          audio: false
         });
 
-        backCamerasList = rearCandidates.length > 0 ? rearCandidates : videoDevices;
-        currentCameraIndex = 0;
-
-        await startStreamWithDeviceId(backCamerasList[currentCameraIndex]?.deviceId);
+        // परमिशन मिलने के बाद ही अतिरिक्त कैमरों को ढूंढे
+        if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
+          const devices = await navigator.mediaDevices.enumerateDevices();
+          const videoDevices = devices.filter(d => d.kind === "videoinput");
+          backCamerasList = videoDevices.filter(d => {
+            const l = (d.label || "").toLowerCase();
+            return !l.includes("front") && !l.includes("selfie") && !l.includes("user");
+          });
+          if (backCamerasList.length === 0) backCamerasList = videoDevices;
+        }
       } catch (err) {
-        await startStreamWithDeviceId(null);
+        // फ़ॉलबैक अगर डिवाइस रिज़ॉल्यूशन सपोर्ट न करे
+        try {
+          await startStreamWithConstraints({ video: true, audio: false });
+        } catch (finalErr) {
+          console.error("Camera access denied:", finalErr);
+          alert("कैमरा चालू नहीं हो सका। कृपया ब्राउज़र में ऊपर URL बार के पास (🔒/सेटिंग्स) पर क्लिक करके कैमरा 'Allow' करें!");
+          stopNativeScanner();
+        }
       }
     }
 
-    async function startStreamWithDeviceId(deviceId) {
+    async function startStreamWithConstraints(constraints) {
       if (videoStream) {
         videoStream.getTracks().forEach(t => t.stop());
         videoStream = null;
       }
 
       const video = document.getElementById("scannerVideo");
-      const constraints = {
-        video: deviceId 
-          ? { deviceId: { exact: deviceId } }
-          : { facingMode: { ideal: "environment" } },
-        audio: false
-      };
+      videoStream = await navigator.mediaDevices.getUserMedia(constraints);
+      video.srcObject = videoStream;
+      video.setAttribute("playsinline", true);
 
-      try {
-        videoStream = await navigator.mediaDevices.getUserMedia(constraints);
-        video.srcObject = videoStream;
+      return new Promise((resolve) => {
         video.onloadedmetadata = () => {
           video.play().then(() => {
             scanningActive = true;
             requestAnimationFrame(scanQRCodeLoop);
-          }).catch(e => console.error("Video play error:", e));
+            resolve();
+          }).catch(e => {
+            console.error(e);
+            resolve();
+          });
         };
-      } catch (e) {
-        try {
-          videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false });
-          video.srcObject = videoStream;
-          video.onloadedmetadata = () => {
-            video.play().then(() => {
-              scanningActive = true;
-              requestAnimationFrame(scanQRCodeLoop);
-            });
-          };
-        } catch (finalErr) {
-          alert("कैमरा चालू नहीं हो सका। कृपया ब्राउज़र में कैमरा अनुमति दें!");
-          stopNativeScanner();
-        }
-      }
+      });
     }
 
     async function cycleCameraLens() {
-      if (backCamerasList.length <= 1) {
-        alert("दूसरा बैक लेंस नहीं मिला!");
+      if (!backCamerasList || backCamerasList.length <= 1) {
+        alert("दूसरा कैमरा लेंस उपलब्ध नहीं है!");
         return;
       }
       currentCameraIndex = (currentCameraIndex + 1) % backCamerasList.length;
-      await startStreamWithDeviceId(backCamerasList[currentCameraIndex].deviceId);
+      const targetDevice = backCamerasList[currentCameraIndex];
+      if (targetDevice && targetDevice.deviceId) {
+        await startStreamWithConstraints({
+          video: { deviceId: { exact: targetDevice.deviceId } },
+          audio: false
+        });
+      }
     }
 
     let lastScanTime = 0;
@@ -1110,7 +1143,7 @@
         videoStream = null;
       }
       const video = document.getElementById("scannerVideo");
-      video.srcObject = null;
+      if (video) video.srcObject = null;
       document.getElementById("scannerContainer").style.display = "none";
       document.getElementById("btnStartScan").style.display = "inline-flex";
     }
