@@ -20,10 +20,11 @@
   <meta name="theme-color" content="#00ffa3">
 
   <style>
-    :root {
+    /* Dark Theme */
+    :root[data-theme="dark"] {
       --bg: #070d12;
       --surface: rgba(14, 23, 31, 0.85);
-      --card: rgba(19, 32, 43, 0.7);
+      --card: rgba(19, 32, 43, 0.75);
       --card-border: rgba(0, 255, 163, 0.22);
       --primary: #00ffa3;
       --primary-hover: #00d989;
@@ -37,11 +38,28 @@
       --shadow: 0 12px 35px rgba(0, 0, 0, 0.65);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    /* Light Theme */
+    :root[data-theme="light"] {
+      --bg: #f2f6f5;
+      --surface: rgba(255, 255, 255, 0.9);
+      --card: rgba(255, 255, 255, 0.8);
+      --card-border: rgba(0, 168, 132, 0.25);
+      --primary: #00a884;
+      --primary-hover: #008f6f;
+      --primary-glow: rgba(0, 168, 132, 0.3);
+      --text: #0e1e1b;
+      --text-muted: #576d69;
+      --danger: #dc2626;
+      --danger-bg: rgba(220, 38, 38, 0.1);
+      --badge-bg: rgba(0, 168, 132, 0.12);
+      --qr-bg: #ffffff;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; transition: background-color 0.25s ease, color 0.2s ease, border-color 0.2s ease; }
     body {
       background: var(--bg);
-      background-image: radial-gradient(circle at 50% 0%, rgba(0, 255, 163, 0.08), transparent 50%),
-                        radial-gradient(circle at 100% 100%, rgba(0, 168, 132, 0.06), transparent 50%);
+      background-image: radial-gradient(circle at 50% 0%, var(--primary-glow), transparent 45%);
       color: var(--text);
       min-height: 100vh;
       display: flex;
@@ -79,7 +97,6 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      transition: all 0.2s ease;
     }
     .control-btn:hover { border-color: var(--primary); box-shadow: 0 0 10px var(--primary-glow); }
 
@@ -113,10 +130,9 @@
       font-size: 0.78rem;
       font-weight: 800;
       margin-bottom: 12px;
-      letter-spacing: 0.5px;
-      border: 1px solid rgba(0, 255, 163, 0.25);
+      border: 1px solid var(--card-border);
     }
-    .trust-hero h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 8px; }
+    .trust-hero h2 { font-size: 1.35rem; font-weight: 800; margin-bottom: 8px; }
     .trust-hero p { font-size: 0.88rem; color: var(--text-muted); max-width: 650px; margin: 0 auto; line-height: 1.5; }
 
     .mode-switcher {
@@ -142,12 +158,11 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: all 0.25s ease;
     }
     .tab-btn.active {
       background: var(--card);
-      color: #fff;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      color: var(--text);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.25);
       border: 1px solid var(--card-border);
       border-bottom: 3px solid var(--primary);
     }
@@ -166,12 +181,12 @@
       position: relative;
     }
 
-    /* Radar Search Animation */
+    /* Radar Animation */
     .radar-container {
       display: none;
       position: relative;
-      width: 140px;
-      height: 140px;
+      width: 130px;
+      height: 130px;
       margin: 16px auto;
       align-items: center;
       justify-content: center;
@@ -187,18 +202,10 @@
     }
     .radar-circle:nth-child(2) { animation-delay: 0.6s; }
     .radar-circle:nth-child(3) { animation-delay: 1.2s; }
-    .radar-center-icon {
-      font-size: 2.2rem;
-      z-index: 2;
-      animation: iconFloat 1.8s ease-in-out infinite alternate;
-    }
+    .radar-center-icon { font-size: 2.2rem; z-index: 2; }
     @keyframes radarPulse {
       0% { transform: scale(0.2); opacity: 0.9; }
       100% { transform: scale(1.3); opacity: 0; }
-    }
-    @keyframes iconFloat {
-      0% { transform: scale(0.95); }
-      100% { transform: scale(1.08); filter: drop-shadow(0 0 10px var(--primary-glow)); }
     }
 
     .qr-hero-section { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px; }
@@ -207,8 +214,10 @@
       padding: 16px;
       border-radius: 18px;
       display: inline-block;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
       border: 1px solid var(--card-border);
+      min-width: 175px;
+      min-height: 175px;
     }
     .room-badge {
       font-size: 1.8rem;
@@ -219,7 +228,6 @@
       padding: 10px 28px;
       border-radius: 30px;
       border: 1px dashed var(--primary);
-      text-shadow: 0 0 12px var(--primary-glow);
       user-select: all;
     }
     .connection-status {
@@ -232,9 +240,9 @@
       background: var(--badge-bg);
       color: var(--primary);
       font-weight: 700;
-      border: 1px solid rgba(0, 255, 163, 0.25);
+      border: 1px solid var(--card-border);
     }
-    .status-dot { width: 9px; height: 9px; border-radius: 50%; background: currentColor; box-shadow: 0 0 8px currentColor; }
+    .status-dot { width: 9px; height: 9px; border-radius: 50%; background: currentColor; }
 
     .incoming-list { display: flex; flex-direction: column; gap: 14px; margin-top: 14px; }
     .incoming-card {
@@ -248,26 +256,22 @@
       border-left: 5px solid var(--primary);
       box-shadow: 0 8px 24px rgba(0, 255, 163, 0.12);
       animation: superFileEntrance 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
-      overflow: hidden;
-      transition: all 0.4s ease;
     }
 
     @keyframes superFileEntrance {
-      0% { opacity: 0; transform: translateY(-25px) scale(0.94); }
+      0% { opacity: 0; transform: translateY(-20px) scale(0.95); }
       100% { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .shredding {
-      animation: paperShred 0.65s cubic-bezier(0.45, 0, 0.55, 1) forwards !important;
+      animation: paperShred 0.6s cubic-bezier(0.45, 0, 0.55, 1) forwards !important;
       pointer-events: none;
     }
     @keyframes paperShred {
-      0% { transform: scale(1) translateY(0); opacity: 1; }
-      35% { transform: scale(0.98) translateY(6px); opacity: 0.9; }
+      0% { transform: translateY(0); opacity: 1; }
       100% {
-        transform: translateY(80px) scaleY(1.2) scaleX(0.85);
+        transform: translateY(70px) scaleY(1.2) scaleX(0.85);
         opacity: 0;
-        filter: blur(4px);
         clip-path: polygon(0 0, 20% 15%, 40% 0, 60% 18%, 80% 0, 100% 20%, 100% 100%, 0 100%);
       }
     }
@@ -279,7 +283,7 @@
     
     .progress-container {
       width: 100%;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.08);
       border-radius: 12px;
       overflow: hidden;
       margin: 8px 0;
@@ -293,7 +297,6 @@
       height: 100%;
       width: 0%;
       background: linear-gradient(90deg, #00ffa3, #00a884);
-      box-shadow: 0 0 14px var(--primary-glow);
       transition: width 0.12s linear;
       border-radius: 10px;
     }
@@ -304,7 +307,7 @@
       font-size: 0.76rem;
       font-weight: 800;
       color: #ffffff;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+      text-shadow: 0 1px 4px rgba(0,0,0,0.85);
       pointer-events: none;
     }
 
@@ -319,18 +322,12 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      transition: all 0.2s ease;
     }
-    .btn-primary {
-      background: var(--primary);
-      color: #070d12;
-      box-shadow: 0 4px 18px var(--primary-glow);
-    }
-    .btn-primary:hover { transform: translateY(-1px); filter: brightness(1.1); }
+    .btn-primary { background: var(--primary); color: #070d12; }
+    .btn-primary:hover { filter: brightness(1.1); }
     .btn-secondary { background: var(--card); color: var(--text); border: 1px solid var(--card-border); }
     .btn-secondary:hover { border-color: var(--primary); }
     .btn-danger { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(255,77,109,0.3); }
-    .btn-danger:hover { background: var(--danger); color: #ffffff; }
 
     .preview-box {
       max-height: 220px;
@@ -357,7 +354,6 @@
       width: 100%;
       min-height: 250px;
       max-height: 320px;
-      box-shadow: 0 0 20px var(--primary-glow);
     }
     #scannerVideo { width: 100%; height: 100%; min-height: 250px; max-height: 320px; object-fit: cover; display: block; }
     .scanner-overlay {
@@ -437,9 +433,8 @@
       text-align: center;
       cursor: pointer;
       background: var(--card);
-      transition: all 0.25s ease;
     }
-    .dropzone:hover { border-color: var(--primary); box-shadow: 0 0 16px var(--primary-glow); }
+    .dropzone:hover { border-color: var(--primary); }
     .dropzone input { display: none; }
 
     .settings-grid {
@@ -460,7 +455,6 @@
       outline: none;
     }
 
-    /* Modal Windows */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -487,7 +481,7 @@
     @keyframes modalFade { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
     .modal-icon { font-size: 3.2rem; margin-bottom: 12px; }
 
-    /* ✂️ Crop & Adjust Workspace ✂️ */
+    /* ✂️ Crop & Adjust Sirf Gallery QR ke liye ✂️ */
     .crop-canvas-wrapper {
       position: relative;
       width: 100%;
@@ -510,8 +504,10 @@
     }
     .crop-guide-box {
       position: absolute;
+      width: 75%;
+      height: 75%;
       border: 2px dashed var(--primary);
-      box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.55);
+      box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.6);
       pointer-events: none;
       border-radius: 8px;
     }
@@ -535,7 +531,7 @@
 
   <header>
     <a href="./index.html" class="brand">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary); filter:drop-shadow(0 0 6px var(--primary-glow));"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary);"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
       Nischay<span>Drop</span>
     </a>
     <div class="header-controls">
@@ -546,7 +542,7 @@
 
   <main>
     <div class="trust-hero">
-      <div class="trust-tag">⚡ 100% P2P • CHUNKED SAFE PIPELINE • ZERO CLOUD STORAGE</div>
+      <div class="trust-tag">⚡ 100% P2P • DIRECT PEER PIPELINE • ZERO CLOUD STORAGE</div>
       <h2 data-i18n="heroTitle">नो नंबर, नो रिस्क — सीधा सुरक्षित प्रिंट!</h2>
       <p data-i18n="heroDesc">
         बिना दुकानदार का मोबाइल नंबर सेव किए अपने दस्तावेज सीधे काउंटर पर भेजें। फाइल किसी सर्वर पर अपलोड नहीं होती।
@@ -554,50 +550,50 @@
     </div>
     
     <div class="mode-switcher">
-      <button class="tab-btn" id="btnTabReceive" onclick="switchMode('receive')">
+      <button class="tab-btn active" id="btnTabReceive" onclick="switchMode('receive')">
         🖨️ <span data-i18n="tabReceive">दुकानदार मोड (Receiver)</span>
       </button>
-      <button class="tab-btn active" id="btnTabSend" onclick="switchMode('send')">
+      <button class="tab-btn" id="btnTabSend" onclick="switchMode('send')">
         📱 <span data-i18n="tabSend">ग्राहक मोड (Sender)</span>
       </button>
     </div>
 
-    <!-- 1. RECEIVER VIEW -->
-    <div id="viewReceive" class="view-panel">
+    <!-- 1. RECEIVER VIEW (Dukandaar Mode - Default Open) -->
+    <div id="viewReceive" class="view-panel active">
       <div class="card qr-hero-section">
         <div class="connection-status">
           <span class="status-dot"></span>
-          <span id="p2pStatus" data-i18n="statusConnecting">काउंटर तैयार हो रहा है...</span>
+          <span id="p2pStatus">काउंटर तैयार हो रहा है...</span>
         </div>
-        <p style="font-size: 0.9rem; color: var(--text-muted);" data-i18n="qrInstruction">
+        <p style="font-size: 0.9rem; color: var(--text-muted);">
           प्रिंट निकालने के लिए कस्टमर से यह QR कोड स्कैन करवाएं या 6-अक्षरों का कोड डलवाएं।
         </p>
         <div class="qr-wrapper" id="qrContainer"></div>
         <div>
-          <div style="font-size:0.75rem; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase;" data-i18n="counterCodeLabel">काउंटर कोड</div>
+          <div style="font-size:0.75rem; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase;">काउंटर कोड</div>
           <div class="room-badge" id="displayRoomCode">------</div>
         </div>
       </div>
 
       <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-          <h3 style="font-size: 1.05rem;" data-i18n="incomingTitle">📥 आई हुई फाइल्स (Live Queue)</h3>
+          <h3 style="font-size: 1.05rem;">📥 आई हुई फाइल्स (Live Queue)</h3>
           <span id="queueCounter" style="font-size: 0.8rem; color: var(--text-muted);">0 फाइल्स</span>
         </div>
 
         <div class="incoming-list" id="incomingList">
-          <div id="emptyQueueMsg" style="text-align: center; padding: 36px 10px; color: var(--text-muted); font-size: 0.85rem;" data-i18n="emptyQueue">
+          <div id="emptyQueueMsg" style="text-align: center; padding: 36px 10px; color: var(--text-muted); font-size: 0.85rem;">
             जैसे ही ग्राहक फाइल भेजेगा, यहाँ 0% से 100% लाइव प्रोग्रेस लोड होते हुए दिखेगा।
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 2. SENDER VIEW -->
-    <div id="viewSend" class="view-panel active">
+    <!-- 2. SENDER VIEW (Grahak Mode) -->
+    <div id="viewSend" class="view-panel">
       <div class="card">
-        <h3 style="margin-bottom: 6px; font-size: 1.05rem;" data-i18n="connectTitle">1. दुकान के काउंटर से लिंक करें</h3>
-        <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 14px;" data-i18n="connectDesc">दुकान के काउंटर पर दिख रहा QR स्कैन करें या कोड डालकर लिंक करें।</p>
+        <h3 style="margin-bottom: 6px; font-size: 1.05rem;">1. दुकान के काउंटर से लिंक करें</h3>
+        <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 14px;">दुकान के काउंटर पर दिख रहा QR स्कैन करें या कोड डालकर लिंक करें।</p>
 
         <!-- AirDrop Radar Animation -->
         <div class="radar-container" id="radarAnimation">
@@ -610,7 +606,7 @@
         <div style="display: flex; flex-direction: column; gap: 10px;">
           <div style="display: flex; gap: 8px;">
             <button class="btn btn-primary" style="flex: 2; justify-content: center; padding: 12px; font-size: 0.95rem;" onclick="startNativeScanner()" id="btnStartScan">
-              📷 <span data-i18n="btnScanCamera">दुकान का QR स्कैन करें</span>
+              📷 दुकान का QR स्कैन करें
             </button>
             <button class="btn btn-secondary" style="flex: 1; justify-content: center; padding: 12px; font-size: 0.85rem;" onclick="document.getElementById('qrImageUpload').click()">
               🖼️ गैलरी QR
@@ -618,7 +614,6 @@
             <input type="file" id="qrImageUpload" accept="image/*" style="display: none;" onchange="handleQRImageUpload(event)">
           </div>
 
-          <!-- Safe Camera Scanner Box -->
           <div id="scannerContainer">
             <video id="scannerVideo" playsinline autoplay muted></video>
             <div class="scanner-overlay"></div>
@@ -644,13 +639,13 @@
         <div id="customerConnAlert" style="font-size: 0.8rem; margin-top: 10px; font-weight: 700;"></div>
       </div>
 
-      <!-- File Select Section -->
+      <!-- File Select Section (Normal Direct Pick - No Crop Popup here) -->
       <div class="card" id="senderTransferBox">
         <h3 style="margin-bottom: 12px; font-size: 1.05rem;">2. फाइलें चुनें व प्रिंट निर्देश दें</h3>
         
         <div class="dropzone" onclick="document.getElementById('fileUploadInput').click()">
           <input type="file" id="fileUploadInput" multiple onchange="handleFileSelection(event)">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary); margin-bottom: 8px; filter: drop-shadow(0 0 8px var(--primary-glow));"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary); margin-bottom: 8px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
           <div style="font-weight: 700; font-size: 1rem;" id="fileSelectionLabel">यहाँ टैप करके PDF, फोटो या वीडियो चुनें</div>
           <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">P2P चंक पाइपलाइन द्वारा हाई-स्पीड ट्रांसमिशन</div>
         </div>
@@ -681,7 +676,6 @@
           </div>
         </div>
 
-        <!-- Sender Progress Bar -->
         <div id="senderProgressWrap" style="display: none; margin-top: 14px;">
           <div class="progress-container">
             <div class="progress-bar-fill" id="senderProgressBar"></div>
@@ -696,19 +690,19 @@
     </div>
   </main>
 
-  <!-- ✂️ Crop & Document Adjuster Modal ✂️ -->
+  <!-- ✂️ Crop & Adjust Modal (Sirf Gallery QR ke liye) ✂️ -->
   <div class="modal-overlay" id="cropModal">
     <div class="modal-card">
-      <h3 style="color: var(--primary); font-size: 1.15rem; margin-bottom: 4px;">🖼️ क्रॉप व एडजस्ट करें</h3>
-      <p style="font-size: 0.8rem; color: var(--text-muted);">प्रिंट के लिए फोटो को रोटेट व ज़ूम एडजस्ट करें</p>
+      <h3 style="color: var(--primary); font-size: 1.15rem; margin-bottom: 4px;">🖼️ QR क्रॉप व एडजस्ट करें</h3>
+      <p style="font-size: 0.8rem; color: var(--text-muted);">QR कोड को गाइड बॉक्स के बीच में ज़ूम या रोटेट करें</p>
 
       <div class="crop-canvas-wrapper">
         <img id="cropImagePreview" src="" alt="Crop Preview">
-        <div class="crop-guide-box" id="cropGuideBox" style="width: 80%; height: 80%;"></div>
+        <div class="crop-guide-box"></div>
       </div>
 
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 8px;">
-        <button class="btn btn-secondary" onclick="rotateCropImage()">🔄 90° घुमाएं</button>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; gap: 8px;">
+        <button class="btn btn-secondary" onclick="rotateCropImage()">🔄 घुमाएं</button>
         <div style="display: flex; align-items: center; gap: 6px; flex: 1;">
           <span style="font-size: 0.75rem; color: var(--text-muted);">ज़ूम:</span>
           <input type="range" id="cropZoomSlider" min="1" max="2.5" step="0.1" value="1" style="width: 100%; accent-color: var(--primary);" oninput="applyCropZoom(this.value)">
@@ -716,8 +710,8 @@
       </div>
 
       <div style="display: flex; gap: 10px;">
-        <button class="btn btn-secondary" style="flex: 1; justify-content: center;" onclick="closeCropModal(false)">रद्द करें</button>
-        <button class="btn btn-primary" style="flex: 2; justify-content: center;" onclick="applyCropAndConfirm()">✓ सब ठीक है, जोड़ें</button>
+        <button class="btn btn-secondary" style="flex: 1; justify-content: center;" onclick="closeCropModal()">रद्द करें</button>
+        <button class="btn btn-primary" style="flex: 2; justify-content: center;" onclick="confirmQRCropAndScan()">✓ OK, QR स्कैन करें</button>
       </div>
     </div>
   </div>
@@ -735,13 +729,13 @@
   </div>
 
   <footer>
-    <div data-i18n="footerNote">100% Client-Side Peer-to-Peer Transfer • कोई डेटा सर्वर पर स्टोर नहीं होता</div>
+    <div>100% Client-Side Peer-to-Peer Transfer • कोई डेटा सर्वर पर स्टोर नहीं होता</div>
     <div style="margin-top: 12px; display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
       <a href="https://nischaydesk.github.io/" style="color:var(--primary); font-weight:700;">🏛️ NischayDesk</a>
-      <a href="./how-it-works.html" data-i18n="navHow">💡 यह कैसे काम करता है?</a>
-      <a href="./privacy.html" data-i18n="navPrivacy">🛡️ गोपनीयता नीति</a>
-      <a href="./terms.html" data-i18n="navTerms">📜 नियम व शर्तें</a>
-      <a href="./security.html" data-i18n="navSecurity">🔐 सुरक्षा संरचना</a>
+      <a href="./how-it-works.html">💡 यह कैसे काम करता है?</a>
+      <a href="./privacy.html">🛡️ गोपनीयता नीति</a>
+      <a href="./terms.html">📜 नियम व शर्तें</a>
+      <a href="./security.html">🔐 सुरक्षा संरचना</a>
     </div>
   </footer>
 
@@ -751,7 +745,7 @@
     window.addEventListener("beforeunload", (e) => {
       if (isTransferring) {
         e.preventDefault();
-        e.returnValue = "फाइल ट्रांसफर जारी है! यदि आप पेज छोड़ेंगे तो फाइल अधूरी रह जाएगी।";
+        e.returnValue = "फाइल ट्रांसफर जारी है!";
       }
     });
 
@@ -777,73 +771,24 @@
       } catch (e) {}
     }
 
-    const translations = {
-      hi: {
-        heroTitle: "नो नंबर, नो रिस्क — सीधा सुरक्षित प्रिंट!",
-        heroDesc: "बिना दुकानदार का मोबाइल नंबर सेव किए अपने दस्तावेज सीधे प्रिंटर पर भेजें। फाइल किसी सर्वर पर अपलोड नहीं होती।",
-        tabReceive: "दुकानदार मोड (Receiver)",
-        tabSend: "ग्राहक मोड (Sender)",
-        statusConnecting: "काउंटर तैयार हो रहा है...",
-        qrInstruction: "प्रिंट निकालने के लिए कस्टमर से यह QR कोड स्कैन करवाएं या 6-अक्षरों का कोड डलवाएं।",
-        counterCodeLabel: "काउंटर कोड",
-        incomingTitle: "📥 आई हुई फाइल्स (Live Queue)",
-        emptyQueue: "जैसे ही ग्राहक फाइल भेजेगा, यहाँ 0% से 100% लाइव प्रोग्रेस लोड होते हुए दिखेगा।",
-        connectTitle: "1. दुकान के काउंटर से लिंक करें",
-        connectDesc: "दुकान के काउंटर पर दिख रहा QR स्कैन करें या कोड डालकर लिंक करें।",
-        btnScanCamera: "दुकान का QR स्कैन करें",
-        footerNote: "100% Client-Side Peer-to-Peer Transfer • कोई डेटा सर्वर पर स्टोर नहीं होता",
-        navHow: "💡 यह कैसे काम करता है?",
-        navPrivacy: "🛡️ गोपनीयता नीति",
-        navTerms: "📜 नियम व शर्तें",
-        navSecurity: "🔐 सुरक्षा संरचना"
-      },
-      en: {
-        heroTitle: "No Numbers. Zero Risk. Direct Safe Print!",
-        heroDesc: "Transmit documents directly to counter printers without sharing mobile numbers.",
-        tabReceive: "Shopkeeper Mode (Receiver)",
-        tabSend: "Customer Mode (Sender)",
-        statusConnecting: "Initializing Counter...",
-        qrInstruction: "Ask customer to scan this QR code or enter code to print.",
-        counterCodeLabel: "Counter Code",
-        incomingTitle: "📥 Incoming Queue (Live)",
-        emptyQueue: "Files sent by customers will appear here with live 0% to 100% progress.",
-        connectTitle: "1. Link with Shop Counter",
-        connectDesc: "Scan counter QR or enter code manually.",
-        btnScanCamera: "Scan Shop QR Code",
-        footerNote: "100% Client-Side Peer-to-Peer Transfer • Zero Server Storage",
-        navHow: "💡 How It Works",
-        navPrivacy: "🛡️ Privacy Policy",
-        navTerms: "📜 Terms of Service",
-        navSecurity: "🔐 Security Specs"
-      }
-    };
-
     let currentLang = localStorage.getItem("nischay_lang") || "hi";
     let currentTheme = localStorage.getItem("nischay_theme") || "dark";
 
     function applyTheme(theme) {
+      currentTheme = theme;
       document.documentElement.setAttribute("data-theme", theme);
       document.getElementById("themeIcon").innerText = theme === "dark" ? "☀️" : "🌙";
       localStorage.setItem("nischay_theme", theme);
     }
 
     function toggleTheme() {
-      currentTheme = currentTheme === "dark" ? "light" : "dark";
-      applyTheme(currentTheme);
-    }
-
-    function applyLanguage(lang) {
-      currentLang = lang;
-      localStorage.setItem("nischay_lang", lang);
-      document.getElementById("langLabel").innerText = lang === "hi" ? "English" : "हिंदी";
-      document.querySelectorAll("[data-i18n]").forEach(el => {
-        const key = el.getAttribute("data-i18n");
-        if (translations[lang][key]) el.innerText = translations[lang][key];
-      });
+      applyTheme(currentTheme === "dark" ? "light" : "dark");
     }
 
     function toggleLanguage() {
-      applyLanguage(currentLang === "hi" ? "en" : "hi");
+      currentLang = (currentLang === "hi") ? "en" : "hi";
+      localStorage.setItem("nischay_lang", currentLang);
+      document.getElementById("langLabel").innerText = currentLang === "hi" ? "English" : "हिंदी";
     }
 
     let peer = null;
@@ -882,7 +827,11 @@
       }
     }
 
+    /* 🛡️ DUKANDAAR RECEIVER INITIALIZATION (Ab 100% Banega QR) 🛡️ */
     function initReceiverPeer() {
+      if (peer && !peer.destroyed) {
+        return;
+      }
       const generatedId = generateCounterCode();
       peer = new Peer(generatedId);
 
@@ -899,7 +848,7 @@
           text: targetUrl,
           width: 175,
           height: 175,
-          colorDark: "#070d12",
+          colorDark: "#000000",
           colorLight: "#ffffff"
         });
       });
@@ -1086,7 +1035,7 @@
         setTimeout(() => {
           el.remove();
           updateQueueCount();
-        }, 650);
+        }, 600);
       }
     }
 
@@ -1102,85 +1051,83 @@
       if (!peer) peer = new Peer();
     }
 
-    /* ✂️ Crop & Adjust Engine ✂️ */
-    let pendingCropFile = null;
-    let cropRotation = 0;
-    let cropZoom = 1;
-
+    /* 🌟 NORMAL FILE SELECTION - Seedha Pick (No Crop Dialog) 🌟 */
     function handleFileSelection(event) {
-      const files = Array.from(event.target.files);
-      if (files.length === 0) return;
-
-      const firstFile = files[0];
-      if (firstFile.type.startsWith("image/")) {
-        pendingCropFile = firstFile;
-        cropRotation = 0;
-        cropZoom = 1;
-        document.getElementById("cropZoomSlider").value = 1;
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const img = document.getElementById("cropImagePreview");
-          img.src = e.target.result;
-          img.style.transform = `rotate(0deg) scale(1)`;
-          document.getElementById("cropModal").classList.add("active");
-        };
-        reader.readAsDataURL(firstFile);
-      } else {
-        selectedFiles = files;
+      selectedFiles = Array.from(event.target.files);
+      if (selectedFiles.length > 0) {
         document.getElementById("fileSelectionLabel").innerText = `${selectedFiles.length} फाइलें चुनी गईं (${(selectedFiles.reduce((a,b)=>a+b.size,0)/(1024*1024)).toFixed(2)} MB)`;
       }
     }
 
+    /* ✂️ CROP SIRF AUR SIRF GALLERY QR KE LIYE ✂️ */
+    let qrCropFile = null;
+    let qrCropRotation = 0;
+    let qrCropZoom = 1;
+
+    function handleQRImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      qrCropFile = file;
+      qrCropRotation = 0;
+      qrCropZoom = 1;
+      document.getElementById("cropZoomSlider").value = 1;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = document.getElementById("cropImagePreview");
+        img.src = e.target.result;
+        img.style.transform = `rotate(0deg) scale(1)`;
+        document.getElementById("cropModal").classList.add("active");
+      };
+      reader.readAsDataURL(file);
+      event.target.value = "";
+    }
+
     function rotateCropImage() {
-      cropRotation = (cropRotation + 90) % 360;
-      updateCropPreviewTransform();
+      qrCropRotation = (qrCropRotation + 90) % 360;
+      updateQRCropPreview();
     }
 
     function applyCropZoom(val) {
-      cropZoom = val;
-      updateCropPreviewTransform();
+      qrCropZoom = val;
+      updateQRCropPreview();
     }
 
-    function updateCropPreviewTransform() {
+    function updateQRCropPreview() {
       const img = document.getElementById("cropImagePreview");
-      img.style.transform = `rotate(${cropRotation}deg) scale(${cropZoom})`;
+      img.style.transform = `rotate(${qrCropRotation}deg) scale(${qrCropZoom})`;
     }
 
-    function closeCropModal(isConfirmed = false) {
+    function closeCropModal() {
       document.getElementById("cropModal").classList.remove("active");
-      if (!isConfirmed && selectedFiles.length === 0) {
-        document.getElementById("fileUploadInput").value = "";
-      }
     }
 
-    function applyCropAndConfirm() {
+    function confirmQRCropAndScan() {
       const img = document.getElementById("cropImagePreview");
-      const canvas = document.createElement("canvas");
+      const canvas = document.getElementById("qrScanCanvas");
       const ctx = canvas.getContext("2d");
 
-      const width = img.naturalWidth;
-      const height = img.naturalHeight;
+      canvas.width = 600;
+      canvas.height = 600;
 
-      if (cropRotation % 180 === 0) {
-        canvas.width = width;
-        canvas.height = height;
-      } else {
-        canvas.width = height;
-        canvas.height = width;
-      }
-
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.save();
       ctx.translate(canvas.width / 2, canvas.height / 2);
-      ctx.rotate((cropRotation * Math.PI) / 180);
-      ctx.scale(cropZoom, cropZoom);
-      ctx.drawImage(img, -width / 2, -height / 2);
+      ctx.rotate((qrCropRotation * Math.PI) / 180);
+      ctx.scale(qrCropZoom, qrCropZoom);
+      ctx.drawImage(img, -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
+      ctx.restore();
 
-      canvas.toBlob((blob) => {
-        const croppedFile = new File([blob], pendingCropFile.name, { type: "image/jpeg" });
-        selectedFiles = [croppedFile];
-        document.getElementById("fileSelectionLabel").innerText = `✓ 1 फोटो क्रॉप व तैयार (${(croppedFile.size / (1024 * 1024)).toFixed(2)} MB)`;
-        closeCropModal(true);
-      }, "image/jpeg", 0.92);
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const code = jsQR(imageData.data, imageData.width, imageData.height);
+
+      if (code && code.data) {
+        closeCropModal();
+        handleScannedData(code.data);
+      } else {
+        alert("QR कोड डिटेक्ट नहीं हुआ! कृपया थोड़ा और ज़ूम करें या कोड को सीधा घुमाएं।");
+      }
     }
 
     async function sendSelectedFiles() {
@@ -1330,7 +1277,7 @@
         try {
           await launchCameraStream(true);
         } catch (finalErr) {
-          alert("कैमरा चालू नहीं हो सका। ऊपर (🔒) पर क्लिक करके परमिशन दें या 'गैलरी QR' का उपयोग करें!");
+          alert("कैमरा चालू नहीं हो सका। कृपया परमिशन दें या 'गैलरी QR' का उपयोग करें!");
           stopNativeScanner();
         }
       }
@@ -1395,32 +1342,6 @@
       document.getElementById("btnStartScan").style.display = "inline-flex";
     }
 
-    function handleQRImageUpload(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const img = new Image();
-        img.onload = () => {
-          const canvas = document.getElementById("qrScanCanvas");
-          const ctx = canvas.getContext("2d");
-          canvas.width = img.width;
-          canvas.height = img.height;
-          ctx.drawImage(img, 0, 0);
-          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          const code = jsQR(imageData.data, imageData.width, imageData.height);
-          if (code && code.data) {
-            handleScannedData(code.data);
-          } else {
-            alert("फोटो में QR कोड साफ नहीं दिखा! कृपया दोबारा प्रयास करें।");
-          }
-        };
-        img.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-
     function handleScannedData(scannedText) {
       let extractedCode = scannedText.trim();
       if (extractedCode.includes("connect=")) {
@@ -1441,8 +1362,7 @@
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-      applyTheme("dark");
-      applyLanguage(currentLang);
+      applyTheme(currentTheme);
 
       const params = new URLSearchParams(window.location.search);
       const connectTarget = params.get("connect");
@@ -1452,7 +1372,8 @@
         initSenderPeer();
         peer.on("open", () => connectToCounter(connectTarget));
       } else {
-        switchMode("send");
+        // Default Dukandaar Mode par direct QR create karega
+        switchMode("receive");
       }
     });
   </script>
