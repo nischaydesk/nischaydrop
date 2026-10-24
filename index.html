@@ -7,6 +7,11 @@
   
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2224%22 fill=%22%2300a884%22/><path d=%22M28 32h44v14H28z%22 fill=%22%23ffffff%22/><rect x=%2220%22 y=%2242%22 width=%2260%22 height=%2232%22 rx=%228%22 fill=%22%230b141a%22/><rect x=%2230%22 y=%2258%22 width=%2240%22 height=%2222%22 rx=%224%22 fill=%22%23ffffff%22/><circle cx=%2268%22 cy=%2250%22 r=%223%22 fill=%22%2300a884%22/></svg>">
 
+  <link rel="canonical" href="https://nischaydesk.github.io/nischaydrop/" />
+  <meta name="author" content="Prince Kumar">
+  <meta name="description" content="NischayDrop is a zero-contact, peer-to-peer print file transfer utility by NischayDesk.">
+
+  <!-- Core Libraries -->
   <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
@@ -184,7 +189,6 @@
     }
     .status-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
 
-    /* File Queue & Transfer Cards */
     .incoming-list { display: flex; flex-direction: column; gap: 14px; margin-top: 14px; }
     .incoming-card {
       background: var(--card);
@@ -209,7 +213,6 @@
     .file-meta { font-size: 0.8rem; color: var(--text-muted); display: flex; gap: 8px; align-items: center; }
     .instruction-tag { background: var(--badge-bg); color: var(--primary); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.78rem; }
     
-    /* 🌟 सुपर कूल रियल प्रोग्रेस बार (0% से 100%) 🌟 */
     .progress-container {
       width: 100%;
       background: rgba(255, 255, 255, 0.08);
@@ -425,6 +428,7 @@
       margin-top: auto;
     }
     footer a { color: var(--primary); text-decoration: none; margin: 0 8px; font-weight: 600; }
+    footer a:hover { text-decoration: underline; }
     #printFrame { display: none; }
   </style>
 </head>
@@ -476,7 +480,6 @@
         </div>
       </div>
 
-      <!-- Live File Receiver Area -->
       <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <h3 style="font-size: 1.05rem;" data-i18n="incomingTitle">📥 आई हुई फाइल्स (Live Queue)</h3>
@@ -591,15 +594,29 @@
     </div>
   </div>
 
+  <!-- ✅ सभी छूटे हुए लिंक्स वापस जोड़ दिए गए हैं -->
   <footer>
-    <div>100% Client-Side Peer-to-Peer Transfer • कोई डेटा सर्वर पर स्टोर नहीं होता</div>
+    <div data-i18n="footerNote">100% Client-Side Peer-to-Peer Transfer • कोई डेटा सर्वर पर स्टोर नहीं होता</div>
     <div style="margin-top: 10px; display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
       <a href="https://nischaydesk.github.io/" style="color:var(--primary); font-weight:700;">🏛️ NischayDesk</a>
+      <a href="./how-it-works.html" data-i18n="navHow">💡 यह कैसे काम करता है?</a>
+      <a href="./privacy.html" data-i18n="navPrivacy">🛡️ गोपनीयता नीति</a>
+      <a href="./terms.html" data-i18n="navTerms">📜 नियम व शर्तें</a>
+      <a href="./security.html" data-i18n="navSecurity">🔐 सुरक्षा संरचना</a>
     </div>
   </footer>
 
   <script>
-    /* Audio Beep Function */
+    let isTransferring = false; // ट्रांसफर स्थिति ट्रैक करने के लिए
+
+    // 🛡️ आकस्मिक रिफ्रेश रोकने का सुरक्षा कवच
+    window.addEventListener("beforeunload", (e) => {
+      if (isTransferring) {
+        e.preventDefault();
+        e.returnValue = "फाइल ट्रांसफर जारी है! यदि आप पेज छोड़ेंगे तो फाइल अधूरी रह जाएगी।";
+      }
+    });
+
     function playBeepSound(success = false) {
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -630,7 +647,19 @@
         tabSend: "ग्राहक मोड (Sender)",
         statusConnecting: "काउंटर तैयार हो रहा है...",
         statusLive: "काउंटर तैयार है (Live)",
-        statusError: "कनेक्शन त्रुटि - पुनः प्रयास करें"
+        statusError: "कनेक्शन त्रुटि - पुनः प्रयास करें",
+        qrInstruction: "प्रिंट निकालने के लिए कस्टमर से यह QR कोड स्कैन करवाएं या 6-अक्षरों का कोड डलवाएं।",
+        counterCodeLabel: "काउंटर कोड",
+        incomingTitle: "📥 आई हुई फाइल्स (Live Queue)",
+        emptyQueue: "जैसे ही ग्राहक फाइल भेजेगा, यहाँ 0% से 100% लाइव प्रोग्रेस लोड होते हुए दिखेगा।",
+        connectTitle: "1. दुकान के काउंटर से लिंक करें",
+        connectDesc: "दुकान के काउंटर पर दिख रहा QR स्कैन करें या कोड डालकर लिंक करें।",
+        btnScanCamera: "दुकान का QR स्कैन करें",
+        footerNote: "100% Client-Side Peer-to-Peer Transfer • कोई डेटा सर्वर पर स्टोर नहीं होता",
+        navHow: "💡 यह कैसे काम करता है?",
+        navPrivacy: "🛡️ गोपनीयता नीति",
+        navTerms: "📜 नियम व शर्तें",
+        navSecurity: "🔐 सुरक्षा संरचना"
       },
       en: {
         heroTitle: "No Numbers. Zero Risk. Direct Safe Print!",
@@ -639,7 +668,19 @@
         tabSend: "Customer Mode (Sender)",
         statusConnecting: "Initializing Counter...",
         statusLive: "Counter Online (Live)",
-        statusError: "Connection Error - Please retry"
+        statusError: "Connection Error - Please retry",
+        qrInstruction: "Ask customer to scan this QR code or enter the 6-character code below to print.",
+        counterCodeLabel: "Counter Code",
+        incomingTitle: "📥 Incoming Queue (Live)",
+        emptyQueue: "Files sent by customers will appear here with live 0% to 100% progress.",
+        connectTitle: "1. Link with Shop Counter",
+        connectDesc: "Scan the counter QR or enter code manually to pair.",
+        btnScanCamera: "Scan Shop QR Code",
+        footerNote: "100% Client-Side Peer-to-Peer Transfer • Zero Server Storage",
+        navHow: "💡 How It Works",
+        navPrivacy: "🛡️ Privacy Policy",
+        navTerms: "📜 Terms of Service",
+        navSecurity: "🔐 Security Specs"
       }
     };
 
@@ -661,6 +702,10 @@
       currentLang = lang;
       localStorage.setItem("nischay_lang", lang);
       document.getElementById("langLabel").innerText = lang === "hi" ? "English" : "हिंदी";
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (translations[lang][key]) el.innerText = translations[lang][key];
+      });
     }
 
     function toggleLanguage() {
@@ -677,7 +722,6 @@
     let currentCameraIndex = 0;
     let fileRotations = {};
 
-    // 🌟 चंक रिसीविंग स्टेट (Chunk Assembler) 🌟
     const incomingTransfers = {};
 
     function generateCounterCode() {
@@ -705,7 +749,6 @@
       }
     }
 
-    /* 🛡️ RECEIVER ENGINE WITH REAL PROGRESS TRACKER 🛡️ */
     function initReceiverPeer() {
       const generatedId = generateCounterCode();
       peer = new Peer(generatedId);
@@ -729,8 +772,23 @@
       });
 
       peer.on("connection", (c) => {
+        conn = c;
         c.on("data", (data) => {
           handleIncomingData(data);
+        });
+
+        // 🛡️ अगर सेंडर ने अचानक रिफ्रेश या बंद कर दिया:
+        c.on("close", () => {
+          for (let transferId in incomingTransfers) {
+            const txt = document.getElementById("text_" + transferId);
+            const bar = document.getElementById("bar_" + transferId);
+            if (txt) {
+              txt.innerText = "❌ कनेक्शन टूटा! सेंडर ने पेज रिफ्रेश या बंद कर दिया।";
+              txt.style.color = "#ff6b6b";
+            }
+            if (bar) bar.style.background = "#dc2626";
+            delete incomingTransfers[transferId];
+          }
         });
       });
 
@@ -741,7 +799,6 @@
     }
 
     function handleIncomingData(data) {
-      // 1. जब फ़ाइल शुरू होती है
       if (data.type === "TRANSFER_START") {
         playBeepSound(false);
         incomingTransfers[data.id] = {
@@ -751,7 +808,6 @@
         };
         createIncomingProgressCard(data);
       } 
-      // 2. जब चंक आता है
       else if (data.type === "TRANSFER_CHUNK") {
         const transfer = incomingTransfers[data.id];
         if (!transfer) return;
@@ -762,7 +818,6 @@
         const progressPercent = Math.min(100, Math.round((transfer.receivedBytes / transfer.meta.fileSize) * 100));
         updateProgressCard(data.id, progressPercent, transfer.receivedBytes, transfer.meta.fileSize);
       } 
-      // 3. जब पूरी फ़ाइल आ गई
       else if (data.type === "TRANSFER_END") {
         const transfer = incomingTransfers[data.id];
         if (!transfer) return;
@@ -793,7 +848,6 @@
           </div>
         </div>
 
-        <!-- Real Progress Bar Animation -->
         <div id="progWrap_${meta.id}" class="progress-container">
           <div class="progress-bar-fill" id="bar_${meta.id}"></div>
           <div class="progress-text-overlay" id="text_${meta.id}">📥 प्राप्त हो रहा है... 0%</div>
@@ -917,7 +971,6 @@
       if (!peer) peer = new Peer();
     }
 
-    /* 🛡️ CHUNKED SENDER ENGINE (कभी नहीं अटकेगा) 🛡️ */
     async function sendSelectedFiles() {
       if (!conn || !conn.open) {
         alert("कृपया पहले ऊपर दुकान के काउंटर से लिंक करें!");
@@ -928,6 +981,7 @@
         return;
       }
 
+      isTransferring = true;
       const btn = document.getElementById("btnSendAction");
       const pWrap = document.getElementById("senderProgressWrap");
       const pBar = document.getElementById("senderProgressBar");
@@ -943,65 +997,74 @@
         side: document.getElementById("optSide").value
       };
 
-      const CHUNK_SIZE = 64 * 1024; // 64KB Safe WebRTC Chunk Size
+      const CHUNK_SIZE = 64 * 1024;
 
-      for (let i = 0; i < selectedFiles.length; i++) {
-        const file = selectedFiles[i];
-        const transferId = Date.now() + "_" + Math.random().toString(36).substr(2, 5);
-
-        // 1. सूचना भेजें कि फ़ाइल शुरू हो रही है
-        conn.send({
-          type: "TRANSFER_START",
-          id: transferId,
-          fileName: file.name,
-          fileSize: file.size,
-          fileType: file.type || "application/octet-stream",
-          instructions: instructions
-        });
-
-        // 2. फ़ाइल को टुकड़ों में भेजें
-        let offset = 0;
-        while (offset < file.size) {
-          const slice = file.slice(offset, offset + CHUNK_SIZE);
-          const buffer = await slice.arrayBuffer();
+      try {
+        for (let i = 0; i < selectedFiles.length; i++) {
+          const file = selectedFiles[i];
+          const transferId = Date.now() + "_" + Math.random().toString(36).substr(2, 5);
 
           conn.send({
-            type: "TRANSFER_CHUNK",
+            type: "TRANSFER_START",
             id: transferId,
-            chunk: buffer
+            fileName: file.name,
+            fileSize: file.size,
+            fileType: file.type || "application/octet-stream",
+            instructions: instructions
           });
 
-          offset += buffer.byteLength;
-          const pct = Math.min(100, Math.round((offset / file.size) * 100));
-          pBar.style.width = pct + "%";
-          pText.innerText = `भेज रहे हैं (${i + 1}/${selectedFiles.length}): ${pct}%`;
+          let offset = 0;
+          while (offset < file.size) {
+            // अगर ट्रांसफर के बीच कनेक्शन कट गया तो लूप तोड़ें
+            if (!conn || !conn.open) throw new Error("Connection lost");
 
-          // बफ़र को ओवरफ़्लो होने से बचाने के लिए छोटा सा विराम
-          if (offset % (CHUNK_SIZE * 4) === 0) {
-            await new Promise(r => setTimeout(r, 15));
+            const slice = file.slice(offset, offset + CHUNK_SIZE);
+            const buffer = await slice.arrayBuffer();
+
+            conn.send({
+              type: "TRANSFER_CHUNK",
+              id: transferId,
+              chunk: buffer
+            });
+
+            offset += buffer.byteLength;
+            const pct = Math.min(100, Math.round((offset / file.size) * 100));
+            pBar.style.width = pct + "%";
+            pText.innerText = `भेज रहे हैं (${i + 1}/${selectedFiles.length}): ${pct}%`;
+
+            if (offset % (CHUNK_SIZE * 4) === 0) {
+              await new Promise(r => setTimeout(r, 15));
+            }
           }
+
+          conn.send({
+            type: "TRANSFER_END",
+            id: transferId
+          });
         }
 
-        // 3. सूचना भेजें कि फ़ाइल ख़त्म हो गई
-        conn.send({
-          type: "TRANSFER_END",
-          id: transferId
-        });
-      }
+        isTransferring = false;
+        pText.innerText = "✓ सब कुछ भेजा जा चुका है!";
+        setTimeout(() => {
+          btn.disabled = false;
+          btn.style.opacity = "1";
+          pWrap.style.display = "none";
+          pBar.style.width = "0%";
+          
+          confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+          document.getElementById("successModal").classList.add("active");
+          selectedFiles = [];
+          document.getElementById("fileSelectionLabel").innerText = "यहाँ टैप करके PDF, फोटो या वीडियो चुनें";
+        }, 500);
 
-      // ट्रांसफर खत्म
-      pText.innerText = "✓ सब कुछ भेजा जा चुका है!";
-      setTimeout(() => {
+      } catch (err) {
+        isTransferring = false;
         btn.disabled = false;
         btn.style.opacity = "1";
-        pWrap.style.display = "none";
-        pBar.style.width = "0%";
-        
-        confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
-        document.getElementById("successModal").classList.add("active");
-        selectedFiles = [];
-        document.getElementById("fileSelectionLabel").innerText = "यहाँ टैप करके PDF, फोटो या वीडियो चुनें";
-      }, 500);
+        pText.innerText = "❌ ट्रांसफर बाधित हुआ! पुनः प्रयास करें।";
+        pBar.style.background = "#dc2626";
+        alert("ट्रांसफर बीच में रुक गया! क्या आपने या रिसीवर ने पेज रिफ्रेश किया?");
+      }
     }
 
     function handleFileSelection(event) {
@@ -1033,6 +1096,11 @@
         alertBox.innerText = "✓ काउंटर से सुरक्षित रूप से कनेक्टेड! अब फाइलें भेजें।";
       });
 
+      conn.on("close", () => {
+        alertBox.style.color = "var(--danger)";
+        alertBox.innerText = "⚠️ काउंटर से कनेक्शन टूट गया!";
+      });
+
       conn.on("error", () => {
         connectingBox.style.display = "none";
         alertBox.style.color = "var(--danger)";
@@ -1040,7 +1108,6 @@
       });
     }
 
-    /* 🛡️ Native Scanner 🛡️ */
     async function startNativeScanner() {
       const scannerBox = document.getElementById("scannerContainer");
       const btnScan = document.getElementById("btnStartScan");
