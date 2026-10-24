@@ -17,88 +17,105 @@
   <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-  <meta name="theme-color" content="#00a884">
+  <meta name="theme-color" content="#00ffa3">
 
   <style>
     :root[data-theme="dark"] {
-      --bg: #0b141a;
-      --surface: #111b21;
-      --card: #202c33;
-      --card-hover: #233138;
-      --primary: #00a884;
-      --primary-hover: #02906f;
-      --text: #e9edef;
-      --text-muted: #8696a0;
-      --border: #2a3942;
-      --danger: #ef4444;
-      --danger-bg: rgba(239, 68, 68, 0.15);
-      --badge-bg: rgba(0, 168, 132, 0.15);
+      --bg: #070d12;
+      --surface: rgba(15, 23, 30, 0.75);
+      --card: rgba(22, 34, 44, 0.65);
+      --card-border: rgba(0, 255, 163, 0.18);
+      --primary: #00ffa3;
+      --primary-glow: rgba(0, 255, 163, 0.45);
+      --text: #f1f7f6;
+      --text-muted: #8ca2a6;
+      --danger: #ff4d6d;
+      --danger-bg: rgba(255, 77, 109, 0.12);
+      --badge-bg: rgba(0, 255, 163, 0.12);
       --qr-bg: #ffffff;
-      --shadow: rgba(0, 0, 0, 0.45);
+      --shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
     }
 
     :root[data-theme="light"] {
-      --bg: #f0f2f5;
-      --surface: #ffffff;
-      --card: #ffffff;
-      --card-hover: #f8f9fa;
-      --primary: #008069;
-      --primary-hover: #006a57;
-      --text: #111b21;
-      --text-muted: #667781;
-      --border: #e9edef;
+      --bg: #f4f8f7;
+      --surface: rgba(255, 255, 255, 0.85);
+      --card: rgba(255, 255, 255, 0.75);
+      --card-border: rgba(0, 168, 132, 0.22);
+      --primary: #00a884;
+      --primary-glow: rgba(0, 168, 132, 0.35);
+      --text: #0d1e1c;
+      --text-muted: #5e7370;
       --danger: #dc2626;
       --danger-bg: rgba(220, 38, 38, 0.1);
-      --badge-bg: rgba(0, 128, 105, 0.12);
+      --badge-bg: rgba(0, 168, 132, 0.12);
       --qr-bg: #ffffff;
-      --shadow: rgba(11, 20, 26, 0.08);
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; transition: background-color 0.25s ease, color 0.2s ease, border-color 0.2s ease; }
-    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body {
+      background: var(--bg);
+      background-image: radial-gradient(circle at 50% 0%, rgba(0, 255, 163, 0.06), transparent 50%),
+                        radial-gradient(circle at 100% 100%, rgba(0, 168, 132, 0.05), transparent 50%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
 
     header {
       background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 12px 20px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 14px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       position: sticky;
       top: 0;
       z-index: 50;
-      box-shadow: 0 1px 3px var(--shadow);
+      box-shadow: var(--shadow);
     }
-    .brand { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1.25rem; color: var(--text); text-decoration: none; cursor: pointer; }
-    .brand span { color: var(--primary); }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 1.3rem; color: var(--text); text-decoration: none; }
+    .brand span { color: var(--primary); text-shadow: 0 0 12px var(--primary-glow); }
 
     .header-controls { display: flex; align-items: center; gap: 8px; }
     .control-btn {
       background: var(--card);
-      border: 1px solid var(--border);
+      border: 1px solid var(--card-border);
       color: var(--text);
-      padding: 6px 12px;
-      border-radius: 8px;
+      padding: 7px 13px;
+      border-radius: 10px;
       font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      text-decoration: none;
+      transition: all 0.2s ease;
     }
-    .control-btn:hover { border-color: var(--primary); }
+    .control-btn:hover { border-color: var(--primary); box-shadow: 0 0 10px var(--primary-glow); }
 
     main { flex: 1; max-width: 900px; width: 100%; margin: 0 auto; padding: 20px 16px; display: flex; flex-direction: column; gap: 20px; }
 
     .trust-hero {
       background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 22px;
       text-align: center;
-      box-shadow: 0 4px 14px var(--shadow);
-      border-top: 3px solid var(--primary);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .trust-hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
     }
     .trust-tag {
       display: inline-flex;
@@ -106,42 +123,47 @@
       gap: 6px;
       background: var(--badge-bg);
       color: var(--primary);
-      padding: 4px 12px;
+      padding: 5px 14px;
       border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      margin-bottom: 10px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(0, 255, 163, 0.25);
     }
-    .trust-hero h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 6px; color: var(--text); }
+    .trust-hero h2 { font-size: 1.35rem; font-weight: 800; margin-bottom: 8px; }
     .trust-hero p { font-size: 0.88rem; color: var(--text-muted); max-width: 650px; margin: 0 auto; line-height: 1.5; }
 
     .mode-switcher {
       display: flex;
       background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 4px;
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 5px;
       gap: 6px;
+      backdrop-filter: blur(16px);
     }
     .tab-btn {
       flex: 1;
       padding: 12px;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       background: transparent;
       color: var(--text-muted);
       font-size: 0.95rem;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
+      transition: all 0.25s ease;
     }
     .tab-btn.active {
       background: var(--card);
       color: var(--text);
-      box-shadow: 0 2px 6px var(--shadow);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+      border: 1px solid var(--card-border);
       border-bottom: 3px solid var(--primary);
     }
 
@@ -150,30 +172,69 @@
 
     .card {
       background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
-      box-shadow: 0 4px 14px var(--shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    /* Radar Search Animation */
+    .radar-container {
+      display: none;
+      position: relative;
+      width: 140px;
+      height: 140px;
+      margin: 16px auto;
+      align-items: center;
+      justify-content: center;
+    }
+    .radar-circle {
+      position: absolute;
+      border: 2px solid var(--primary);
+      border-radius: 50%;
+      width: 100%;
+      height: 100%;
+      animation: radarPulse 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+      opacity: 0;
+    }
+    .radar-circle:nth-child(2) { animation-delay: 0.6s; }
+    .radar-circle:nth-child(3) { animation-delay: 1.2s; }
+    .radar-center-icon {
+      font-size: 2.2rem;
+      z-index: 2;
+      animation: iconFloat 1.8s ease-in-out infinite alternate;
+    }
+    @keyframes radarPulse {
+      0% { transform: scale(0.2); opacity: 0.9; }
+      100% { transform: scale(1.3); opacity: 0; }
+    }
+    @keyframes iconFloat {
+      0% { transform: scale(0.95); }
+      100% { transform: scale(1.08); filter: drop-shadow(0 0 10px var(--primary-glow)); }
     }
 
     .qr-hero-section { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px; }
     .qr-wrapper {
       background: var(--qr-bg);
-      padding: 14px;
-      border-radius: 14px;
+      padding: 16px;
+      border-radius: 16px;
       display: inline-block;
-      box-shadow: 0 4px 12px var(--shadow);
-      border: 1px solid var(--border);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+      border: 1px solid var(--card-border);
     }
     .room-badge {
       font-size: 1.8rem;
       letter-spacing: 4px;
-      font-weight: 800;
+      font-weight: 900;
       color: var(--primary);
       background: var(--card);
-      padding: 8px 24px;
+      padding: 9px 26px;
       border-radius: 30px;
       border: 1px dashed var(--primary);
+      text-shadow: 0 0 10px var(--primary-glow);
       user-select: all;
     }
     .connection-status {
@@ -181,133 +242,157 @@
       align-items: center;
       gap: 8px;
       font-size: 0.85rem;
-      padding: 6px 14px;
+      padding: 6px 16px;
       border-radius: 20px;
       background: var(--badge-bg);
       color: var(--primary);
-      font-weight: 600;
+      font-weight: 700;
+      border: 1px solid rgba(0, 255, 163, 0.25);
     }
-    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+    .status-dot { width: 9px; height: 9px; border-radius: 50%; background: currentColor; box-shadow: 0 0 8px currentColor; }
 
+    /* Incoming Card & Shredder Animation */
     .incoming-list { display: flex; flex-direction: column; gap: 14px; margin-top: 14px; }
     .incoming-card {
       background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
       padding: 16px;
       display: flex;
       flex-direction: column;
       gap: 12px;
       border-left: 5px solid var(--primary);
-      box-shadow: 0 8px 24px rgba(0, 168, 132, 0.15);
-      animation: superFileEntrance 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+      box-shadow: 0 8px 24px rgba(0, 255, 163, 0.1);
+      animation: superFileEntrance 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+      overflow: hidden;
+      transition: all 0.4s ease;
     }
 
     @keyframes superFileEntrance {
-      0% { opacity: 0; transform: translateY(-20px) scale(0.95); }
+      0% { opacity: 0; transform: translateY(-25px) scale(0.94); }
       100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Paper Shredder Slice Effect */
+    .shredding {
+      animation: paperShred 0.65s cubic-bezier(0.45, 0, 0.55, 1) forwards !important;
+      pointer-events: none;
+    }
+    @keyframes paperShred {
+      0% { transform: scale(1) translateY(0); opacity: 1; filter: contrast(100%); }
+      35% { transform: scale(0.98) translateY(6px); opacity: 0.9; }
+      100% {
+        transform: translateY(80px) scaleY(1.2) scaleX(0.85);
+        opacity: 0;
+        filter: blur(4px) contrast(150%);
+        clip-path: polygon(0 0, 20% 15%, 40% 0, 60% 18%, 80% 0, 100% 20%, 100% 100%, 0 100%);
+      }
     }
 
     .file-details { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
     .file-name { font-weight: 700; font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
     .file-meta { font-size: 0.8rem; color: var(--text-muted); display: flex; gap: 8px; align-items: center; }
-    .instruction-tag { background: var(--badge-bg); color: var(--primary); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.78rem; }
+    .instruction-tag { background: var(--badge-bg); color: var(--primary); padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 0.78rem; }
     
     .progress-container {
       width: 100%;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
       overflow: hidden;
       margin: 8px 0;
       position: relative;
-      height: 22px;
+      height: 24px;
       display: flex;
       align-items: center;
-      border: 1px solid var(--border);
+      border: 1px solid var(--card-border);
     }
     .progress-bar-fill {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, #00a884, #00d4aa);
-      transition: width 0.1s linear;
-      border-radius: 8px;
+      background: linear-gradient(90deg, #00ffa3, #00a884);
+      box-shadow: 0 0 14px var(--primary-glow);
+      transition: width 0.12s linear;
+      border-radius: 10px;
     }
     .progress-text-overlay {
       position: absolute;
       width: 100%;
       text-align: center;
-      font-size: 0.75rem;
+      font-size: 0.76rem;
       font-weight: 800;
       color: #ffffff;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
       pointer-events: none;
     }
 
     .action-group { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
     .btn {
-      padding: 9px 13px;
-      border-radius: 8px;
+      padding: 10px 15px;
+      border-radius: 10px;
       border: none;
       font-size: 0.85rem;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      transition: all 0.2s ease;
     }
-    .btn-primary { background: var(--primary); color: #ffffff; }
-    .btn-primary:hover { background: var(--primary-hover); }
-    .btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+    .btn-primary {
+      background: var(--primary);
+      color: #0b141a;
+      box-shadow: 0 4px 15px var(--primary-glow);
+    }
+    .btn-primary:hover { transform: translateY(-1px); filter: brightness(1.1); }
+    .btn-secondary { background: var(--card); color: var(--text); border: 1px solid var(--card-border); }
     .btn-secondary:hover { border-color: var(--primary); }
-    .btn-danger { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(239,68,68,0.3); }
+    .btn-danger { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(255,77,109,0.3); }
     .btn-danger:hover { background: var(--danger); color: #ffffff; }
 
     .preview-box {
       max-height: 220px;
       width: 100%;
       background: #000;
-      border-radius: 8px;
+      border-radius: 10px;
       overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 8px;
-      border: 1px dashed var(--border);
+      border: 1px dashed var(--card-border);
     }
-    .preview-box img, .preview-box video {
-      max-height: 200px;
-      max-width: 100%;
-      object-fit: contain;
-    }
+    .preview-box img, .preview-box video { max-height: 200px; max-width: 100%; object-fit: contain; }
 
+    /* Clean Camera Engine */
     #scannerContainer {
       display: none;
       position: relative;
       margin-top: 14px;
       background: #000;
-      border-radius: 12px;
+      border-radius: 14px;
       overflow: hidden;
       border: 2px solid var(--primary);
       width: 100%;
-      min-height: 240px;
+      min-height: 250px;
       max-height: 320px;
+      box-shadow: 0 0 20px var(--primary-glow);
     }
-    #scannerVideo { width: 100%; height: 100%; min-height: 240px; max-height: 320px; object-fit: cover; display: block; }
+    #scannerVideo { width: 100%; height: 100%; min-height: 250px; max-height: 320px; object-fit: cover; display: block; }
     .scanner-overlay {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 180px;
-      height: 180px;
-      border: 2px dashed #00a884;
-      border-radius: 12px;
+      width: 190px;
+      height: 190px;
+      border: 2px dashed #00ffa3;
+      border-radius: 14px;
       pointer-events: none;
-      box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.55);
     }
     .scanner-action-bar {
       position: absolute;
-      bottom: 10px;
+      bottom: 12px;
       left: 0; right: 0;
       display: flex;
       justify-content: center;
@@ -319,9 +404,9 @@
       padding: 8px 14px;
       border-radius: 20px;
       font-size: 0.8rem;
-      font-weight: 600;
+      font-weight: 700;
       backdrop-filter: blur(8px);
-      background: rgba(0,0,0,0.65);
+      background: rgba(0,0,0,0.7);
       color: #fff;
       border: 1px solid rgba(255,255,255,0.25);
       cursor: pointer;
@@ -334,17 +419,17 @@
       gap: 12px;
       padding: 16px;
       background: var(--card);
-      border-radius: 8px;
+      border-radius: 12px;
       border: 1px solid var(--primary);
       margin-top: 12px;
       color: var(--primary);
-      font-weight: 600;
+      font-weight: 700;
       font-size: 0.9rem;
     }
     .spinner {
       width: 20px;
       height: 20px;
-      border: 3px solid rgba(0, 168, 132, 0.3);
+      border: 3px solid rgba(0, 255, 163, 0.3);
       border-top-color: var(--primary);
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
@@ -354,24 +439,25 @@
     .input-field {
       width: 100%;
       background: var(--card);
-      border: 1px solid var(--border);
+      border: 1px solid var(--card-border);
       color: var(--text);
       padding: 12px 14px;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 1rem;
       outline: none;
     }
-    .input-field:focus { border-color: var(--primary); }
+    .input-field:focus { border-color: var(--primary); box-shadow: 0 0 10px var(--primary-glow); }
 
     .dropzone {
-      border: 2px dashed var(--border);
-      border-radius: 12px;
-      padding: 30px 16px;
+      border: 2px dashed var(--card-border);
+      border-radius: 14px;
+      padding: 32px 16px;
       text-align: center;
       cursor: pointer;
       background: var(--card);
+      transition: all 0.25s ease;
     }
-    .dropzone:hover { border-color: var(--primary); }
+    .dropzone:hover { border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
     .dropzone input { display: none; }
 
     .settings-grid {
@@ -381,13 +467,13 @@
       margin-top: 14px;
     }
     .setting-item { display: flex; flex-direction: column; gap: 4px; }
-    .setting-item label { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; }
+    .setting-item label { font-size: 0.75rem; color: var(--text-muted); font-weight: 700; }
     .setting-select {
       background: var(--card);
-      border: 1px solid var(--border);
+      border: 1px solid var(--card-border);
       color: var(--text);
       padding: 10px;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 0.85rem;
       outline: none;
     }
@@ -396,38 +482,39 @@
       display: none;
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.75);
+      background: rgba(0, 0, 0, 0.8);
       z-index: 1000;
       justify-content: center;
       align-items: center;
       padding: 16px;
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(8px);
     }
     .modal-overlay.active { display: flex; }
     .modal-card {
       background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
       width: 100%;
       max-width: 480px;
-      box-shadow: 0 10px 30px var(--shadow);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6);
       text-align: center;
-      padding: 24px 20px;
+      padding: 26px 22px;
       animation: modalFade 0.25s ease-out;
     }
     @keyframes modalFade { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
-    .modal-icon { font-size: 3rem; margin-bottom: 12px; }
+    .modal-icon { font-size: 3.2rem; margin-bottom: 12px; }
 
     footer {
-      border-top: 1px solid var(--border);
-      padding: 20px 16px;
+      border-top: 1px solid var(--card-border);
+      padding: 22px 16px;
       text-align: center;
       font-size: 0.85rem;
       color: var(--text-muted);
       background: var(--surface);
       margin-top: auto;
+      backdrop-filter: blur(16px);
     }
-    footer a { color: var(--primary); text-decoration: none; margin: 0 8px; font-weight: 600; }
+    footer a { color: var(--primary); text-decoration: none; margin: 0 8px; font-weight: 700; }
     footer a:hover { text-decoration: underline; }
     #printFrame { display: none; }
   </style>
@@ -436,7 +523,7 @@
 
   <header>
     <a href="./index.html" class="brand">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary)"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary); filter:drop-shadow(0 0 6px var(--primary-glow));"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
       Nischay<span>Drop</span>
     </a>
     <div class="header-controls">
@@ -447,7 +534,7 @@
 
   <main>
     <div class="trust-hero">
-      <div class="trust-tag">⚡ 100% P2P • CHUNKED SAFE TRANSFER • NO LAG</div>
+      <div class="trust-tag">⚡ 100% P2P • CHUNKED SAFE PIPELINE • ZERO CLOUD STORAGE</div>
       <h2 data-i18n="heroTitle">नो नंबर, नो रिस्क — सीधा सुरक्षित प्रिंट!</h2>
       <p data-i18n="heroDesc">
         बिना दुकानदार का मोबाइल नंबर सेव किए अपने दस्तावेज (PDF/फोटो/वीडियो) सीधे काउंटर पर भेजें। कोई डेटा सर्वर पर स्टोर नहीं होता।
@@ -500,23 +587,38 @@
         <h3 style="margin-bottom: 6px; font-size: 1.05rem;" data-i18n="connectTitle">1. दुकान के काउंटर से लिंक करें</h3>
         <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 14px;" data-i18n="connectDesc">दुकान के काउंटर पर दिख रहा QR स्कैन करें या कोड डालकर लिंक करें।</p>
 
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-          <button class="btn btn-primary" style="justify-content: center; padding: 12px; font-size: 1rem;" onclick="startNativeScanner()" id="btnStartScan">
-            📷 <span data-i18n="btnScanCamera">दुकान का QR स्कैन करें</span>
-          </button>
+        <!-- AirDrop Radar Animation -->
+        <div class="radar-container" id="radarAnimation">
+          <div class="radar-circle"></div>
+          <div class="radar-circle"></div>
+          <div class="radar-circle"></div>
+          <div class="radar-center-icon">📡</div>
+        </div>
 
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-primary" style="flex: 2; justify-content: center; padding: 12px; font-size: 0.95rem;" onclick="startNativeScanner()" id="btnStartScan">
+              📷 <span data-i18n="btnScanCamera">दुकान का QR स्कैन करें</span>
+            </button>
+            <button class="btn btn-secondary" style="flex: 1; justify-content: center; padding: 12px; font-size: 0.85rem;" onclick="document.getElementById('qrImageUpload').click()">
+              🖼️ गैलरी QR
+            </button>
+            <input type="file" id="qrImageUpload" accept="image/*" style="display: none;" onchange="handleQRImageUpload(event)">
+          </div>
+
+          <!-- Safe Camera Scanner Box -->
           <div id="scannerContainer">
             <video id="scannerVideo" playsinline autoplay muted></video>
             <div class="scanner-overlay"></div>
             <div class="scanner-action-bar">
               <button class="scanner-pill-btn" onclick="cycleCameraLens()" id="btnSwitchLens">🔄 लेंस बदलें</button>
-              <button class="scanner-pill-btn" style="color: #ef4444;" onclick="stopNativeScanner()">❌ बंद करें</button>
+              <button class="scanner-pill-btn" style="color: #ff4d6d;" onclick="stopNativeScanner()">❌ बंद करें</button>
             </div>
           </div>
 
           <div class="connecting-box" id="connectingBox">
             <div class="spinner"></div>
-            <span id="connectingStatusText">काउंटर से कनेक्ट हो रहा है... कृपया प्रतीक्षा करें</span>
+            <span id="connectingStatusText">काउंटर से लिंक हो रहा है... कृपया प्रतीक्षा करें</span>
           </div>
 
           <div style="text-align: center; font-size: 0.75rem; color: var(--text-muted); margin: 4px 0;">— या काउंटर कोड डालें —</div>
@@ -527,7 +629,7 @@
           </div>
         </div>
 
-        <div id="customerConnAlert" style="font-size: 0.8rem; margin-top: 10px; font-weight: 600;"></div>
+        <div id="customerConnAlert" style="font-size: 0.8rem; margin-top: 10px; font-weight: 700;"></div>
       </div>
 
       <!-- File Select Section -->
@@ -536,9 +638,9 @@
         
         <div class="dropzone" onclick="document.getElementById('fileUploadInput').click()">
           <input type="file" id="fileUploadInput" multiple onchange="handleFileSelection(event)">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary); margin-bottom: 6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-          <div style="font-weight: 600; font-size: 0.95rem;" id="fileSelectionLabel">यहाँ टैप करके PDF, फोटो या वीडियो चुनें</div>
-          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">बड़ी फाइलों के लिए सुरक्षित चंक ट्रांसफर इनेबल्ड</div>
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary); margin-bottom: 8px; filter: drop-shadow(0 0 8px var(--primary-glow));"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+          <div style="font-weight: 700; font-size: 1rem;" id="fileSelectionLabel">यहाँ टैप करके PDF, फोटो या वीडियो चुनें</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">P2P चंक पाइपलाइन द्वारा हाई-स्पीड ट्रांसमिशन</div>
         </div>
 
         <div class="settings-grid">
@@ -567,7 +669,7 @@
           </div>
         </div>
 
-        <!-- Sender Live Progress Bar -->
+        <!-- Sender Progress Bar -->
         <div id="senderProgressWrap" style="display: none; margin-top: 14px;">
           <div class="progress-container">
             <div class="progress-bar-fill" id="senderProgressBar"></div>
@@ -575,7 +677,7 @@
           </div>
         </div>
 
-        <button class="btn btn-primary" id="btnSendAction" style="width: 100%; margin-top: 18px; padding: 13px; justify-content: center;" onclick="sendSelectedFiles()">
+        <button class="btn btn-primary" id="btnSendAction" style="width: 100%; margin-top: 18px; padding: 14px; justify-content: center; font-size: 1rem;" onclick="sendSelectedFiles()">
           सुरक्षित सेंड करें 🚀
         </button>
       </div>
@@ -590,14 +692,13 @@
       <div class="modal-icon">🎉</div>
       <h3 style="margin-bottom: 8px; color: var(--primary);">फाइल सफलतापूर्वक पहुँच गई!</h3>
       <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;">दुकानदार के काउंटर पर आपकी फाइल 100% लोड हो चुकी है।</p>
-      <button class="btn btn-primary" style="justify-content: center; padding: 12px;" onclick="closeSuccessModal()">ठीक है (OK)</button>
+      <button class="btn btn-primary" style="justify-content: center; padding: 12px; width: 100%;" onclick="closeSuccessModal()">ठीक है (OK)</button>
     </div>
   </div>
 
-  <!-- ✅ सभी छूटे हुए लिंक्स वापस जोड़ दिए गए हैं -->
   <footer>
     <div data-i18n="footerNote">100% Client-Side Peer-to-Peer Transfer • कोई डेटा सर्वर पर स्टोर नहीं होता</div>
-    <div style="margin-top: 10px; display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
+    <div style="margin-top: 12px; display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
       <a href="https://nischaydesk.github.io/" style="color:var(--primary); font-weight:700;">🏛️ NischayDesk</a>
       <a href="./how-it-works.html" data-i18n="navHow">💡 यह कैसे काम करता है?</a>
       <a href="./privacy.html" data-i18n="navPrivacy">🛡️ गोपनीयता नीति</a>
@@ -607,9 +708,8 @@
   </footer>
 
   <script>
-    let isTransferring = false; // ट्रांसफर स्थिति ट्रैक करने के लिए
+    let isTransferring = false;
 
-    // 🛡️ आकस्मिक रिफ्रेश रोकने का सुरक्षा कवच
     window.addEventListener("beforeunload", (e) => {
       if (isTransferring) {
         e.preventDefault();
@@ -642,12 +742,10 @@
     const translations = {
       hi: {
         heroTitle: "नो नंबर, नो रिस्क — सीधा सुरक्षित प्रिंट!",
-        heroDesc: "बिना दुकानदार का मोबाइल नंबर सेव किए अपने दस्तावेज (PDF/फोटो) सीधे प्रिंटर पर भेजें। फाइल किसी सर्वर पर अपलोड नहीं होती और प्रिंट होते ही खुद नष्ट हो जाती है।",
+        heroDesc: "बिना दुकानदार का मोबाइल नंबर सेव किए अपने दस्तावेज सीधे प्रिंटर पर भेजें। फाइल किसी सर्वर पर अपलोड नहीं होती।",
         tabReceive: "दुकानदार मोड (Receiver)",
         tabSend: "ग्राहक मोड (Sender)",
         statusConnecting: "काउंटर तैयार हो रहा है...",
-        statusLive: "काउंटर तैयार है (Live)",
-        statusError: "कनेक्शन त्रुटि - पुनः प्रयास करें",
         qrInstruction: "प्रिंट निकालने के लिए कस्टमर से यह QR कोड स्कैन करवाएं या 6-अक्षरों का कोड डलवाएं।",
         counterCodeLabel: "काउंटर कोड",
         incomingTitle: "📥 आई हुई फाइल्स (Live Queue)",
@@ -667,14 +765,12 @@
         tabReceive: "Shopkeeper Mode (Receiver)",
         tabSend: "Customer Mode (Sender)",
         statusConnecting: "Initializing Counter...",
-        statusLive: "Counter Online (Live)",
-        statusError: "Connection Error - Please retry",
-        qrInstruction: "Ask customer to scan this QR code or enter the 6-character code below to print.",
+        qrInstruction: "Ask customer to scan this QR code or enter code to print.",
         counterCodeLabel: "Counter Code",
         incomingTitle: "📥 Incoming Queue (Live)",
         emptyQueue: "Files sent by customers will appear here with live 0% to 100% progress.",
         connectTitle: "1. Link with Shop Counter",
-        connectDesc: "Scan the counter QR or enter code manually to pair.",
+        connectDesc: "Scan counter QR or enter code manually.",
         btnScanCamera: "Scan Shop QR Code",
         footerNote: "100% Client-Side Peer-to-Peer Transfer • Zero Server Storage",
         navHow: "💡 How It Works",
@@ -718,8 +814,7 @@
     let selectedFiles = [];
     let videoStream = null;
     let scanningActive = false;
-    let backCamerasList = [];
-    let currentCameraIndex = 0;
+    let currentFacingMode = "environment";
     let fileRotations = {};
 
     const incomingTransfers = {};
@@ -764,9 +859,9 @@
         const targetUrl = window.location.origin + window.location.pathname + "?connect=" + id;
         new QRCode(qrBox, {
           text: targetUrl,
-          width: 170,
-          height: 170,
-          colorDark: "#111b21",
+          width: 175,
+          height: 175,
+          colorDark: "#0b141a",
           colorLight: "#ffffff"
         });
       });
@@ -777,16 +872,15 @@
           handleIncomingData(data);
         });
 
-        // 🛡️ अगर सेंडर ने अचानक रिफ्रेश या बंद कर दिया:
         c.on("close", () => {
           for (let transferId in incomingTransfers) {
             const txt = document.getElementById("text_" + transferId);
             const bar = document.getElementById("bar_" + transferId);
             if (txt) {
               txt.innerText = "❌ कनेक्शन टूटा! सेंडर ने पेज रिफ्रेश या बंद कर दिया।";
-              txt.style.color = "#ff6b6b";
+              txt.style.color = "#ff4d6d";
             }
-            if (bar) bar.style.background = "#dc2626";
+            if (bar) bar.style.background = "#ff4d6d";
             delete incomingTransfers[transferId];
           }
         });
@@ -908,7 +1002,7 @@
           ${(!isVideo) ? `<button class="btn btn-primary" onclick="directPrintDoc('${objectUrl}', '${meta.fileType}', '${id}')">🖨️ डायरेक्ट प्रिंट</button>` : ''}
           ${isImg ? `<button class="btn btn-secondary" onclick="rotateImage('${id}')">🔄 घुमाएं</button>` : ''}
           <a class="btn btn-secondary" href="${objectUrl}" download="${meta.fileName}" style="text-decoration:none;">💾 सेव करें</a>
-          <button class="btn btn-danger" onclick="burnDocument('fileCard_${id}', '${objectUrl}')">🔥 नष्ट करें</button>
+          <button class="btn btn-danger" onclick="shredDocument('fileCard_${id}', '${objectUrl}')">🔥 नष्ट करें</button>
         </div>
       `;
     }
@@ -946,16 +1040,16 @@
       }
     }
 
-    function burnDocument(elementId, objectUrl) {
+    /* 🌟 3D Paper Shredder Effect 🌟 */
+    function shredDocument(elementId, objectUrl) {
       URL.revokeObjectURL(objectUrl);
       const el = document.getElementById(elementId);
       if (el) {
-        el.style.opacity = "0";
-        el.style.transform = "translateX(40px)";
+        el.classList.add("shredding");
         setTimeout(() => {
           el.remove();
           updateQueueCount();
-        }, 300);
+        }, 650);
       }
     }
 
@@ -1015,7 +1109,6 @@
 
           let offset = 0;
           while (offset < file.size) {
-            // अगर ट्रांसफर के बीच कनेक्शन कट गया तो लूप तोड़ें
             if (!conn || !conn.open) throw new Error("Connection lost");
 
             const slice = file.slice(offset, offset + CHUNK_SIZE);
@@ -1051,7 +1144,7 @@
           pWrap.style.display = "none";
           pBar.style.width = "0%";
           
-          confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+          confetti({ particleCount: 140, spread: 80, origin: { y: 0.6 } });
           document.getElementById("successModal").classList.add("active");
           selectedFiles = [];
           document.getElementById("fileSelectionLabel").innerText = "यहाँ टैप करके PDF, फोटो या वीडियो चुनें";
@@ -1061,9 +1154,9 @@
         isTransferring = false;
         btn.disabled = false;
         btn.style.opacity = "1";
-        pText.innerText = "❌ ट्रांसफर बाधित हुआ! पुनः प्रयास करें।";
-        pBar.style.background = "#dc2626";
-        alert("ट्रांसफर बीच में रुक गया! क्या आपने या रिसीवर ने पेज रिफ्रेश किया?");
+        pText.innerText = "❌ ट्रांसफर बाधित हुआ!";
+        pBar.style.background = "#ff4d6d";
+        alert("ट्रांसफर रुक गया! काउंटर से कनेक्शन टूट गया है।");
       }
     }
 
@@ -1083,7 +1176,10 @@
 
       const connectingBox = document.getElementById("connectingBox");
       const alertBox = document.getElementById("customerConnAlert");
+      const radar = document.getElementById("radarAnimation");
+      
       connectingBox.style.display = "flex";
+      radar.style.display = "flex";
       alertBox.innerText = "";
 
       if (!peer) initSenderPeer();
@@ -1092,22 +1188,26 @@
 
       conn.on("open", () => {
         connectingBox.style.display = "none";
+        radar.style.display = "none";
         alertBox.style.color = "var(--primary)";
         alertBox.innerText = "✓ काउंटर से सुरक्षित रूप से कनेक्टेड! अब फाइलें भेजें।";
       });
 
       conn.on("close", () => {
+        radar.style.display = "none";
         alertBox.style.color = "var(--danger)";
         alertBox.innerText = "⚠️ काउंटर से कनेक्शन टूट गया!";
       });
 
       conn.on("error", () => {
         connectingBox.style.display = "none";
+        radar.style.display = "none";
         alertBox.style.color = "var(--danger)";
         alertBox.innerText = "काउंटर से संपर्क नहीं हो सका। कोड दोबारा जांचें।";
       });
     }
 
+    /* 🛡️ ULTRA-SAFE CAMERA ENGINE (No Crashes on Android Chrome) 🛡️ */
     async function startNativeScanner() {
       const scannerBox = document.getElementById("scannerContainer");
       const btnScan = document.getElementById("btnStartScan");
@@ -1115,28 +1215,26 @@
       btnScan.style.display = "none";
 
       try {
-        await startStreamWithConstraints({
-          video: { facingMode: { ideal: "environment" }, width: { ideal: 1280 }, height: { ideal: 720 } }
-        });
-
-        if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
-          const devices = await navigator.mediaDevices.enumerateDevices();
-          backCamerasList = devices.filter(d => d.kind === "videoinput" && !d.label.toLowerCase().includes("front"));
-        }
+        await launchCameraStream({ facingMode: currentFacingMode });
       } catch (err) {
+        console.warn("Retrying with minimal video constraint:", err);
         try {
-          await startStreamWithConstraints({ video: true });
-        } catch (e) {
-          alert("कैमरा चालू नहीं हो सका। कृपया परमिशन दें!");
+          await launchCameraStream(true);
+        } catch (finalErr) {
+          console.error("Camera completely inaccessible:", finalErr);
+          alert("कैमरा चालू नहीं हो सका। कृपया ऊपर URL बार के पास (🔒/सेटिंग्स) पर क्लिक करके कैमरा 'Allow' करें, या 'गैलरी QR' बटन का उपयोग करें!");
           stopNativeScanner();
         }
       }
     }
 
-    async function startStreamWithConstraints(constraints) {
-      if (videoStream) videoStream.getTracks().forEach(t => t.stop());
+    async function launchCameraStream(videoConstraints) {
+      if (videoStream) {
+        videoStream.getTracks().forEach(t => t.stop());
+        videoStream = null;
+      }
       const video = document.getElementById("scannerVideo");
-      videoStream = await navigator.mediaDevices.getUserMedia(constraints);
+      videoStream = await navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: false });
       video.srcObject = videoStream;
       video.setAttribute("playsinline", true);
 
@@ -1152,9 +1250,8 @@
     }
 
     async function cycleCameraLens() {
-      if (!backCamerasList || backCamerasList.length <= 1) return;
-      currentCameraIndex = (currentCameraIndex + 1) % backCamerasList.length;
-      await startStreamWithConstraints({ video: { deviceId: { exact: backCamerasList[currentCameraIndex].deviceId } } });
+      currentFacingMode = (currentFacingMode === "environment") ? "user" : "environment";
+      await startNativeScanner();
     }
 
     let lastScanTime = 0;
@@ -1188,6 +1285,33 @@
       }
       document.getElementById("scannerContainer").style.display = "none";
       document.getElementById("btnStartScan").style.display = "inline-flex";
+    }
+
+    /* 🌟 Gallery QR Image Decoder Fallback 🌟 */
+    function handleQRImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.getElementById("qrScanCanvas");
+          const ctx = canvas.getContext("2d");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const code = jsQR(imageData.data, imageData.width, imageData.height);
+          if (code && code.data) {
+            handleScannedData(code.data);
+          } else {
+            alert("इस फोटो में QR कोड साफ नहीं दिखा! कृपया दोबारा प्रयास करें।");
+          }
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
     }
 
     function handleScannedData(scannedText) {
