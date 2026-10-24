@@ -5,36 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>NischayDrop — Instant, Safe & Zero-Contact Print Transfer | NischayDesk</title>
   
-  <!-- Unique Favicon for NischayDrop (Emerald Printer + P2P Theme) -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2224%22 fill=%22%2300a884%22/><path d=%22M28 32h44v14H28z%22 fill=%22%23ffffff%22/><rect x=%2220%22 y=%2242%22 width=%2260%22 height=%2232%22 rx=%228%22 fill=%22%230b141a%22/><rect x=%2230%22 y=%2258%22 width=%2240%22 height=%2222%22 rx=%224%22 fill=%22%23ffffff%22/><circle cx=%2268%22 cy=%2250%22 r=%223%22 fill=%22%2300a884%22/></svg>">
 
-  <!-- Primary SEO Tags -->
-  <link rel="canonical" href="https://nischaydesk.github.io/nischaydrop/" />
-  <meta name="author" content="Prince Kumar">
-  <meta name="description" content="NischayDrop is a zero-contact, peer-to-peer print file transfer utility by NischayDesk. Send PDFs and photos directly to cyber cafe counter printers without sharing mobile numbers.">
-  <meta name="keywords" content="NischayDrop, Nischay Drop, NischayDesk Drop, Cyber Cafe Print, Zero Contact Print, P2P Print Transfer, Prince Kumar">
-
-  <!-- Google Schema (Official Link with NischayDesk) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "NischayDrop",
-    "url": "https://nischaydesk.github.io/nischaydrop/",
-    "applicationCategory": "UtilityApplication",
-    "author": {
-      "@type": "Person",
-      "name": "Prince Kumar"
-    },
-    "isPartOf": {
-      "@type": "WebSite",
-      "name": "NischayDesk",
-      "url": "https://nischaydesk.github.io/"
-    }
-  }
-  </script>
-
-  <!-- Core Libraries: PeerJS (P2P), QRCode.js (Generator), jsQR (Superfast Native Scanner) -->
   <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
@@ -43,7 +15,6 @@
   <meta name="theme-color" content="#00a884">
 
   <style>
-    /* ---------------- THEME VARIABLES ---------------- */
     :root[data-theme="dark"] {
       --bg: #0b141a;
       --surface: #111b21;
@@ -81,7 +52,6 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; transition: background-color 0.25s ease, color 0.2s ease, border-color 0.2s ease; }
     body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
 
-    /* Header */
     header {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
@@ -114,10 +84,8 @@
     }
     .control-btn:hover { border-color: var(--primary); }
 
-    /* Main Container */
     main { flex: 1; max-width: 900px; width: 100%; margin: 0 auto; padding: 20px 16px; display: flex; flex-direction: column; gap: 20px; }
 
-    /* Premium Trust Hero Banner */
     .trust-hero {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -138,23 +106,10 @@
       font-size: 0.8rem;
       font-weight: 700;
       margin-bottom: 10px;
-      letter-spacing: 0.5px;
     }
-    .trust-hero h2 {
-      font-size: 1.3rem;
-      font-weight: 800;
-      margin-bottom: 6px;
-      color: var(--text);
-    }
-    .trust-hero p {
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      max-width: 650px;
-      margin: 0 auto;
-      line-height: 1.5;
-    }
+    .trust-hero h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 6px; color: var(--text); }
+    .trust-hero p { font-size: 0.88rem; color: var(--text-muted); max-width: 650px; margin: 0 auto; line-height: 1.5; }
 
-    /* Mode Switcher Tabs */
     .mode-switcher {
       display: flex;
       background: var(--surface);
@@ -185,11 +140,9 @@
       border-bottom: 3px solid var(--primary);
     }
 
-    /* Views */
     .view-panel { display: none; }
     .view-panel.active { display: flex; flex-direction: column; gap: 18px; }
 
-    /* Cards */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -198,14 +151,7 @@
       box-shadow: 0 4px 14px var(--shadow);
     }
 
-    /* Receiver View */
-    .qr-hero-section {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 14px;
-    }
+    .qr-hero-section { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px; }
     .qr-wrapper {
       background: var(--qr-bg);
       padding: 14px;
@@ -238,7 +184,7 @@
     }
     .status-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
 
-    /* 🌟 सुपर कूल एनिमेटेड Incoming Queue List 🌟 */
+    /* File Queue & Transfer Cards */
     .incoming-list { display: flex; flex-direction: column; gap: 14px; margin-top: 14px; }
     .incoming-card {
       background: var(--card);
@@ -250,36 +196,50 @@
       gap: 12px;
       border-left: 5px solid var(--primary);
       box-shadow: 0 8px 24px rgba(0, 168, 132, 0.15);
-      animation: superFileEntrance 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+      animation: superFileEntrance 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
     }
 
     @keyframes superFileEntrance {
-      0% {
-        opacity: 0;
-        transform: translateY(-25px) scale(0.92);
-        box-shadow: 0 0 0 rgba(0, 168, 132, 0);
-      }
-      60% {
-        transform: translateY(4px) scale(1.02);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-      }
+      0% { opacity: 0; transform: translateY(-20px) scale(0.95); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    .incoming-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-    }
     .file-details { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
     .file-name { font-weight: 700; font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
     .file-meta { font-size: 0.8rem; color: var(--text-muted); display: flex; gap: 8px; align-items: center; }
     .instruction-tag { background: var(--badge-bg); color: var(--primary); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.78rem; }
     
+    /* 🌟 सुपर कूल रियल प्रोग्रेस बार (0% से 100%) 🌟 */
+    .progress-container {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 8px 0;
+      position: relative;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--border);
+    }
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #00a884, #00d4aa);
+      transition: width 0.1s linear;
+      border-radius: 8px;
+    }
+    .progress-text-overlay {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: #ffffff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      pointer-events: none;
+    }
+
     .action-group { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
     .btn {
       padding: 9px 13px;
@@ -311,14 +271,12 @@
       padding: 8px;
       border: 1px dashed var(--border);
     }
-    .preview-box img {
+    .preview-box img, .preview-box video {
       max-height: 200px;
       max-width: 100%;
       object-fit: contain;
-      transition: transform 0.3s ease;
     }
 
-    /* Clean Camera Container */
     #scannerContainer {
       display: none;
       position: relative;
@@ -331,15 +289,7 @@
       min-height: 240px;
       max-height: 320px;
     }
-    #scannerVideo {
-      width: 100%;
-      height: 100%;
-      min-height: 240px;
-      max-height: 320px;
-      object-fit: cover;
-      display: block;
-      background: #000;
-    }
+    #scannerVideo { width: 100%; height: 100%; min-height: 240px; max-height: 320px; object-fit: cover; display: block; }
     .scanner-overlay {
       position: absolute;
       top: 50%;
@@ -355,8 +305,7 @@
     .scanner-action-bar {
       position: absolute;
       bottom: 10px;
-      left: 0;
-      right: 0;
+      left: 0; right: 0;
       display: flex;
       justify-content: center;
       gap: 10px;
@@ -373,9 +322,6 @@
       color: #fff;
       border: 1px solid rgba(255,255,255,0.25);
       cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
     }
 
     .connecting-box {
@@ -443,7 +389,6 @@
       outline: none;
     }
 
-    /* Modal Windows */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -462,8 +407,6 @@
       border-radius: 16px;
       width: 100%;
       max-width: 480px;
-      display: flex;
-      flex-direction: column;
       box-shadow: 0 10px 30px var(--shadow);
       text-align: center;
       padding: 24px 20px;
@@ -472,7 +415,6 @@
     @keyframes modalFade { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
     .modal-icon { font-size: 3rem; margin-bottom: 12px; }
 
-    /* Footer */
     footer {
       border-top: 1px solid var(--border);
       padding: 20px 16px;
@@ -483,45 +425,31 @@
       margin-top: auto;
     }
     footer a { color: var(--primary); text-decoration: none; margin: 0 8px; font-weight: 600; }
-    footer a:hover { text-decoration: underline; }
-
     #printFrame { display: none; }
   </style>
 </head>
 <body>
-  <!-- Clean Header: Only Logo, Language and Theme -->
+
   <header>
     <a href="./index.html" class="brand">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary)"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
       Nischay<span>Drop</span>
     </a>
-
     <div class="header-controls">
-      <button class="control-btn" onclick="toggleLanguage()" id="langToggleBtn">
-        🌐 <span id="langLabel">English</span>
-      </button>
-
-      <button class="control-btn" onclick="toggleTheme()" id="themeToggleBtn">
-        <span id="themeIcon">☀️</span>
-      </button>
+      <button class="control-btn" onclick="toggleLanguage()" id="langToggleBtn">🌐 <span id="langLabel">English</span></button>
+      <button class="control-btn" onclick="toggleTheme()" id="themeToggleBtn"><span id="themeIcon">☀️</span></button>
     </div>
   </header>
 
-  <!-- Main Content Workspace -->
   <main>
-
-    <!-- Clean Trust Hero Banner -->
     <div class="trust-hero">
-      <div class="trust-tag">
-        ⚡ 100% P2P • ZERO SERVER STORAGE • ZERO CONTACT
-      </div>
+      <div class="trust-tag">⚡ 100% P2P • CHUNKED SAFE TRANSFER • NO LAG</div>
       <h2 data-i18n="heroTitle">नो नंबर, नो रिस्क — सीधा सुरक्षित प्रिंट!</h2>
       <p data-i18n="heroDesc">
-        बिना दुकानदार का मोबाइल नंबर सेव किए अपने दस्तावेज (PDF/फोटो) सीधे प्रिंटर पर भेजें। फाइल किसी सर्वर पर अपलोड नहीं होती और प्रिंट होते ही खुद नष्ट हो जाती है।
+        बिना दुकानदार का मोबाइल नंबर सेव किए अपने दस्तावेज (PDF/फोटो/वीडियो) सीधे काउंटर पर भेजें। कोई डेटा सर्वर पर स्टोर नहीं होता।
       </p>
     </div>
     
-    <!-- Mode Switcher Tabs -->
     <div class="mode-switcher">
       <button class="tab-btn active" id="btnTabReceive" onclick="switchMode('receive')">
         🖨️ <span data-i18n="tabReceive">दुकानदार मोड (Receiver)</span>
@@ -531,27 +459,24 @@
       </button>
     </div>
 
-    <!-- 1. RECEIVER VIEW (COUNTER) -->
+    <!-- RECEIVER VIEW -->
     <div id="viewReceive" class="view-panel active">
       <div class="card qr-hero-section">
         <div class="connection-status">
           <span class="status-dot"></span>
           <span id="p2pStatus" data-i18n="statusConnecting">काउंटर तैयार हो रहा है...</span>
         </div>
-
         <p style="font-size: 0.9rem; color: var(--text-muted);" data-i18n="qrInstruction">
           प्रिंट निकालने के लिए कस्टमर से यह QR कोड स्कैन करवाएं या 6-अक्षरों का कोड डलवाएं।
         </p>
-
         <div class="qr-wrapper" id="qrContainer"></div>
-
         <div>
           <div style="font-size:0.75rem; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase;" data-i18n="counterCodeLabel">काउंटर कोड</div>
           <div class="room-badge" id="displayRoomCode">------</div>
         </div>
       </div>
 
-      <!-- Live Incoming Files Queue -->
+      <!-- Live File Receiver Area -->
       <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <h3 style="font-size: 1.05rem;" data-i18n="incomingTitle">📥 आई हुई फाइल्स (Live Queue)</h3>
@@ -560,21 +485,17 @@
 
         <div class="incoming-list" id="incomingList">
           <div id="emptyQueueMsg" style="text-align: center; padding: 36px 10px; color: var(--text-muted); font-size: 0.85rem;" data-i18n="emptyQueue">
-            जैसे ही ग्राहक फाइल भेजेगा, आवाज के साथ वह यहाँ बिना डाउनलोड किए सीधे प्रिंट के लिए आ जाएगी।
+            जैसे ही ग्राहक फाइल भेजेगा, यहाँ 0% से 100% लाइव प्रोग्रेस लोड होते हुए दिखेगा।
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 2. SENDER VIEW (CUSTOMER) -->
+    <!-- SENDER VIEW -->
     <div id="viewSend" class="view-panel">
-      
-      <!-- Connect Section -->
       <div class="card">
         <h3 style="margin-bottom: 6px; font-size: 1.05rem;" data-i18n="connectTitle">1. दुकान के काउंटर से लिंक करें</h3>
-        <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 14px;" data-i18n="connectDesc">
-          दुकान के काउंटर पर दिख रहा QR स्कैन करें या कोड डालकर लिंक करें।
-        </p>
+        <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 14px;" data-i18n="connectDesc">दुकान के काउंटर पर दिख रहा QR स्कैन करें या कोड डालकर लिंक करें।</p>
 
         <div style="display: flex; flex-direction: column; gap: 10px;">
           <button class="btn btn-primary" style="justify-content: center; padding: 12px; font-size: 1rem;" onclick="startNativeScanner()" id="btnStartScan">
@@ -584,47 +505,42 @@
           <div id="scannerContainer">
             <video id="scannerVideo" playsinline autoplay muted></video>
             <div class="scanner-overlay"></div>
-            
             <div class="scanner-action-bar">
-              <button class="scanner-pill-btn" onclick="cycleCameraLens()" id="btnSwitchLens">
-                🔄 <span data-i18n="btnSwitchCamera">कैमरा बदलें (1x/Clear)</span>
-              </button>
-              <button class="scanner-pill-btn" style="color: #ef4444; border-color: rgba(239,68,68,0.4);" onclick="stopNativeScanner()" data-i18n="btnCloseCamera">
-                ❌ बंद करें
-              </button>
+              <button class="scanner-pill-btn" onclick="cycleCameraLens()" id="btnSwitchLens">🔄 लेंस बदलें</button>
+              <button class="scanner-pill-btn" style="color: #ef4444;" onclick="stopNativeScanner()">❌ बंद करें</button>
             </div>
           </div>
 
           <div class="connecting-box" id="connectingBox">
             <div class="spinner"></div>
-            <span id="connectingStatusText" data-i18n="connectingWait">काउंटर से कनेक्ट हो रहा है... कृपया प्रतीक्षा करें</span>
+            <span id="connectingStatusText">काउंटर से कनेक्ट हो रहा है... कृपया प्रतीक्षा करें</span>
           </div>
 
-          <div style="text-align: center; font-size: 0.75rem; color: var(--text-muted); margin: 4px 0;" data-i18n="orDivider">— या काउंटर कोड डालें —</div>
+          <div style="text-align: center; font-size: 0.75rem; color: var(--text-muted); margin: 4px 0;">— या काउंटर कोड डालें —</div>
 
           <div style="display: flex; gap: 8px;">
             <input type="text" id="targetPeerCode" class="input-field" placeholder="उदा. NC-8291" maxlength="10" style="text-transform: uppercase; font-weight: bold; letter-spacing: 2px;">
-            <button class="btn btn-secondary" onclick="connectToCounter()" data-i18n="btnConnect">लिंक करें</button>
+            <button class="btn btn-secondary" onclick="connectToCounter()">लिंक करें</button>
           </div>
         </div>
 
         <div id="customerConnAlert" style="font-size: 0.8rem; margin-top: 10px; font-weight: 600;"></div>
       </div>
 
-      <!-- File Select Section (Always Fully Open and Accessible) -->
+      <!-- File Select Section -->
       <div class="card" id="senderTransferBox">
-        <h3 style="margin-bottom: 12px; font-size: 1.05rem;" data-i18n="filesTitle">2. फाइलें चुनें व प्रिंट निर्देश दें</h3>
+        <h3 style="margin-bottom: 12px; font-size: 1.05rem;">2. फाइलें चुनें व प्रिंट निर्देश दें</h3>
         
         <div class="dropzone" onclick="document.getElementById('fileUploadInput').click()">
           <input type="file" id="fileUploadInput" multiple onchange="handleFileSelection(event)">
           <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary); margin-bottom: 6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-          <div style="font-weight: 600; font-size: 0.95rem;" id="fileSelectionLabel" data-i18n="dropzonePrompt">यहाँ टैप करके PDF या फोटो चुनें</div>
-          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;" data-i18n="dropzoneSub">कोई साइज सीमा नहीं (100% P2P डायरेक्ट ट्रांसफर)</div>
+          <div style="font-weight: 600; font-size: 0.95rem;" id="fileSelectionLabel">यहाँ टैप करके PDF, फोटो या वीडियो चुनें</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">बड़ी फाइलों के लिए सुरक्षित चंक ट्रांसफर इनेबल्ड</div>
         </div>
 
         <div class="settings-grid">
           <div class="setting-item">
-            <label data-i18n="lblCopies">कॉपी (Copies)</label>
+            <label>कॉपी (Copies)</label>
             <select class="setting-select" id="optCopies">
               <option value="1">1 Copy</option>
               <option value="2">2 Copies</option>
@@ -633,70 +549,76 @@
             </select>
           </div>
           <div class="setting-item">
-            <label data-i18n="lblColor">कलर मोड</label>
+            <label>कलर मोड</label>
             <select class="setting-select" id="optColor">
               <option value="B/W">Black & White</option>
               <option value="Color">Color Print</option>
             </select>
           </div>
           <div class="setting-item">
-            <label data-i18n="lblSide">साइड (Sides)</label>
+            <label>साइड (Sides)</label>
             <select class="setting-select" id="optSide">
               <option value="Single">Single Side</option>
-              <option value="Both">Both Sides (2-Sided)</option>
+              <option value="Both">Both Sides</option>
             </select>
           </div>
         </div>
 
-        <button class="btn btn-primary" id="btnSendAction" style="width: 100%; margin-top: 18px; padding: 13px; justify-content: center;" onclick="sendSelectedFiles()" data-i18n="btnSendFiles">
+        <!-- Sender Live Progress Bar -->
+        <div id="senderProgressWrap" style="display: none; margin-top: 14px;">
+          <div class="progress-container">
+            <div class="progress-bar-fill" id="senderProgressBar"></div>
+            <div class="progress-text-overlay" id="senderProgressText">भेजा जा रहा है... 0%</div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" id="btnSendAction" style="width: 100%; margin-top: 18px; padding: 13px; justify-content: center;" onclick="sendSelectedFiles()">
           सुरक्षित सेंड करें 🚀
         </button>
       </div>
     </div>
-
   </main>
 
   <iframe id="printFrame"></iframe>
   <canvas id="qrScanCanvas" style="display: none;"></canvas>
 
-  <!-- Success Celebration Modal -->
   <div class="modal-overlay" id="successModal">
     <div class="modal-card">
       <div class="modal-icon">🎉</div>
-      <h3 style="margin-bottom: 8px; color: var(--primary);" data-i18n="successTitle">फाइलें सफलतापूर्वक भेज दी गईं!</h3>
-      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;" data-i18n="successDesc">दुकानदार के काउंटर पर आपकी फाइलें सीधे पहुँच चुकी हैं। आप प्रिंट ले सकते हैं।</p>
-      <button class="btn btn-primary" style="justify-content: center; padding: 12px;" onclick="closeSuccessModal()" data-i18n="btnOk">ठीक है (OK)</button>
+      <h3 style="margin-bottom: 8px; color: var(--primary);">फाइल सफलतापूर्वक पहुँच गई!</h3>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;">दुकानदार के काउंटर पर आपकी फाइल 100% लोड हो चुकी है।</p>
+      <button class="btn btn-primary" style="justify-content: center; padding: 12px;" onclick="closeSuccessModal()">ठीक है (OK)</button>
     </div>
   </div>
 
-  <!-- Footer with Correct Link Names -->
   <footer>
-    <div data-i18n="footerNote">100% Client-Side Peer-to-Peer Transfer • कोई डेटा सर्वर पर स्टोर नहीं होता</div>
+    <div>100% Client-Side Peer-to-Peer Transfer • कोई डेटा सर्वर पर स्टोर नहीं होता</div>
     <div style="margin-top: 10px; display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
       <a href="https://nischaydesk.github.io/" style="color:var(--primary); font-weight:700;">🏛️ NischayDesk</a>
-      <a href="./how-it-works.html" data-i18n="navHow">💡 यह कैसे काम करता है?</a>
-      <a href="./privacy.html" data-i18n="navPrivacy">🛡️ गोपनीयता नीति</a>
-      <a href="./terms.html" data-i18n="navTerms">📜 नियम व शर्तें</a>
-      <a href="./security.html" data-i18n="navSecurity">🔐 सुरक्षा संरचना</a>
     </div>
   </footer>
 
-  <!-- SCRIPT LOGIC -->
   <script>
-    function playBeepSound() {
+    /* Audio Beep Function */
+    function playBeepSound(success = false) {
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = "sine";
-        osc.frequency.setValueAtTime(587.33, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.12);
-        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+        if (success) {
+          osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 0.2);
+        } else {
+          osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(659.25, audioCtx.currentTime + 0.15);
+        }
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         osc.start();
-        osc.stop(audioCtx.currentTime + 0.35);
+        osc.stop(audioCtx.currentTime + 0.25);
       } catch (e) {}
     }
 
@@ -708,90 +630,16 @@
         tabSend: "ग्राहक मोड (Sender)",
         statusConnecting: "काउंटर तैयार हो रहा है...",
         statusLive: "काउंटर तैयार है (Live)",
-        statusError: "कनेक्शन त्रुटि - पुनः प्रयास करें",
-        qrInstruction: "प्रिंट निकालने के लिए कस्टमर से यह QR कोड स्कैन करवाएं या 6-अक्षरों का कोड डलवाएं।",
-        counterCodeLabel: "काउंटर कोड",
-        incomingTitle: "📥 आई हुई फाइल्स (Live Queue)",
-        emptyQueue: "जैसे ही ग्राहक फाइल भेजेगा, आवाज के साथ वह यहाँ बिना डाउनलोड किए सीधे प्रिंट के लिए आ जाएगी।",
-        connectTitle: "1. दुकान के काउंटर से लिंक करें",
-        connectDesc: "दुकान के काउंटर पर दिख रहा QR स्कैन करें या कोड डालकर लिंक करें।",
-        btnScanCamera: "दुकान का QR स्कैन करें",
-        btnCloseCamera: "❌ बंद करें",
-        btnSwitchCamera: "🔄 कैमरा बदलें (1x/Clear)",
-        orDivider: "— या काउंटर कोड डालें —",
-        btnConnect: "लिंक करें",
-        connectingWait: "काउंटर से कनेक्ट हो रहा है... कृपया प्रतीक्षा करें",
-        connectedAlert: "✓ काउंटर से सुरक्षित रूप से कनेक्टेड! अब फाइलें भेजें।",
-        connFailedAlert: "काउंटर से संपर्क नहीं हो सका। कृपया कोड दोबारा जांचें।",
-        filesTitle: "2. फाइलें चुनें व प्रिंट निर्देश दें",
-        dropzonePrompt: "यहाँ टैप करके PDF या फोटो चुनें",
-        dropzoneSub: "कोई साइज सीमा नहीं (100% P2P डायरेक्ट ट्रांसफर)",
-        lblCopies: "कॉपी (Copies)",
-        lblColor: "कलर मोड",
-        lblSide: "साइड (Sides)",
-        btnSendFiles: "सुरक्षित सेंड करें 🚀",
-        btnPrint: "🖨️ डायरेक्ट प्रिंट",
-        btnRotate: "🔄 घुमाएं (Rotate)",
-        btnDownload: "💾 सेव करें",
-        btnDelete: "🔥 नष्ट करें (Delete)",
-        successTitle: "फाइलें सफलतापूर्वक भेज दी गईं!",
-        successDesc: "दुकानदार के काउंटर पर आपकी फाइलें सीधे पहुँच चुकी हैं। आप प्रिंट ले सकते हैं।",
-        btnOk: "ठीक है (OK)",
-        footerNote: "100% Client-Side Peer-to-Peer Transfer • कोई डेटा सर्वर पर स्टोर नहीं होता",
-        navHow: "💡 यह कैसे काम करता है?",
-        navPrivacy: "🛡️ गोपनीयता नीति",
-        navTerms: "📜 नियम व शर्तें",
-        navSecurity: "🔐 सुरक्षा संरचना",
-        filesSelectedText: "फाइलें चुनी गईं",
-        alertNoCode: "कृपया काउंटर का कोड डालें!",
-        alertNoConn: "कृपया पहले ऊपर दुकान के काउंटर से लिंक करें!",
-        alertNoFiles: "कृपया पहले फाइल चुनें!"
+        statusError: "कनेक्शन त्रुटि - पुनः प्रयास करें"
       },
       en: {
         heroTitle: "No Numbers. Zero Risk. Direct Safe Print!",
-        heroDesc: "Transmit documents directly to counter printers without sharing mobile numbers. Zero cloud uploads, 100% volatile RAM with immediate memory destruction.",
+        heroDesc: "Transmit documents directly to counter printers without sharing mobile numbers.",
         tabReceive: "Shopkeeper Mode (Receiver)",
         tabSend: "Customer Mode (Sender)",
         statusConnecting: "Initializing Counter...",
         statusLive: "Counter Online (Live)",
-        statusError: "Connection Error - Please retry",
-        qrInstruction: "Ask customer to scan this QR code or enter the 6-character code below to print.",
-        counterCodeLabel: "Counter Code",
-        incomingTitle: "📥 Incoming Queue (Live)",
-        emptyQueue: "Files sent by customers will appear here with an audio chime ready for direct printing.",
-        connectTitle: "1. Link with Shop Counter",
-        connectDesc: "Scan the counter QR or enter code manually to pair.",
-        btnScanCamera: "Scan Shop QR Code",
-        btnCloseCamera: "❌ Close",
-        btnSwitchCamera: "🔄 Switch Camera (1x)",
-        orDivider: "— OR ENTER CODE MANUALLY —",
-        btnConnect: "Link Counter",
-        connectingWait: "Connecting to counter... Please wait a moment",
-        connectedAlert: "✓ Securely connected to counter! Ready to transfer.",
-        connFailedAlert: "Failed to connect to counter. Please verify code.",
-        filesTitle: "2. Select Files & Print Preferences",
-        dropzonePrompt: "Tap here to select PDFs or Images",
-        dropzoneSub: "No file size limit (100% direct P2P transfer)",
-        lblCopies: "Copies",
-        lblColor: "Color Mode",
-        lblSide: "Sides",
-        btnSendFiles: "Send Securely 🚀",
-        btnPrint: "🖨️ Direct Print",
-        btnRotate: "🔄 Rotate 90°",
-        btnDownload: "💾 Save File",
-        btnDelete: "🔥 Destroy (Wipe)",
-        successTitle: "Files Sent Successfully!",
-        successDesc: "Your files have arrived securely at the counter terminal.",
-        btnOk: "Got It",
-        footerNote: "100% Client-Side Peer-to-Peer Transfer • Zero Server Storage",
-        navHow: "💡 How It Works",
-        navPrivacy: "🛡️ Privacy Policy",
-        navTerms: "📜 Terms of Service",
-        navSecurity: "🔐 Security Specs",
-        filesSelectedText: "files selected",
-        alertNoCode: "Please enter counter code!",
-        alertNoConn: "Please connect to counter first!",
-        alertNoFiles: "Please select files first!"
+        statusError: "Connection Error - Please retry"
       }
     };
 
@@ -813,13 +661,6 @@
       currentLang = lang;
       localStorage.setItem("nischay_lang", lang);
       document.getElementById("langLabel").innerText = lang === "hi" ? "English" : "हिंदी";
-
-      document.querySelectorAll("[data-i18n]").forEach(el => {
-        const key = el.getAttribute("data-i18n");
-        if (translations[lang][key]) {
-          el.innerText = translations[lang][key];
-        }
-      });
     }
 
     function toggleLanguage() {
@@ -836,9 +677,8 @@
     let currentCameraIndex = 0;
     let fileRotations = {};
 
-    // 🌟 इनकमिंग फाइल क्यू - एक-एक करके स्मूथ लोड करने के लिए 🌟
-    let incomingQueue = [];
-    let isProcessingQueue = false;
+    // 🌟 चंक रिसीविंग स्टेट (Chunk Assembler) 🌟
+    const incomingTransfers = {};
 
     function generateCounterCode() {
       const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -865,6 +705,7 @@
       }
     }
 
+    /* 🛡️ RECEIVER ENGINE WITH REAL PROGRESS TRACKER 🛡️ */
     function initReceiverPeer() {
       const generatedId = generateCounterCode();
       peer = new Peer(generatedId);
@@ -872,7 +713,7 @@
       peer.on("open", (id) => {
         peerId = id;
         document.getElementById("displayRoomCode").innerText = id;
-        document.getElementById("p2pStatus").innerText = translations[currentLang].statusLive;
+        document.getElementById("p2pStatus").innerText = "काउंटर तैयार है (Live) 🟢";
 
         const qrBox = document.getElementById("qrContainer");
         qrBox.innerHTML = "";
@@ -888,89 +729,134 @@
       });
 
       peer.on("connection", (c) => {
-        c.on("data", (payload) => {
-          if (payload.type === "FILE_TRANSFER") {
-            // कतार में फाइल जोड़ें और क्रमशः लोड करें
-            incomingQueue.push(payload);
-            processIncomingQueue();
-          }
+        c.on("data", (data) => {
+          handleIncomingData(data);
         });
       });
 
       peer.on("error", (err) => {
-        document.getElementById("p2pStatus").innerText = translations[currentLang].statusError;
+        console.error(err);
+        document.getElementById("p2pStatus").innerText = "कनेक्शन त्रुटि 🔴";
       });
     }
 
-    // 🌟 एक-एक करके मज़ेदार एनिमेशन और साउंड के साथ फाइल दिखाना 🌟
-    async function processIncomingQueue() {
-      if (isProcessingQueue || incomingQueue.length === 0) return;
-      isProcessingQueue = true;
+    function handleIncomingData(data) {
+      // 1. जब फ़ाइल शुरू होती है
+      if (data.type === "TRANSFER_START") {
+        playBeepSound(false);
+        incomingTransfers[data.id] = {
+          meta: data,
+          receivedBytes: 0,
+          chunks: []
+        };
+        createIncomingProgressCard(data);
+      } 
+      // 2. जब चंक आता है
+      else if (data.type === "TRANSFER_CHUNK") {
+        const transfer = incomingTransfers[data.id];
+        if (!transfer) return;
 
-      while (incomingQueue.length > 0) {
-        const payload = incomingQueue.shift();
-        playBeepSound();
-        renderIncomingFile(payload);
-        // हर अगली फाइल के बीच 350 मिलीसेकंड का शानदार स्टैगर गैप
-        await new Promise(r => setTimeout(r, 350));
+        transfer.chunks.push(data.chunk);
+        transfer.receivedBytes += data.chunk.byteLength || data.chunk.size || 0;
+
+        const progressPercent = Math.min(100, Math.round((transfer.receivedBytes / transfer.meta.fileSize) * 100));
+        updateProgressCard(data.id, progressPercent, transfer.receivedBytes, transfer.meta.fileSize);
+      } 
+      // 3. जब पूरी फ़ाइल आ गई
+      else if (data.type === "TRANSFER_END") {
+        const transfer = incomingTransfers[data.id];
+        if (!transfer) return;
+
+        playBeepSound(true);
+        const finalBlob = new Blob(transfer.chunks, { type: transfer.meta.fileType });
+        completeProgressCard(data.id, finalBlob, transfer.meta);
+        delete incomingTransfers[data.id];
       }
-
-      isProcessingQueue = false;
     }
 
-    function renderIncomingFile(payload) {
+    function createIncomingProgressCard(meta) {
       document.getElementById("emptyQueueMsg").style.display = "none";
       const list = document.getElementById("incomingList");
 
-      const blob = new Blob([payload.fileData], { type: payload.fileType });
-      const objectUrl = URL.createObjectURL(blob);
-      const isImg = payload.fileType.startsWith("image/");
-      fileRotations[payload.id] = 0;
-
       const card = document.createElement("div");
       card.className = "incoming-card";
-      card.id = "file_" + payload.id;
+      card.id = "fileCard_" + meta.id;
 
       card.innerHTML = `
         <div class="incoming-header">
           <div class="file-details">
-            <div class="file-name">${payload.fileName}</div>
+            <div class="file-name" title="${meta.fileName}">${meta.fileName}</div>
             <div class="file-meta">
-              <span>${(payload.fileSize / 1024).toFixed(1)} KB</span>
-              <span class="instruction-tag">${payload.instructions.copies} Copy • ${payload.instructions.color} • ${payload.instructions.side}</span>
+              <span>${(meta.fileSize / (1024 * 1024)).toFixed(2)} MB</span>
+              <span class="instruction-tag">${meta.instructions.copies} Copy • ${meta.instructions.color} • ${meta.instructions.side}</span>
             </div>
           </div>
         </div>
 
-        ${isImg ? `
-          <div class="preview-box">
-            <img src="${objectUrl}" id="img_${payload.id}" alt="Preview">
-          </div>
-        ` : ''}
-
-        <div class="action-group">
-          <button class="btn btn-primary" onclick="directPrintDoc('${objectUrl}', '${payload.fileType}', '${payload.id}')">
-            ${translations[currentLang].btnPrint}
-          </button>
-          
-          ${isImg ? `
-            <button class="btn btn-secondary" onclick="rotateImage('${payload.id}')">
-              ${translations[currentLang].btnRotate}
-            </button>
-          ` : ''}
-
-          <a class="btn btn-secondary" href="${objectUrl}" download="${payload.fileName}" style="text-decoration:none;">
-            ${translations[currentLang].btnDownload}
-          </a>
-
-          <button class="btn btn-danger" onclick="burnDocument('${card.id}', '${objectUrl}')">
-            ${translations[currentLang].btnDelete}
-          </button>
+        <!-- Real Progress Bar Animation -->
+        <div id="progWrap_${meta.id}" class="progress-container">
+          <div class="progress-bar-fill" id="bar_${meta.id}"></div>
+          <div class="progress-text-overlay" id="text_${meta.id}">📥 प्राप्त हो रहा है... 0%</div>
         </div>
+
+        <div id="body_${meta.id}" style="display: none; flex-direction: column; gap: 12px;"></div>
       `;
 
       list.prepend(card);
       updateQueueCount();
+    }
+
+    function updateProgressCard(id, percent, loaded, total) {
+      const bar = document.getElementById("bar_" + id);
+      const txt = document.getElementById("text_" + id);
+      if (bar) bar.style.width = percent + "%";
+      if (txt) {
+        const loadedMb = (loaded / (1024 * 1024)).toFixed(1);
+        const totalMb = (total / (1024 * 1024)).toFixed(1);
+        txt.innerText = `📥 प्राप्त हो रहा है... ${percent}% (${loadedMb}/${totalMb} MB)`;
+      }
+    }
+
+    function completeProgressCard(id, blob, meta) {
+      const bar = document.getElementById("bar_" + id);
+      const txt = document.getElementById("text_" + id);
+      const progWrap = document.getElementById("progWrap_" + id);
+      const body = document.getElementById("body_" + id);
+
+      if (bar) bar.style.width = "100%";
+      if (txt) txt.innerText = "✓ 100% पूरा हुआ!";
+      
+      setTimeout(() => {
+        if (progWrap) progWrap.style.display = "none";
+        if (body) {
+          body.style.display = "flex";
+          renderCardActions(id, blob, meta, body);
+        }
+      }, 400);
+    }
+
+    function renderCardActions(id, blob, meta, container) {
+      const objectUrl = URL.createObjectURL(blob);
+      const isImg = meta.fileType.startsWith("image/");
+      const isVideo = meta.fileType.startsWith("video/");
+      fileRotations[id] = 0;
+
+      let previewHtml = '';
+      if (isImg) {
+        previewHtml = `<div class="preview-box"><img src="${objectUrl}" id="img_${id}" alt="Preview"></div>`;
+      } else if (isVideo) {
+        previewHtml = `<div class="preview-box"><video src="${objectUrl}" controls></video></div>`;
+      }
+
+      container.innerHTML = `
+        ${previewHtml}
+        <div class="action-group">
+          ${(!isVideo) ? `<button class="btn btn-primary" onclick="directPrintDoc('${objectUrl}', '${meta.fileType}', '${id}')">🖨️ डायरेक्ट प्रिंट</button>` : ''}
+          ${isImg ? `<button class="btn btn-secondary" onclick="rotateImage('${id}')">🔄 घुमाएं</button>` : ''}
+          <a class="btn btn-secondary" href="${objectUrl}" download="${meta.fileName}" style="text-decoration:none;">💾 सेव करें</a>
+          <button class="btn btn-danger" onclick="burnDocument('fileCard_${id}', '${objectUrl}')">🔥 नष्ट करें</button>
+        </div>
+      `;
     }
 
     function rotateImage(fileId) {
@@ -1010,13 +896,12 @@
       URL.revokeObjectURL(objectUrl);
       const el = document.getElementById(elementId);
       if (el) {
-        el.style.transition = "all 0.35s ease";
         el.style.opacity = "0";
         el.style.transform = "translateX(40px)";
         setTimeout(() => {
           el.remove();
           updateQueueCount();
-        }, 350);
+        }, 300);
       }
     }
 
@@ -1032,142 +917,104 @@
       if (!peer) peer = new Peer();
     }
 
-    /* 🛡️ सुपर-स्मूथ कैमरा इंजन (Never-Fail Permission Fix) 🛡️ */
-    async function startNativeScanner() {
-      const scannerBox = document.getElementById("scannerContainer");
-      const btnScan = document.getElementById("btnStartScan");
-      scannerBox.style.display = "block";
-      btnScan.style.display = "none";
-
-      try {
-        // सीधा बैक कैमरे के लिए साफ़ स्ट्रीम मंगाएँ
-        await startStreamWithConstraints({
-          video: { facingMode: { ideal: "environment" }, width: { ideal: 1280 }, height: { ideal: 720 } },
-          audio: false
-        });
-
-        // परमिशन मिलने के बाद ही अतिरिक्त कैमरों को ढूंढे
-        if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
-          const devices = await navigator.mediaDevices.enumerateDevices();
-          const videoDevices = devices.filter(d => d.kind === "videoinput");
-          backCamerasList = videoDevices.filter(d => {
-            const l = (d.label || "").toLowerCase();
-            return !l.includes("front") && !l.includes("selfie") && !l.includes("user");
-          });
-          if (backCamerasList.length === 0) backCamerasList = videoDevices;
-        }
-      } catch (err) {
-        // फ़ॉलबैक अगर डिवाइस रिज़ॉल्यूशन सपोर्ट न करे
-        try {
-          await startStreamWithConstraints({ video: true, audio: false });
-        } catch (finalErr) {
-          console.error("Camera access denied:", finalErr);
-          alert("कैमरा चालू नहीं हो सका। कृपया ब्राउज़र में ऊपर URL बार के पास (🔒/सेटिंग्स) पर क्लिक करके कैमरा 'Allow' करें!");
-          stopNativeScanner();
-        }
-      }
-    }
-
-    async function startStreamWithConstraints(constraints) {
-      if (videoStream) {
-        videoStream.getTracks().forEach(t => t.stop());
-        videoStream = null;
-      }
-
-      const video = document.getElementById("scannerVideo");
-      videoStream = await navigator.mediaDevices.getUserMedia(constraints);
-      video.srcObject = videoStream;
-      video.setAttribute("playsinline", true);
-
-      return new Promise((resolve) => {
-        video.onloadedmetadata = () => {
-          video.play().then(() => {
-            scanningActive = true;
-            requestAnimationFrame(scanQRCodeLoop);
-            resolve();
-          }).catch(e => {
-            console.error(e);
-            resolve();
-          });
-        };
-      });
-    }
-
-    async function cycleCameraLens() {
-      if (!backCamerasList || backCamerasList.length <= 1) {
-        alert("दूसरा कैमरा लेंस उपलब्ध नहीं है!");
+    /* 🛡️ CHUNKED SENDER ENGINE (कभी नहीं अटकेगा) 🛡️ */
+    async function sendSelectedFiles() {
+      if (!conn || !conn.open) {
+        alert("कृपया पहले ऊपर दुकान के काउंटर से लिंक करें!");
         return;
       }
-      currentCameraIndex = (currentCameraIndex + 1) % backCamerasList.length;
-      const targetDevice = backCamerasList[currentCameraIndex];
-      if (targetDevice && targetDevice.deviceId) {
-        await startStreamWithConstraints({
-          video: { deviceId: { exact: targetDevice.deviceId } },
-          audio: false
+      if (selectedFiles.length === 0) {
+        alert("कृपया पहले फाइल चुनें!");
+        return;
+      }
+
+      const btn = document.getElementById("btnSendAction");
+      const pWrap = document.getElementById("senderProgressWrap");
+      const pBar = document.getElementById("senderProgressBar");
+      const pText = document.getElementById("senderProgressText");
+
+      btn.disabled = true;
+      btn.style.opacity = "0.6";
+      pWrap.style.display = "block";
+
+      const instructions = {
+        copies: document.getElementById("optCopies").value,
+        color: document.getElementById("optColor").value,
+        side: document.getElementById("optSide").value
+      };
+
+      const CHUNK_SIZE = 64 * 1024; // 64KB Safe WebRTC Chunk Size
+
+      for (let i = 0; i < selectedFiles.length; i++) {
+        const file = selectedFiles[i];
+        const transferId = Date.now() + "_" + Math.random().toString(36).substr(2, 5);
+
+        // 1. सूचना भेजें कि फ़ाइल शुरू हो रही है
+        conn.send({
+          type: "TRANSFER_START",
+          id: transferId,
+          fileName: file.name,
+          fileSize: file.size,
+          fileType: file.type || "application/octet-stream",
+          instructions: instructions
+        });
+
+        // 2. फ़ाइल को टुकड़ों में भेजें
+        let offset = 0;
+        while (offset < file.size) {
+          const slice = file.slice(offset, offset + CHUNK_SIZE);
+          const buffer = await slice.arrayBuffer();
+
+          conn.send({
+            type: "TRANSFER_CHUNK",
+            id: transferId,
+            chunk: buffer
+          });
+
+          offset += buffer.byteLength;
+          const pct = Math.min(100, Math.round((offset / file.size) * 100));
+          pBar.style.width = pct + "%";
+          pText.innerText = `भेज रहे हैं (${i + 1}/${selectedFiles.length}): ${pct}%`;
+
+          // बफ़र को ओवरफ़्लो होने से बचाने के लिए छोटा सा विराम
+          if (offset % (CHUNK_SIZE * 4) === 0) {
+            await new Promise(r => setTimeout(r, 15));
+          }
+        }
+
+        // 3. सूचना भेजें कि फ़ाइल ख़त्म हो गई
+        conn.send({
+          type: "TRANSFER_END",
+          id: transferId
         });
       }
-    }
 
-    let lastScanTime = 0;
-    function scanQRCodeLoop(timestamp) {
-      if (!scanningActive) return;
-
-      const video = document.getElementById("scannerVideo");
-      if (timestamp - lastScanTime > 120 && video.readyState === video.HAVE_ENOUGH_DATA) {
-        lastScanTime = timestamp;
-
-        const canvas = document.getElementById("qrScanCanvas");
-        const ctx = canvas.getContext("2d", { willReadFrequently: true });
+      // ट्रांसफर खत्म
+      pText.innerText = "✓ सब कुछ भेजा जा चुका है!";
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.style.opacity = "1";
+        pWrap.style.display = "none";
+        pBar.style.width = "0%";
         
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const code = jsQR(imageData.data, imageData.width, imageData.height, { inversionAttempts: "dontInvert" });
-
-        if (code && code.data) {
-          stopNativeScanner();
-          handleScannedData(code.data);
-          return;
-        }
-      }
-
-      requestAnimationFrame(scanQRCodeLoop);
+        confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+        document.getElementById("successModal").classList.add("active");
+        selectedFiles = [];
+        document.getElementById("fileSelectionLabel").innerText = "यहाँ टैप करके PDF, फोटो या वीडियो चुनें";
+      }, 500);
     }
 
-    function stopNativeScanner() {
-      scanningActive = false;
-      if (videoStream) {
-        videoStream.getTracks().forEach(track => track.stop());
-        videoStream = null;
+    function handleFileSelection(event) {
+      selectedFiles = Array.from(event.target.files);
+      if (selectedFiles.length > 0) {
+        document.getElementById("fileSelectionLabel").innerText = `${selectedFiles.length} फाइलें चुनी गईं (${(selectedFiles.reduce((a,b)=>a+b.size,0)/(1024*1024)).toFixed(2)} MB)`;
       }
-      const video = document.getElementById("scannerVideo");
-      if (video) video.srcObject = null;
-      document.getElementById("scannerContainer").style.display = "none";
-      document.getElementById("btnStartScan").style.display = "inline-flex";
-    }
-
-    function handleScannedData(scannedText) {
-      let extractedCode = scannedText.trim();
-      if (extractedCode.includes("connect=")) {
-        try {
-          const urlObj = new URL(extractedCode);
-          extractedCode = urlObj.searchParams.get("connect");
-        } catch (e) {
-          const match = extractedCode.match(/connect=([^&]+)/);
-          if (match) extractedCode = match[1];
-        }
-      }
-
-      document.getElementById("targetPeerCode").value = extractedCode;
-      connectToCounter(extractedCode);
     }
 
     function connectToCounter(autoId = null) {
       const targetId = autoId || document.getElementById("targetPeerCode").value.trim().toUpperCase();
       if (!targetId) {
-        alert(translations[currentLang].alertNoCode);
+        alert("कृपया काउंटर कोड दर्ज करें!");
         return;
       }
 
@@ -1183,92 +1030,116 @@
       conn.on("open", () => {
         connectingBox.style.display = "none";
         alertBox.style.color = "var(--primary)";
-        alertBox.innerText = translations[currentLang].connectedAlert;
+        alertBox.innerText = "✓ काउंटर से सुरक्षित रूप से कनेक्टेड! अब फाइलें भेजें।";
       });
 
       conn.on("error", () => {
         connectingBox.style.display = "none";
         alertBox.style.color = "var(--danger)";
-        alertBox.innerText = translations[currentLang].connFailedAlert;
+        alertBox.innerText = "काउंटर से संपर्क नहीं हो सका। कोड दोबारा जांचें।";
       });
-
-      setTimeout(() => {
-        if (conn && !conn.open && connectingBox.style.display === "flex") {
-          connectingBox.style.display = "none";
-          alertBox.style.color = "var(--danger)";
-          alertBox.innerText = translations[currentLang].connFailedAlert;
-        }
-      }, 7000);
     }
 
-    function handleFileSelection(event) {
-      selectedFiles = Array.from(event.target.files);
-      if (selectedFiles.length > 0) {
-        document.getElementById("fileSelectionLabel").innerText = `${selectedFiles.length} ${translations[currentLang].filesSelectedText}`;
-      }
-    }
+    /* 🛡️ Native Scanner 🛡️ */
+    async function startNativeScanner() {
+      const scannerBox = document.getElementById("scannerContainer");
+      const btnScan = document.getElementById("btnStartScan");
+      scannerBox.style.display = "block";
+      btnScan.style.display = "none";
 
-    function sendSelectedFiles() {
-      if (!conn || !conn.open) {
-        alert(translations[currentLang].alertNoConn);
-        return;
-      }
-      if (selectedFiles.length === 0) {
-        alert(translations[currentLang].alertNoFiles);
-        return;
-      }
-
-      const btn = document.getElementById("btnSendAction");
-      btn.innerText = "ट्रांसफर हो रहा है... ⏳";
-      btn.style.opacity = "0.7";
-
-      const instructions = {
-        copies: document.getElementById("optCopies").value,
-        color: document.getElementById("optColor").value,
-        side: document.getElementById("optSide").value
-      };
-
-      selectedFiles.forEach((file) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const payload = {
-            type: "FILE_TRANSFER",
-            id: Date.now() + "_" + Math.random().toString(36).substr(2, 5),
-            fileName: file.name,
-            fileSize: file.size,
-            fileType: file.type,
-            fileData: reader.result,
-            instructions: instructions
-          };
-          conn.send(payload);
-        };
-        reader.readAsArrayBuffer(file);
-      });
-
-      setTimeout(() => {
-        btn.innerText = translations[currentLang].btnSendFiles;
-        btn.style.opacity = "1";
-        
-        confetti({
-          particleCount: 120,
-          spread: 70,
-          origin: { y: 0.6 }
+      try {
+        await startStreamWithConstraints({
+          video: { facingMode: { ideal: "environment" }, width: { ideal: 1280 }, height: { ideal: 720 } }
         });
 
-        document.getElementById("successModal").classList.add("active");
-        selectedFiles = [];
-        document.getElementById("fileSelectionLabel").innerText = translations[currentLang].dropzonePrompt;
-      }, 600);
+        if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
+          const devices = await navigator.mediaDevices.enumerateDevices();
+          backCamerasList = devices.filter(d => d.kind === "videoinput" && !d.label.toLowerCase().includes("front"));
+        }
+      } catch (err) {
+        try {
+          await startStreamWithConstraints({ video: true });
+        } catch (e) {
+          alert("कैमरा चालू नहीं हो सका। कृपया परमिशन दें!");
+          stopNativeScanner();
+        }
+      }
+    }
+
+    async function startStreamWithConstraints(constraints) {
+      if (videoStream) videoStream.getTracks().forEach(t => t.stop());
+      const video = document.getElementById("scannerVideo");
+      videoStream = await navigator.mediaDevices.getUserMedia(constraints);
+      video.srcObject = videoStream;
+      video.setAttribute("playsinline", true);
+
+      return new Promise((resolve) => {
+        video.onloadedmetadata = () => {
+          video.play().then(() => {
+            scanningActive = true;
+            requestAnimationFrame(scanQRCodeLoop);
+            resolve();
+          });
+        };
+      });
+    }
+
+    async function cycleCameraLens() {
+      if (!backCamerasList || backCamerasList.length <= 1) return;
+      currentCameraIndex = (currentCameraIndex + 1) % backCamerasList.length;
+      await startStreamWithConstraints({ video: { deviceId: { exact: backCamerasList[currentCameraIndex].deviceId } } });
+    }
+
+    let lastScanTime = 0;
+    function scanQRCodeLoop(timestamp) {
+      if (!scanningActive) return;
+      const video = document.getElementById("scannerVideo");
+      if (timestamp - lastScanTime > 120 && video.readyState === video.HAVE_ENOUGH_DATA) {
+        lastScanTime = timestamp;
+        const canvas = document.getElementById("qrScanCanvas");
+        const ctx = canvas.getContext("2d", { willReadFrequently: true });
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const code = jsQR(imageData.data, imageData.width, imageData.height);
+
+        if (code && code.data) {
+          stopNativeScanner();
+          handleScannedData(code.data);
+          return;
+        }
+      }
+      requestAnimationFrame(scanQRCodeLoop);
+    }
+
+    function stopNativeScanner() {
+      scanningActive = false;
+      if (videoStream) {
+        videoStream.getTracks().forEach(track => track.stop());
+        videoStream = null;
+      }
+      document.getElementById("scannerContainer").style.display = "none";
+      document.getElementById("btnStartScan").style.display = "inline-flex";
+    }
+
+    function handleScannedData(scannedText) {
+      let extractedCode = scannedText.trim();
+      if (extractedCode.includes("connect=")) {
+        try {
+          const urlObj = new URL(extractedCode);
+          extractedCode = urlObj.searchParams.get("connect");
+        } catch (e) {
+          const match = extractedCode.match(/connect=([^&]+)/);
+          if (match) extractedCode = match[1];
+        }
+      }
+      document.getElementById("targetPeerCode").value = extractedCode;
+      connectToCounter(extractedCode);
     }
 
     function closeSuccessModal() {
       document.getElementById("successModal").classList.remove("active");
-    }
-
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./sw.js").catch(() => {});
-      });
     }
 
     window.addEventListener("DOMContentLoaded", () => {
