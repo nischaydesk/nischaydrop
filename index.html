@@ -215,17 +215,17 @@
     }
     .status-dot { width: 9px; height: 9px; border-radius: 50%; background: currentColor; }
 
-    /* 🌊 पानी जैसा लिक्विड वेव प्रोग्रेस बार (Water Wave Liquid Progress) 🌊 */
+    /* 🌊 पानी जैसा लिक्विड वेव प्रोग्रेस बार 🌊 */
     .liquid-progress-container {
       width: 100%;
-      height: 38px;
-      background: rgba(0, 0, 0, 0.4);
-      border-radius: 20px;
+      height: 42px;
+      background: rgba(0, 0, 0, 0.45);
+      border-radius: 22px;
       border: 2px solid var(--primary);
       box-shadow: 0 0 15px var(--primary-glow) inset, 0 0 10px var(--primary-glow);
       position: relative;
       overflow: hidden;
-      margin: 10px 0;
+      margin: 12px 0;
       display: flex;
       align-items: center;
     }
@@ -235,29 +235,29 @@
       background: linear-gradient(90deg, #00ffa3, #00b4d8);
       position: relative;
       transition: width 0.08s ease-out;
-      border-radius: 18px 0 0 18px;
+      border-radius: 20px 0 0 20px;
     }
     .liquid-wave-fill::after {
       content: "";
       position: absolute;
-      top: 0; right: 0; bottom: 0; width: 20px;
-      background: rgba(255, 255, 255, 0.4);
-      filter: blur(4px);
-      animation: waterRipples 1s linear infinite;
+      top: 0; right: 0; bottom: 0; width: 22px;
+      background: rgba(255, 255, 255, 0.55);
+      filter: blur(5px);
+      animation: waterRipples 0.8s linear infinite;
     }
     @keyframes waterRipples {
       0% { opacity: 0.3; transform: scaleY(0.9); }
-      50% { opacity: 0.8; transform: scaleY(1.1); }
+      50% { opacity: 0.9; transform: scaleY(1.15); }
       100% { opacity: 0.3; transform: scaleY(0.9); }
     }
     .liquid-progress-text {
       position: absolute;
       width: 100%;
       text-align: center;
-      font-size: 0.85rem;
+      font-size: 0.86rem;
       font-weight: 900;
       color: #ffffff;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+      text-shadow: 0 2px 6px rgba(0,0,0,0.95);
       pointer-events: none;
       z-index: 5;
     }
@@ -530,7 +530,7 @@
 
   <main>
     <div class="trust-hero">
-      <div class="trust-tag">⚡ 100% P2P • SYNCED WATER WAVE • ZERO CLOUD STORAGE</div>
+      <div class="trust-tag">⚡ 100% P2P • ULTRA HIGH SPEED STREAM • ZERO CLOUD STORAGE</div>
       <h2 data-i18n="heroTitle">नो नंबर, नो रिस्क — सीधा सुरक्षित प्रिंट!</h2>
       <p data-i18n="heroDesc">बिना दुकानदार का मोबाइल नंबर सेव किए अपने दस्तावेज सीधे प्रिंटर पर भेजें। फाइल किसी सर्वर पर अपलोड नहीं होती।</p>
     </div>
@@ -918,7 +918,6 @@
       }
     }
 
-    /* 🛡️ RECEIVER PEER SETUP */
     function initReceiverPeer() {
       if (peer && !peer.destroyed) return;
 
@@ -969,7 +968,8 @@
       });
     }
 
-    /* 🌊 RECEIVER DATA HANDLER WITH SYNCED ACK 🌊 */
+    /* 🌊 RECEIVER DATA HANDLER WITH THROTTLED PROGRESS (NO LAG) 🌊 */
+    let lastAckTime = 0;
     function handleIncomingData(data) {
       if (data.type === "TRANSFER_START") {
         isTransferring = true;
@@ -989,16 +989,20 @@
         transfer.receivedBytes += data.chunk.byteLength || data.chunk.size || 0;
 
         const progressPercent = Math.min(100, Math.round((transfer.receivedBytes / transfer.meta.fileSize) * 100));
-        updateLiquidProgress(data.id, progressPercent, transfer.receivedBytes, transfer.meta.fileSize);
+        
+        // स्मूथ यूआई रेंडरिंग (थ्रॉटल ताकि सीपीयू फ्रीज न हो)
+        const now = Date.now();
+        if (now - lastAckTime > 60 || progressPercent === 100) {
+          lastAckTime = now;
+          updateLiquidProgress(data.id, progressPercent, transfer.receivedBytes, transfer.meta.fileSize);
 
-        // ⚡ तुरंत सेंडर को रियल ACK भेजें ताकि दोनों फोन का प्रोग्रेस एक साथ 1:1 चले
-        if (conn && conn.open) {
-          conn.send({
-            type: "SYNC_ACK",
-            id: data.id,
-            percent: progressPercent,
-            receivedBytes: transfer.receivedBytes
-          });
+          if (conn && conn.open) {
+            conn.send({
+              type: "SYNC_ACK",
+              id: data.id,
+              percent: progressPercent
+            });
+          }
         }
       } 
       else if (data.type === "TRANSFER_END") {
@@ -1007,6 +1011,12 @@
 
         isTransferring = false;
         playAudioTone("complete");
+        updateLiquidProgress(data.id, 100, transfer.meta.fileSize, transfer.meta.fileSize);
+        
+        if (conn && conn.open) {
+          conn.send({ type: "SYNC_ACK", id: data.id, percent: 100 });
+        }
+
         const finalBlob = new Blob(transfer.chunks, { type: transfer.meta.fileType });
         completeLiquidProgress(data.id, finalBlob, transfer.meta);
         delete incomingTransfers[data.id];
@@ -1026,7 +1036,7 @@
           <div class="file-details">
             <div class="file-name" title="${meta.fileName}">${meta.fileName}</div>
             <div class="file-meta">
-              <span>${(meta.fileSize / 1024).toFixed(1)} KB</span>
+              <span>${(meta.fileSize / (1024 * 1024)).toFixed(2)} MB</span>
               <span class="instruction-tag">${meta.instructions.copies} Copy • ${meta.instructions.color} • ${meta.instructions.side}</span>
             </div>
           </div>
@@ -1049,9 +1059,9 @@
       const txt = document.getElementById("text_" + id);
       if (bar) bar.style.width = percent + "%";
       if (txt) {
-        const loadedKb = (loaded / 1024).toFixed(1);
-        const totalKb = (total / 1024).toFixed(1);
-        txt.innerText = (currentLang === "hi") ? `🌊 आ रहा है... ${percent}% (${loadedKb}/${totalKb} KB)` : `🌊 Receiving... ${percent}% (${loadedKb}/${totalKb} KB)`;
+        const loadedMb = (loaded / (1024 * 1024)).toFixed(1);
+        const totalMb = (total / (1024 * 1024)).toFixed(1);
+        txt.innerText = (currentLang === "hi") ? `🌊 आ रहा है... ${percent}% (${loadedMb}/${totalMb} MB)` : `🌊 Receiving... ${percent}% (${loadedMb}/${totalMb} MB)`;
       }
     }
 
@@ -1162,12 +1172,12 @@
     function handleFileSelection(event) {
       selectedFiles = Array.from(event.target.files);
       if (selectedFiles.length > 0) {
-        const totalKb = (selectedFiles.reduce((a,b)=>a+b.size,0)/1024).toFixed(1);
-        document.getElementById("fileSelectionLabel").innerText = (currentLang === "hi") ? `${selectedFiles.length} फाइलें चुनी गईं (${totalKb} KB)` : `${selectedFiles.length} files selected (${totalKb} KB)`;
+        const totalMb = (selectedFiles.reduce((a,b)=>a+b.size,0)/(1024*1024)).toFixed(2);
+        document.getElementById("fileSelectionLabel").innerText = (currentLang === "hi") ? `${selectedFiles.length} फाइलें चुनी गईं (${totalMb} MB)` : `${selectedFiles.length} files selected (${totalMb} MB)`;
       }
     }
 
-    /* ⚡ ULTRA-FAST P2P SENDER (No Fake Delay + Real-time Sync) ⚡ */
+    /* 🚀 ROCKET-SPEED STREAMING ENGINE (64KB OPTIMAL CHUNK + ZERO ARTIFICIAL LAG) 🚀 */
     async function sendSelectedFiles() {
       if (!conn || !conn.open) {
         alert((currentLang === "hi") ? "कृपया पहले ऊपर दुकान के काउंटर से लिंक करें!" : "Please connect to counter first!");
@@ -1190,7 +1200,7 @@
       btn.style.opacity = "0.5";
       pWrap.style.display = "block";
       pBar.style.width = "0%";
-      pText.innerText = "तैयार हो रहा है... 0%";
+      pText.innerText = "रॉकेट स्पीड शुरू... 0%";
 
       const instructions = {
         copies: document.getElementById("optCopies").value,
@@ -1198,8 +1208,26 @@
         side: document.getElementById("optSide").value
       };
 
-      // ⚡ 16KB सुपर फास्ट चंक साइज (शून्य लैग)
-      const CHUNK_SIZE = 16 * 1024;
+      const CHUNK_SIZE = 64 * 1024; // 64KB Optimal Streaming Chunk Size
+      const dc = conn.dataChannel;
+
+      // बफर कंट्रोलर (ताकि डेटा कभी ड्रॉप न हो और अधिकतम स्पीड मिले)
+      const waitForBuffer = () => {
+        return new Promise(resolve => {
+          if (!dc || dc.bufferedAmount <= 2 * 1024 * 1024) {
+            resolve();
+          } else {
+            const check = () => {
+              if (dc.bufferedAmount <= 512 * 1024) {
+                resolve();
+              } else {
+                setTimeout(check, 5);
+              }
+            };
+            check();
+          }
+        });
+      };
 
       try {
         for (let i = 0; i < selectedFiles.length; i++) {
@@ -1219,11 +1247,7 @@
           while (offset < file.size) {
             if (!conn || !conn.open) throw new Error("Connection lost");
 
-            // WebRTC बफर जाम से बचाव (Backpressure Check)
-            const dataChannel = conn.dataChannel;
-            if (dataChannel && dataChannel.bufferedAmount > 64 * 1024) {
-              await new Promise(r => setTimeout(r, 8));
-            }
+            await waitForBuffer();
 
             const slice = file.slice(offset, offset + CHUNK_SIZE);
             const buffer = await slice.arrayBuffer();
@@ -1275,7 +1299,7 @@
         alertBox.style.color = "var(--primary)";
         alertBox.innerText = (currentLang === "hi") ? "✓ काउंटर से सुरक्षित रूप से कनेक्टेड! अब फाइलें भेजें।" : "✓ Securely connected to counter!";
 
-        // ⚡ सेंडर को रिसीवर से रियल ACK सुनना
+        // ⚡ रिसीवर से स्मूथ वाटर-वेव सिंक सुनना
         conn.on("data", (data) => {
           if (data.type === "SYNC_ACK") {
             const pBar = document.getElementById("senderProgressBar");
