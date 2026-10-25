@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>NischayDrop — Instant, Safe & Zero-Contact Print Transfer | NischayDesk</title>
+  <title>NischayDrop — Instant, Ultra-Fast Batch Transfer | NischayDesk</title>
   
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2224%22 fill=%22%2300ffa3%22/><path d=%22M28 32h44v14H28z%22 fill=%22%23080e14%22/><rect x=%2220%22 y=%2242%22 width=%2260%22 height=%2232%22 rx=%228%22 fill=%22%23080e14%22/><rect x=%2230%22 y=%2258%22 width=%2240%22 height=%2222%22 rx=%224%22 fill=%22%2300ffa3%22/></svg>">
 
@@ -21,29 +21,31 @@
   <style>
     :root[data-theme="dark"] {
       --bg: #060b0e;
-      --surface: rgba(13, 22, 29, 0.9);
-      --card: rgba(18, 30, 40, 0.85);
+      --surface: rgba(13, 22, 29, 0.92);
+      --card: rgba(18, 30, 40, 0.88);
       --card-border: rgba(0, 255, 163, 0.25);
       --primary: #00ffa3;
       --primary-hover: #00d989;
-      --primary-glow: rgba(0, 255, 163, 0.45);
+      --primary-glow: rgba(0, 255, 163, 0.5);
+      --snake-glow: #00e5ff;
       --text: #f0f7f5;
       --text-muted: #8ca2a6;
       --danger: #ff4d6d;
       --danger-bg: rgba(255, 77, 109, 0.15);
       --badge-bg: rgba(0, 255, 163, 0.12);
       --qr-bg: #ffffff;
-      --shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+      --shadow: 0 16px 45px rgba(0, 0, 0, 0.75);
     }
 
     :root[data-theme="light"] {
       --bg: #f2f7f5;
       --surface: rgba(255, 255, 255, 0.95);
-      --card: rgba(255, 255, 255, 0.88);
+      --card: rgba(255, 255, 255, 0.9);
       --card-border: rgba(0, 168, 132, 0.28);
       --primary: #00a884;
       --primary-hover: #008f6f;
       --primary-glow: rgba(0, 168, 132, 0.35);
+      --snake-glow: #0284c7;
       --text: #0e1e1b;
       --text-muted: #576d69;
       --danger: #dc2626;
@@ -68,7 +70,6 @@
     header {
       background: var(--surface);
       backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--card-border);
       padding: 14px 20px;
       display: flex;
@@ -105,7 +106,7 @@
       backdrop-filter: blur(18px);
       border: 1px solid var(--card-border);
       border-radius: 20px;
-      padding: 22px;
+      padding: 20px;
       text-align: center;
       box-shadow: var(--shadow);
       position: relative;
@@ -127,11 +128,11 @@
       border-radius: 20px;
       font-size: 0.78rem;
       font-weight: 800;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       border: 1px solid var(--card-border);
     }
-    .trust-hero h2 { font-size: 1.35rem; font-weight: 800; margin-bottom: 8px; }
-    .trust-hero p { font-size: 0.88rem; color: var(--text-muted); max-width: 650px; margin: 0 auto; line-height: 1.5; }
+    .trust-hero h2 { font-size: 1.35rem; font-weight: 800; margin-bottom: 6px; }
+    .trust-hero p { font-size: 0.88rem; color: var(--text-muted); max-width: 650px; margin: 0 auto; line-height: 1.4; }
 
     .mode-switcher {
       display: flex;
@@ -171,7 +172,6 @@
     .card {
       background: var(--surface);
       backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--card-border);
       border-radius: 20px;
       padding: 22px;
@@ -215,51 +215,58 @@
     }
     .status-dot { width: 9px; height: 9px; border-radius: 50%; background: currentColor; }
 
-    /* 🌊 पानी जैसा लिक्विड वेव प्रोग्रेस बार 🌊 */
-    .liquid-progress-container {
+    /* 🐍 स्नेक साइबर प्रोग्रेस बार (Glowing Snake Pulse) 🐍 */
+    .snake-progress-container {
       width: 100%;
-      height: 42px;
-      background: rgba(0, 0, 0, 0.45);
+      height: 44px;
+      background: rgba(0, 0, 0, 0.6);
       border-radius: 22px;
-      border: 2px solid var(--primary);
-      box-shadow: 0 0 15px var(--primary-glow) inset, 0 0 10px var(--primary-glow);
+      border: 2px solid var(--card-border);
       position: relative;
       overflow: hidden;
       margin: 12px 0;
       display: flex;
       align-items: center;
+      box-shadow: 0 0 20px rgba(0, 255, 163, 0.15) inset;
     }
-    .liquid-wave-fill {
+    .snake-fill {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, #00ffa3, #00b4d8);
+      background: linear-gradient(90deg, rgba(0, 255, 163, 0.3), var(--primary) 70%, var(--snake-glow) 100%);
       position: relative;
-      transition: width 0.08s ease-out;
-      border-radius: 20px 0 0 20px;
+      border-radius: 20px;
+      transition: width 0.1s linear;
+      box-shadow: 0 0 15px var(--primary-glow);
     }
-    .liquid-wave-fill::after {
+    /* सांप का चमकता हुआ सिर (Snake Head) */
+    .snake-fill::after {
       content: "";
       position: absolute;
-      top: 0; right: 0; bottom: 0; width: 22px;
-      background: rgba(255, 255, 255, 0.55);
-      filter: blur(5px);
-      animation: waterRipples 0.8s linear infinite;
+      top: 0; right: -2px; bottom: 0;
+      width: 24px;
+      background: #ffffff;
+      border-radius: 50%;
+      filter: blur(4px);
+      box-shadow: 0 0 20px var(--snake-glow), 0 0 30px var(--primary);
+      animation: snakeSlither 0.8s ease-in-out infinite alternate;
     }
-    @keyframes waterRipples {
-      0% { opacity: 0.3; transform: scaleY(0.9); }
-      50% { opacity: 0.9; transform: scaleY(1.15); }
-      100% { opacity: 0.3; transform: scaleY(0.9); }
+    @keyframes snakeSlither {
+      0% { transform: scaleY(0.7) scaleX(0.8); opacity: 0.8; }
+      100% { transform: scaleY(1.3) scaleX(1.2); opacity: 1; }
     }
-    .liquid-progress-text {
+    .snake-text {
       position: absolute;
       width: 100%;
       text-align: center;
-      font-size: 0.86rem;
+      font-size: 0.88rem;
       font-weight: 900;
       color: #ffffff;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.95);
+      text-shadow: 0 2px 8px rgba(0,0,0,0.9);
       pointer-events: none;
       z-index: 5;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 16px;
     }
 
     .incoming-list { display: flex; flex-direction: column; gap: 14px; margin-top: 14px; }
@@ -273,46 +280,31 @@
       gap: 12px;
       border-left: 5px solid var(--primary);
       box-shadow: 0 8px 24px rgba(0, 255, 163, 0.12);
-      animation: superFileEntrance 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+      animation: superEntrance 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
     }
-
-    @keyframes superFileEntrance {
-      0% { opacity: 0; transform: translateY(-20px) scale(0.95); }
-      100% { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    .shredding {
-      animation: paperShred 0.6s cubic-bezier(0.45, 0, 0.55, 1) forwards !important;
-      pointer-events: none;
-    }
-    @keyframes paperShred {
-      0% { transform: translateY(0); opacity: 1; }
-      100% {
-        transform: translateY(70px) scaleY(1.2) scaleX(0.85);
-        opacity: 0;
-        clip-path: polygon(0 0, 20% 15%, 40% 0, 60% 18%, 80% 0, 100% 20%, 100% 100%, 0 100%);
-      }
+    @keyframes superEntrance {
+      0% { opacity: 0; transform: translateY(-15px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
 
     .file-details { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
     .file-name { font-weight: 700; font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
     .file-meta { font-size: 0.8rem; color: var(--text-muted); display: flex; gap: 8px; align-items: center; }
-    .instruction-tag { background: var(--badge-bg); color: var(--primary); padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 0.78rem; }
 
     .action-group { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
     .btn {
-      padding: 10px 15px;
+      padding: 10px 16px;
       border-radius: 12px;
       border: none;
-      font-size: 0.86rem;
+      font-size: 0.88rem;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 6px;
     }
-    .btn-primary { background: var(--primary); color: #070d12; }
-    .btn-primary:hover { filter: brightness(1.1); }
+    .btn-primary { background: var(--primary); color: #070d12; box-shadow: 0 4px 15px var(--primary-glow); }
+    .btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
     .btn-secondary { background: var(--card); color: var(--text); border: 1px solid var(--card-border); }
     .btn-secondary:hover { border-color: var(--primary); }
     .btn-danger { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(255,77,109,0.3); }
@@ -330,6 +322,27 @@
       border: 1px dashed var(--card-border);
     }
     .preview-box img, .preview-box video { max-height: 200px; max-width: 100%; object-fit: contain; }
+
+    /* File Selection Chips */
+    .selected-files-tray {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 14px;
+      max-height: 180px;
+      overflow-y: auto;
+    }
+    .file-chip {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+      font-size: 0.85rem;
+    }
+    .file-chip-name { max-width: 75%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
     #scannerContainer {
       display: none;
@@ -417,31 +430,13 @@
     .dropzone {
       border: 2px dashed var(--card-border);
       border-radius: 16px;
-      padding: 34px 16px;
+      padding: 36px 16px;
       text-align: center;
       cursor: pointer;
       background: var(--card);
     }
-    .dropzone:hover { border-color: var(--primary); }
+    .dropzone:hover { border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
     .dropzone input { display: none; }
-
-    .settings-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 10px;
-      margin-top: 14px;
-    }
-    .setting-item { display: flex; flex-direction: column; gap: 4px; }
-    .setting-item label { font-size: 0.75rem; color: var(--text-muted); font-weight: 700; }
-    .setting-select {
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      color: var(--text);
-      padding: 11px;
-      border-radius: 12px;
-      font-size: 0.85rem;
-      outline: none;
-    }
 
     .modal-overlay {
       display: none;
@@ -467,9 +462,8 @@
       animation: modalFade 0.25s ease-out;
     }
     @keyframes modalFade { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
-    .modal-icon { font-size: 3.2rem; margin-bottom: 12px; }
 
-    /* Crop Workspace for Gallery QR */
+    /* Crop Workspace */
     .crop-canvas-wrapper {
       position: relative;
       width: 100%;
@@ -488,7 +482,6 @@
       max-height: 100%;
       object-fit: contain;
       user-select: none;
-      transition: transform 0.15s ease;
     }
     .crop-guide-box {
       position: absolute;
@@ -511,7 +504,6 @@
       backdrop-filter: blur(16px);
     }
     footer a { color: var(--primary); text-decoration: none; margin: 0 8px; font-weight: 700; }
-    footer a:hover { text-decoration: underline; }
     #printFrame { display: none; }
   </style>
 </head>
@@ -530,9 +522,9 @@
 
   <main>
     <div class="trust-hero">
-      <div class="trust-tag">⚡ 100% P2P • ULTRA HIGH SPEED STREAM • ZERO CLOUD STORAGE</div>
+      <div class="trust-tag">⚡ ULTRA BATCH STREAM • NO SIZE LIMIT • ZERO CLOUD UPLOAD</div>
       <h2 data-i18n="heroTitle">नो नंबर, नो रिस्क — सीधा सुरक्षित प्रिंट!</h2>
-      <p data-i18n="heroDesc">बिना दुकानदार का मोबाइल नंबर सेव किए अपने दस्तावेज सीधे प्रिंटर पर भेजें। फाइल किसी सर्वर पर अपलोड नहीं होती।</p>
+      <p data-i18n="heroDesc">बिना दुकानदार का मोबाइल नंबर सेव किए जितनी चाहे फाइलें (PDF/फोटो/वीडियो) सीधे काउंटर पर एक साथ भेजें।</p>
     </div>
     
     <div class="mode-switcher">
@@ -569,7 +561,7 @@
 
         <div class="incoming-list" id="incomingList">
           <div id="emptyQueueMsg" style="text-align: center; padding: 36px 10px; color: var(--text-muted); font-size: 0.85rem;" data-i18n="emptyQueue">
-            जैसे ही ग्राहक फाइल भेजेगा, यहाँ 0% से 100% लाइव प्रोग्रेस पानी जैसा लोड होते हुए दिखेगा।
+            जैसे ही ग्राहक फाइल भेजेगा, यहाँ 0% से 100% लाइव स्नेक प्रोग्रेस लोड होते हुए दिखेगा।
           </div>
         </div>
       </div>
@@ -617,53 +609,34 @@
         <div id="customerConnAlert" style="font-size: 0.8rem; margin-top: 10px; font-weight: 700;"></div>
       </div>
 
-      <!-- File Select Section -->
+      <!-- File Select Section (Multi-Files Batch System) -->
       <div class="card" id="senderTransferBox">
-        <h3 style="margin-bottom: 12px; font-size: 1.05rem;" data-i18n="filesTitle">2. फाइलें चुनें व प्रिंट निर्देश दें</h3>
+        <h3 style="margin-bottom: 12px; font-size: 1.05rem;" data-i18n="filesTitle">2. जितनी चाहे फाइलें चुनें (Batch Send)</h3>
         
         <div class="dropzone" onclick="document.getElementById('fileUploadInput').click()">
           <input type="file" id="fileUploadInput" multiple onchange="handleFileSelection(event)">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary); margin-bottom: 8px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-          <div style="font-weight: 700; font-size: 1rem;" id="fileSelectionLabel" data-i18n="dropzonePrompt">यहाँ टैप करके PDF, फोटो या वीडियो चुनें</div>
-          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;" data-i18n="dropzoneSub">P2P हाई-स्पीड पाइपलाइन द्वारा रियल-टाइम ट्रांसफर</div>
+          <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary); margin-bottom: 8px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+          <div style="font-weight: 700; font-size: 1.05rem;" id="fileSelectionLabel" data-i18n="dropzonePrompt">यहाँ टैप करके PDF, फोटो या वीडियो चुनें (एक या अनेक)</div>
+          <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">मल्टी-चंक डायरेक्ट P2P पाइपलाइन — कोई साइज लिमिट नहीं</div>
         </div>
 
-        <div class="settings-grid">
-          <div class="setting-item">
-            <label data-i18n="lblCopies">कॉपी (Copies)</label>
-            <select class="setting-select" id="optCopies">
-              <option value="1">1 Copy</option>
-              <option value="2">2 Copies</option>
-              <option value="3">3 Copies</option>
-              <option value="5">5 Copies</option>
-            </select>
-          </div>
-          <div class="setting-item">
-            <label data-i18n="lblColor">कलर मोड</label>
-            <select class="setting-select" id="optColor">
-              <option value="B/W">Black & White</option>
-              <option value="Color">Color Print</option>
-            </select>
-          </div>
-          <div class="setting-item">
-            <label data-i18n="lblSide">साइड (Sides)</label>
-            <select class="setting-select" id="optSide">
-              <option value="Single">Single Side</option>
-              <option value="Both">Both Sides</option>
-            </select>
-          </div>
-        </div>
+        <!-- Selected Files Preview Tray -->
+        <div class="selected-files-tray" id="selectedFilesTray"></div>
 
-        <!-- Sender Water Wave Progress -->
+        <!-- Sender Snake Cyber Progress Bar -->
         <div id="senderProgressWrap" style="display: none; margin-top: 14px;">
-          <div class="liquid-progress-container">
-            <div class="liquid-wave-fill" id="senderProgressBar"></div>
-            <div class="liquid-progress-text" id="senderProgressText">भेजा जा रहा है... 0%</div>
+          <div class="snake-progress-container">
+            <div class="snake-fill" id="senderProgressBar"></div>
+            <div class="snake-text">
+              <span id="senderProgressTitle">🐍 सेंडिंग...</span>
+              <span id="senderProgressSpeed">0 MB/s</span>
+              <span id="senderProgressText">0%</span>
+            </div>
           </div>
         </div>
 
-        <button class="btn btn-primary" id="btnSendAction" style="width: 100%; margin-top: 18px; padding: 14px; justify-content: center; font-size: 1rem;" onclick="sendSelectedFiles()" data-i18n="btnSendFiles">
-          सुरक्षित सेंड करें 🚀
+        <button class="btn btn-primary" id="btnSendAction" style="width: 100%; margin-top: 18px; padding: 15px; justify-content: center; font-size: 1.05rem;" onclick="sendSelectedFilesBatch()" data-i18n="btnSendFiles">
+          सभी फाइलें एक साथ भेजें 🚀
         </button>
       </div>
     </div>
@@ -700,9 +673,9 @@
 
   <div class="modal-overlay" id="successModal">
     <div class="modal-card">
-      <div class="modal-icon">🎉</div>
-      <h3 style="margin-bottom: 8px; color: var(--primary);" data-i18n="successTitle">फाइल सफलतापूर्वक पहुँच गई!</h3>
-      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;" data-i18n="successDesc">दुकानदार के काउंटर पर आपकी फाइल 100% लोड हो चुकी है।</p>
+      <div style="font-size: 3.5rem; margin-bottom: 10px;">🎉</div>
+      <h3 style="margin-bottom: 8px; color: var(--primary);" data-i18n="successTitle">सभी फाइलें सफलतापूर्वक पहुँच गईं!</h3>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;" data-i18n="successDesc">काउंटर पर आपकी सभी फाइलें 100% लोड हो चुकी हैं।</p>
       <button class="btn btn-primary" style="justify-content: center; padding: 12px; width: 100%;" onclick="closeSuccessModal()" data-i18n="btnOk">ठीक है (OK)</button>
     </div>
   </div>
@@ -721,7 +694,6 @@
   <script>
     let isTransferring = false;
 
-    /* 🛡️ ब्राउज़र कट करने पर अलर्ट वार्निंग */
     window.addEventListener("beforeunload", (e) => {
       if (isTransferring) {
         e.preventDefault();
@@ -741,7 +713,7 @@
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
           osc.type = "sine";
-          osc.frequency.setValueAtTime(520, ctx.currentTime);
+          osc.frequency.setValueAtTime(440, ctx.currentTime);
           osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15);
           gain.gain.setValueAtTime(0.3, ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
@@ -755,7 +727,7 @@
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
             osc.frequency.setValueAtTime(freq, now + (i * 0.08));
-            gain.gain.setValueAtTime(0.3, now + (i * 0.08));
+            gain.gain.setValueAtTime(0.35, now + (i * 0.08));
             gain.gain.exponentialRampToValueAtTime(0.01, now + (i * 0.08) + 0.25);
             osc.connect(gain);
             gain.connect(ctx.destination);
@@ -769,14 +741,14 @@
     const translations = {
       hi: {
         heroTitle: "नो नंबर, नो रिस्क — सीधा सुरक्षित प्रिंट!",
-        heroDesc: "बिना दुकानदार का मोबाइल नंबर सेव किए अपने दस्तावेज सीधे प्रिंटर पर भेजें। फाइल किसी सर्वर पर अपलोड नहीं होती।",
+        heroDesc: "बिना दुकानदार का मोबाइल नंबर सेव किए जितनी चाहे फाइलें (PDF/फोटो/वीडियो) सीधे काउंटर पर एक साथ भेजें।",
         tabReceive: "दुकानदार मोड (Receiver)",
         tabSend: "ग्राहक मोड (Sender)",
         statusConnecting: "काउंटर तैयार हो रहा है...",
         qrInstruction: "प्रिंट निकालने के लिए कस्टमर से यह QR कोड स्कैन करवाएं या 6-अक्षरों का कोड डलवाएं।",
         counterCodeLabel: "काउंटर कोड",
         incomingTitle: "📥 आई हुई फाइल्स (Live Queue)",
-        emptyQueue: "जैसे ही ग्राहक फाइल भेजेगा, यहाँ 0% से 100% लाइव प्रोग्रेस पानी जैसा लोड होते हुए दिखेगा।",
+        emptyQueue: "जैसे ही ग्राहक फाइल भेजेगा, यहाँ 0% से 100% लाइव स्नेक प्रोग्रेस लोड होते हुए दिखेगा।",
         connectTitle: "1. दुकान के काउंटर से लिंक करें",
         connectDesc: "दुकान के काउंटर पर दिख रहा QR स्कैन करें या कोड डालकर लिंक करें।",
         btnScanCamera: "दुकान का QR स्कैन करें",
@@ -786,21 +758,18 @@
         connectingWait: "काउंटर से लिंक हो रहा है... कृपया प्रतीक्षा करें",
         orDivider: "— या काउंटर कोड डालें —",
         btnConnect: "लिंक करें",
-        filesTitle: "2. फाइलें चुनें व प्रिंट निर्देश दें",
-        dropzonePrompt: "यहाँ टैप करके PDF, फोटो या वीडियो चुनें",
-        dropzoneSub: "P2P हाई-स्पीड पाइपलाइन द्वारा रियल-टाइम ट्रांसफर",
-        lblCopies: "कॉपी (Copies)",
-        lblColor: "कलर मोड",
-        lblSide: "साइड (Sides)",
-        btnSendFiles: "सुरक्षित सेंड करें 🚀",
+        filesTitle: "2. जितनी चाहे फाइलें चुनें (Batch Send)",
+        dropzonePrompt: "यहाँ टैप करके PDF, फोटो या वीडियो चुनें (एक या अनेक)",
+        dropzoneSub: "मल्टी-चंक डायरेक्ट P2P पाइपलाइन — कोई साइज लिमिट नहीं",
+        btnSendFiles: "सभी फाइलें एक साथ भेजें 🚀",
         cropTitle: "🖼️ QR क्रॉप व एडजस्ट करें",
         cropDesc: "QR कोड को गाइड बॉक्स के बीच में ज़ूम या रोटेट करें",
         btnRotate: "🔄 घुमाएं",
         lblZoom: "ज़ूम:",
         btnCancel: "रद्द करें",
         btnConfirmQR: "✓ OK, QR स्कैन करें",
-        successTitle: "फाइल सफलतापूर्वक पहुँच गई!",
-        successDesc: "दुकानदार के काउंटर पर आपकी फाइल 100% लोड हो चुकी है।",
+        successTitle: "सभी फाइलें सफलतापूर्वक पहुँच गईं!",
+        successDesc: "काउंटर पर आपकी सभी फाइलें 100% लोड हो चुकी हैं।",
         btnOk: "ठीक है (OK)",
         footerNote: "100% Client-Side Peer-to-Peer Transfer • कोई डेटा सर्वर पर स्टोर नहीं होता",
         navHow: "💡 यह कैसे काम करता है?",
@@ -810,14 +779,14 @@
       },
       en: {
         heroTitle: "No Numbers. Zero Risk. Direct Safe Print!",
-        heroDesc: "Transmit documents directly to counter printers without sharing mobile numbers. Zero cloud storage.",
+        heroDesc: "Transmit multiple documents directly to counter printers without sharing mobile numbers.",
         tabReceive: "Shopkeeper Mode (Receiver)",
         tabSend: "Customer Mode (Sender)",
         statusConnecting: "Initializing Counter...",
         qrInstruction: "Ask customer to scan this QR code or enter code to print.",
         counterCodeLabel: "Counter Code",
-        incomingTitle: "📥 Incoming Files (Live Queue)",
-        emptyQueue: "Files sent by customer will show live water-wave loading progress here.",
+        incomingTitle: "📥 Incoming Queue (Live)",
+        emptyQueue: "Files sent by customer will show live cyber snake progress here.",
         connectTitle: "1. Link to Shop Counter",
         connectDesc: "Scan the counter QR or enter code manually to link.",
         btnScanCamera: "Scan Counter QR",
@@ -827,21 +796,18 @@
         connectingWait: "Linking to counter... Please wait",
         orDivider: "— OR ENTER COUNTER CODE —",
         btnConnect: "Link Counter",
-        filesTitle: "2. Select Files & Print Preferences",
-        dropzonePrompt: "Tap here to select PDF, Photos or Videos",
-        dropzoneSub: "Real-time transfer via P2P high-speed pipeline",
-        lblCopies: "Copies",
-        lblColor: "Color Mode",
-        lblSide: "Sides",
-        btnSendFiles: "Send Securely 🚀",
+        filesTitle: "2. Select Multiple Files (Batch Send)",
+        dropzonePrompt: "Tap here to select PDF, Photos or Videos (Single or Multiple)",
+        dropzoneSub: "Multi-chunk direct P2P pipeline — Zero size limits",
+        btnSendFiles: "Send All Files Together 🚀",
         cropTitle: "🖼️ Crop & Adjust QR",
         cropDesc: "Zoom or rotate to position QR inside guide box",
         btnRotate: "🔄 Rotate",
         lblZoom: "Zoom:",
         btnCancel: "Cancel",
         btnConfirmQR: "✓ OK, Scan QR",
-        successTitle: "Files Sent Successfully!",
-        successDesc: "Your files are 100% loaded at the shopkeeper's counter.",
+        successTitle: "All Files Sent Successfully!",
+        successDesc: "All your files are 100% loaded at the counter terminal.",
         btnOk: "OK (Done)",
         footerNote: "100% Client-Side Peer-to-Peer Transfer • Zero Server Storage",
         navHow: "💡 How It Works",
@@ -918,6 +884,7 @@
       }
     }
 
+    /* 🛡️ DUKANDAAR RECEIVER INITIALIZATION */
     function initReceiverPeer() {
       if (peer && !peer.destroyed) return;
 
@@ -953,7 +920,7 @@
             const txt = document.getElementById("text_" + transferId);
             const bar = document.getElementById("bar_" + transferId);
             if (txt) {
-              txt.innerText = (currentLang === "hi") ? "❌ कनेक्शन टूटा! सेंडर ने बंद किया।" : "❌ Connection lost! Sender left.";
+              txt.innerText = (currentLang === "hi") ? "❌ कनेक्शन टूटा!" : "❌ Connection lost!";
               txt.style.color = "#ff4d6d";
             }
             if (bar) bar.style.background = "#ff4d6d";
@@ -968,7 +935,7 @@
       });
     }
 
-    /* 🌊 RECEIVER DATA HANDLER WITH THROTTLED PROGRESS (NO LAG) 🌊 */
+    /* 🐍 RECEIVER DATA HANDLER WITH SNAKE ANIMATION 🐍 */
     let lastAckTime = 0;
     function handleIncomingData(data) {
       if (data.type === "TRANSFER_START") {
@@ -990,11 +957,10 @@
 
         const progressPercent = Math.min(100, Math.round((transfer.receivedBytes / transfer.meta.fileSize) * 100));
         
-        // स्मूथ यूआई रेंडरिंग (थ्रॉटल ताकि सीपीयू फ्रीज न हो)
         const now = Date.now();
         if (now - lastAckTime > 60 || progressPercent === 100) {
           lastAckTime = now;
-          updateLiquidProgress(data.id, progressPercent, transfer.receivedBytes, transfer.meta.fileSize);
+          updateSnakeProgress(data.id, progressPercent, transfer.receivedBytes, transfer.meta.fileSize);
 
           if (conn && conn.open) {
             conn.send({
@@ -1011,14 +977,14 @@
 
         isTransferring = false;
         playAudioTone("complete");
-        updateLiquidProgress(data.id, 100, transfer.meta.fileSize, transfer.meta.fileSize);
+        updateSnakeProgress(data.id, 100, transfer.meta.fileSize, transfer.meta.fileSize);
         
         if (conn && conn.open) {
           conn.send({ type: "SYNC_ACK", id: data.id, percent: 100 });
         }
 
         const finalBlob = new Blob(transfer.chunks, { type: transfer.meta.fileType });
-        completeLiquidProgress(data.id, finalBlob, transfer.meta);
+        completeSnakeProgress(data.id, finalBlob, transfer.meta);
         delete incomingTransfers[data.id];
       }
     }
@@ -1037,14 +1003,16 @@
             <div class="file-name" title="${meta.fileName}">${meta.fileName}</div>
             <div class="file-meta">
               <span>${(meta.fileSize / (1024 * 1024)).toFixed(2)} MB</span>
-              <span class="instruction-tag">${meta.instructions.copies} Copy • ${meta.instructions.color} • ${meta.instructions.side}</span>
             </div>
           </div>
         </div>
 
-        <div id="progWrap_${meta.id}" class="liquid-progress-container">
-          <div class="liquid-wave-fill" id="bar_${meta.id}"></div>
-          <div class="liquid-progress-text" id="text_${meta.id}">🌊 लोड हो रहा है... 0%</div>
+        <div id="progWrap_${meta.id}" class="snake-progress-container">
+          <div class="snake-fill" id="bar_${meta.id}"></div>
+          <div class="snake-text">
+            <span>🐍 प्राप्त हो रहा है...</span>
+            <span id="text_${meta.id}">0%</span>
+          </div>
         </div>
 
         <div id="body_${meta.id}" style="display: none; flex-direction: column; gap: 12px;"></div>
@@ -1054,25 +1022,25 @@
       updateQueueCount();
     }
 
-    function updateLiquidProgress(id, percent, loaded, total) {
+    function updateSnakeProgress(id, percent, loaded, total) {
       const bar = document.getElementById("bar_" + id);
       const txt = document.getElementById("text_" + id);
       if (bar) bar.style.width = percent + "%";
       if (txt) {
         const loadedMb = (loaded / (1024 * 1024)).toFixed(1);
         const totalMb = (total / (1024 * 1024)).toFixed(1);
-        txt.innerText = (currentLang === "hi") ? `🌊 आ रहा है... ${percent}% (${loadedMb}/${totalMb} MB)` : `🌊 Receiving... ${percent}% (${loadedMb}/${totalMb} MB)`;
+        txt.innerText = `${percent}% (${loadedMb}/${totalMb} MB)`;
       }
     }
 
-    function completeLiquidProgress(id, blob, meta) {
+    function completeSnakeProgress(id, blob, meta) {
       const bar = document.getElementById("bar_" + id);
       const txt = document.getElementById("text_" + id);
       const progWrap = document.getElementById("progWrap_" + id);
       const body = document.getElementById("body_" + id);
 
       if (bar) bar.style.width = "100%";
-      if (txt) txt.innerText = (currentLang === "hi") ? "✓ 100% पूरा हुआ!" : "✓ 100% Loaded!";
+      if (txt) txt.innerText = "✓ 100%";
       
       setTimeout(() => {
         if (progWrap) progWrap.style.display = "none";
@@ -1096,18 +1064,13 @@
         previewHtml = `<div class="preview-box"><video src="${objectUrl}" controls></video></div>`;
       }
 
-      const printLabel = (currentLang === "hi") ? "🖨️ डायरेक्ट प्रिंट" : "🖨️ Direct Print";
-      const rotateLabel = (currentLang === "hi") ? "🔄 घुमाएं" : "🔄 Rotate";
-      const saveLabel = (currentLang === "hi") ? "💾 सेव करें" : "💾 Save";
-      const deleteLabel = (currentLang === "hi") ? "🔥 नष्ट करें" : "🔥 Delete";
-
       container.innerHTML = `
         ${previewHtml}
         <div class="action-group">
-          ${(!isVideo) ? `<button class="btn btn-primary" onclick="directPrintDoc('${objectUrl}', '${meta.fileType}', '${id}')">${printLabel}</button>` : ''}
-          ${isImg ? `<button class="btn btn-secondary" onclick="rotateImage('${id}')">${rotateLabel}</button>` : ''}
-          <a class="btn btn-secondary" href="${objectUrl}" download="${meta.fileName}" style="text-decoration:none;">${saveLabel}</a>
-          <button class="btn btn-danger" onclick="shredDocument('fileCard_${id}', '${objectUrl}')">${deleteLabel}</button>
+          ${(!isVideo) ? `<button class="btn btn-primary" onclick="directPrintDoc('${objectUrl}', '${meta.fileType}', '${id}')">🖨️ डायरेक्ट प्रिंट</button>` : ''}
+          ${isImg ? `<button class="btn btn-secondary" onclick="rotateImage('${id}')">🔄 घुमाएं</button>` : ''}
+          <a class="btn btn-secondary" href="${objectUrl}" download="${meta.fileName}" style="text-decoration:none;">💾 सेव करें</a>
+          <button class="btn btn-danger" onclick="shredDocument('fileCard_${id}', '${objectUrl}')">🔥 नष्ट करें</button>
         </div>
       `;
     }
@@ -1149,11 +1112,12 @@
       URL.revokeObjectURL(objectUrl);
       const el = document.getElementById(elementId);
       if (el) {
-        el.classList.add("shredding");
+        el.style.opacity = "0";
+        el.style.transform = "translateX(50px)";
         setTimeout(() => {
           el.remove();
           updateQueueCount();
-        }, 600);
+        }, 300);
       }
     }
 
@@ -1169,16 +1133,44 @@
       if (!peer) peer = new Peer();
     }
 
+    /* 🌟 BATCH FILE SELECTION TRAY (जितनी चाहे उतनी फाइलें) 🌟 */
     function handleFileSelection(event) {
-      selectedFiles = Array.from(event.target.files);
-      if (selectedFiles.length > 0) {
-        const totalMb = (selectedFiles.reduce((a,b)=>a+b.size,0)/(1024*1024)).toFixed(2);
-        document.getElementById("fileSelectionLabel").innerText = (currentLang === "hi") ? `${selectedFiles.length} फाइलें चुनी गईं (${totalMb} MB)` : `${selectedFiles.length} files selected (${totalMb} MB)`;
-      }
+      const newFiles = Array.from(event.target.files);
+      selectedFiles = selectedFiles.concat(newFiles);
+      renderSelectedFilesTray();
+      event.target.value = "";
     }
 
-    /* 🚀 ROCKET-SPEED STREAMING ENGINE (64KB OPTIMAL CHUNK + ZERO ARTIFICIAL LAG) 🚀 */
-    async function sendSelectedFiles() {
+    function removeFileFromBatch(index) {
+      selectedFiles.splice(index, 1);
+      renderSelectedFilesTray();
+    }
+
+    function renderSelectedFilesTray() {
+      const tray = document.getElementById("selectedFilesTray");
+      tray.innerHTML = "";
+
+      if (selectedFiles.length === 0) {
+        document.getElementById("fileSelectionLabel").innerText = (currentLang === "hi") ? "यहाँ टैप करके PDF, फोटो या वीडियो चुनें (एक या अनेक)" : "Tap here to select PDF, Photos or Videos (Single or Multiple)";
+        return;
+      }
+
+      const totalMb = (selectedFiles.reduce((a, b) => a + b.size, 0) / (1024 * 1024)).toFixed(2);
+      document.getElementById("fileSelectionLabel").innerText = `✓ ${selectedFiles.length} फाइलें चुनी गईं (${totalMb} MB)`;
+
+      selectedFiles.forEach((file, idx) => {
+        const chip = document.createElement("div");
+        chip.className = "file-chip";
+        chip.innerHTML = `
+          <div class="file-chip-name">${idx + 1}. ${file.name} (${(file.size / (1024 * 1024)).toFixed(1)} MB)</div>
+          <span style="color:var(--danger); cursor:pointer; font-weight:bold;" onclick="removeFileFromBatch(${idx})">❌</span>
+        `;
+        tray.appendChild(chip);
+      });
+    }
+
+    /* 🚀 ROCKET-SPEED BATCH SENDER (बैक-टू-बैक ऑल फाइल्स) 🚀 */
+    async function sendSelectedFilesBatch() {
       if (!conn || !conn.open) {
         alert((currentLang === "hi") ? "कृपया पहले ऊपर दुकान के काउंटर से लिंक करें!" : "Please connect to counter first!");
         return;
@@ -1194,35 +1186,26 @@
       const btn = document.getElementById("btnSendAction");
       const pWrap = document.getElementById("senderProgressWrap");
       const pBar = document.getElementById("senderProgressBar");
+      const pTitle = document.getElementById("senderProgressTitle");
       const pText = document.getElementById("senderProgressText");
+      const pSpeed = document.getElementById("senderProgressSpeed");
 
       btn.disabled = true;
       btn.style.opacity = "0.5";
       pWrap.style.display = "block";
       pBar.style.width = "0%";
-      pText.innerText = "रॉकेट स्पीड शुरू... 0%";
 
-      const instructions = {
-        copies: document.getElementById("optCopies").value,
-        color: document.getElementById("optColor").value,
-        side: document.getElementById("optSide").value
-      };
-
-      const CHUNK_SIZE = 64 * 1024; // 64KB Optimal Streaming Chunk Size
+      const CHUNK_SIZE = 64 * 1024; // 64KB Max Speed
       const dc = conn.dataChannel;
 
-      // बफर कंट्रोलर (ताकि डेटा कभी ड्रॉप न हो और अधिकतम स्पीड मिले)
       const waitForBuffer = () => {
         return new Promise(resolve => {
           if (!dc || dc.bufferedAmount <= 2 * 1024 * 1024) {
             resolve();
           } else {
             const check = () => {
-              if (dc.bufferedAmount <= 512 * 1024) {
-                resolve();
-              } else {
-                setTimeout(check, 5);
-              }
+              if (dc.bufferedAmount <= 512 * 1024) resolve();
+              else setTimeout(check, 4);
             };
             check();
           }
@@ -1230,20 +1213,25 @@
       };
 
       try {
-        for (let i = 0; i < selectedFiles.length; i++) {
+        const totalFiles = selectedFiles.length;
+
+        for (let i = 0; i < totalFiles; i++) {
           const file = selectedFiles[i];
           const transferId = Date.now() + "_" + Math.random().toString(36).substr(2, 5);
+
+          pTitle.innerText = `🐍 फ़ाइल (${i + 1}/${totalFiles}): ${file.name.substring(0, 15)}...`;
 
           conn.send({
             type: "TRANSFER_START",
             id: transferId,
             fileName: file.name,
             fileSize: file.size,
-            fileType: file.type || "application/octet-stream",
-            instructions: instructions
+            fileType: file.type || "application/octet-stream"
           });
 
           let offset = 0;
+          let startTime = Date.now();
+
           while (offset < file.size) {
             if (!conn || !conn.open) throw new Error("Connection lost");
 
@@ -1259,6 +1247,13 @@
             });
 
             offset += buffer.byteLength;
+
+            // स्पीड कैलकुलेटर
+            const elapsed = (Date.now() - startTime) / 1000;
+            if (elapsed > 0.3) {
+              const speedMb = ((offset / (1024 * 1024)) / elapsed).toFixed(1);
+              pSpeed.innerText = `${speedMb} MB/s`;
+            }
           }
 
           conn.send({
@@ -1271,22 +1266,21 @@
         isTransferring = false;
         btn.disabled = false;
         btn.style.opacity = "1";
-        pText.innerText = "❌ ट्रांसफर बाधित!";
+        pText.innerText = "❌ त्रुटि!";
         pBar.style.background = "#ff4d6d";
-        alert((currentLang === "hi") ? "ट्रांसफर रुक गया! काउंटर से कनेक्शन टूट गया।" : "Transfer interrupted!");
+        alert("ट्रांसफर बाधित हुआ!");
       }
     }
 
     function connectToCounter(autoId = null) {
       const targetId = autoId || document.getElementById("targetPeerCode").value.trim().toUpperCase();
       if (!targetId) {
-        alert((currentLang === "hi") ? "कृपया काउंटर कोड दर्ज करें!" : "Please enter counter code!");
+        alert("कृपया काउंटर कोड दर्ज करें!");
         return;
       }
 
       const connectingBox = document.getElementById("connectingBox");
       const alertBox = document.getElementById("customerConnAlert");
-      
       connectingBox.style.display = "flex";
       alertBox.innerText = "";
 
@@ -1299,29 +1293,28 @@
         alertBox.style.color = "var(--primary)";
         alertBox.innerText = (currentLang === "hi") ? "✓ काउंटर से सुरक्षित रूप से कनेक्टेड! अब फाइलें भेजें।" : "✓ Securely connected to counter!";
 
-        // ⚡ रिसीवर से स्मूथ वाटर-वेव सिंक सुनना
         conn.on("data", (data) => {
           if (data.type === "SYNC_ACK") {
             const pBar = document.getElementById("senderProgressBar");
             const pText = document.getElementById("senderProgressText");
             if (pBar && pText) {
               pBar.style.width = data.percent + "%";
-              pText.innerText = (currentLang === "hi") ? `🌊 जा रहा है... ${data.percent}%` : `🌊 Sending... ${data.percent}%`;
+              pText.innerText = `${data.percent}%`;
             }
 
             if (data.percent >= 100) {
-              isTransferring = false;
               playAudioTone("complete");
               const btn = document.getElementById("btnSendAction");
               btn.disabled = false;
               btn.style.opacity = "1";
 
               setTimeout(() => {
+                isTransferring = false;
                 document.getElementById("senderProgressWrap").style.display = "none";
-                confetti({ particleCount: 140, spread: 80, origin: { y: 0.6 } });
+                confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
                 document.getElementById("successModal").classList.add("active");
                 selectedFiles = [];
-                document.getElementById("fileSelectionLabel").innerText = (currentLang === "hi") ? "यहाँ टैप करके PDF, फोटो या वीडियो चुनें" : "Tap here to select PDF, Photos or Videos";
+                renderSelectedFilesTray();
               }, 400);
             }
           }
@@ -1330,13 +1323,13 @@
 
       conn.on("close", () => {
         alertBox.style.color = "var(--danger)";
-        alertBox.innerText = (currentLang === "hi") ? "⚠️ काउंटर से कनेक्शन टूट गया!" : "⚠️ Disconnected from counter!";
+        alertBox.innerText = "⚠️ काउंटर से कनेक्शन टूट गया!";
       });
 
       conn.on("error", () => {
         connectingBox.style.display = "none";
         alertBox.style.color = "var(--danger)";
-        alertBox.innerText = (currentLang === "hi") ? "काउंटर से संपर्क नहीं हो सका।" : "Failed to connect.";
+        alertBox.innerText = "काउंटर से संपर्क नहीं हो सका।";
       });
     }
 
@@ -1367,17 +1360,12 @@
 
     function rotateCropImage() {
       qrCropRotation = (qrCropRotation + 90) % 360;
-      updateQRCropPreview();
+      document.getElementById("cropImagePreview").style.transform = `rotate(${qrCropRotation}deg) scale(${qrCropZoom})`;
     }
 
     function applyCropZoom(val) {
       qrCropZoom = val;
-      updateQRCropPreview();
-    }
-
-    function updateQRCropPreview() {
-      const img = document.getElementById("cropImagePreview");
-      img.style.transform = `rotate(${qrCropRotation}deg) scale(${qrCropZoom})`;
+      document.getElementById("cropImagePreview").style.transform = `rotate(${qrCropRotation}deg) scale(${qrCropZoom})`;
     }
 
     function closeCropModal() {
@@ -1407,7 +1395,7 @@
         closeCropModal();
         handleScannedData(code.data);
       } else {
-        alert((currentLang === "hi") ? "QR कोड डिटेक्ट नहीं हुआ! थोड़ा और ज़ूम या रोटेट करें।" : "QR Code not detected! Zoom in or rotate.");
+        alert("QR कोड डिटेक्ट नहीं हुआ! थोड़ा और ज़ूम या रोटेट करें।");
       }
     }
 
@@ -1423,7 +1411,7 @@
         try {
           await launchCameraStream(true);
         } catch (finalErr) {
-          alert((currentLang === "hi") ? "कैमरा चालू नहीं हो सका। 'गैलरी QR' का उपयोग करें!" : "Camera failed. Use 'Gallery QR'!");
+          alert("कैमरा चालू नहीं हो सका। 'गैलरी QR' का उपयोग करें!");
           stopNativeScanner();
         }
       }
