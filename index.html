@@ -218,9 +218,9 @@
     /* 🐍 स्नेक साइबर प्रोग्रेस बार 🐍 */
     .snake-progress-container {
       width: 100%;
-      height: 44px;
-      background: rgba(0, 0, 0, 0.6);
-      border-radius: 22px;
+      height: 46px;
+      background: rgba(0, 0, 0, 0.65);
+      border-radius: 23px;
       border: 2px solid var(--card-border);
       position: relative;
       overflow: hidden;
@@ -232,9 +232,9 @@
     .snake-fill {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, rgba(0, 255, 163, 0.3), var(--primary) 70%, var(--snake-glow) 100%);
+      background: linear-gradient(90deg, rgba(0, 255, 163, 0.25), var(--primary) 70%, var(--snake-glow) 100%);
       position: relative;
-      border-radius: 20px;
+      border-radius: 21px;
       transition: width 0.08s linear;
       box-shadow: 0 0 15px var(--primary-glow);
     }
@@ -308,7 +308,6 @@
     .btn-secondary:hover { border-color: var(--primary); }
     .btn-danger { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(255,77,109,0.3); }
 
-    /* 🖼️ अल्ट्रा-क्लियर प्रीव्यू बॉक्स (Zero Black Box) 🖼️ */
     .preview-box {
       min-height: 200px;
       max-height: 380px;
@@ -332,24 +331,10 @@
       opacity: 0;
       transition: opacity 0.3s ease-in-out;
     }
-    .preview-box img.loaded {
-      opacity: 1;
-    }
+    .preview-box img.loaded { opacity: 1; }
 
-    /* 🎬 कस्टम वीडियो प्लेयर 🎬 */
-    .video-wrapper {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .video-wrapper video {
-      width: 100%;
-      max-height: 320px;
-      background: #000;
-      border-radius: 12px;
-      object-fit: contain;
-    }
+    .video-wrapper { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+    .video-wrapper video { width: 100%; max-height: 320px; background: #000; border-radius: 12px; object-fit: contain; }
     .video-controls-bar {
       display: flex;
       align-items: center;
@@ -381,7 +366,6 @@
       outline: none;
     }
 
-    /* File Selection Chips */
     .selected-files-tray {
       display: flex;
       flex-direction: column;
@@ -394,7 +378,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 0.35);
       padding: 8px 12px;
       border-radius: 8px;
       border: 1px solid var(--card-border);
@@ -521,7 +505,6 @@
     }
     @keyframes modalFade { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
 
-    /* Crop Workspace */
     .crop-canvas-wrapper {
       position: relative;
       width: 100%;
@@ -535,12 +518,7 @@
       align-items: center;
       border: 1px solid var(--card-border);
     }
-    #cropImagePreview {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-      user-select: none;
-    }
+    #cropImagePreview { max-width: 100%; max-height: 100%; object-fit: contain; user-select: none; }
     .crop-guide-box {
       position: absolute;
       width: 75%;
@@ -580,7 +558,7 @@
 
   <main>
     <div class="trust-hero">
-      <div class="trust-tag">⚡ 100% P2P • SYNCED SNAKE STREAM • ZERO CLOUD UPLOAD</div>
+      <div class="trust-tag">⚡ 100% P2P • TRUE BATCH PIPELINE • ZERO SERVER STORAGE</div>
       <h2 data-i18n="heroTitle">नो नंबर, नो रिस्क — सीधा सुरक्षित प्रिंट!</h2>
       <p data-i18n="heroDesc">बिना दुकानदार का मोबाइल नंबर सेव किए जितनी चाहे फाइलें (PDF/फोटो/वीडियो) सीधे काउंटर पर एक साथ भेजें।</p>
     </div>
@@ -667,7 +645,7 @@
         <div id="customerConnAlert" style="font-size: 0.8rem; margin-top: 10px; font-weight: 700;"></div>
       </div>
 
-      <!-- File Select Section -->
+      <!-- File Select Section (Batch Tray) -->
       <div class="card" id="senderTransferBox">
         <h3 style="margin-bottom: 12px; font-size: 1.05rem;" data-i18n="filesTitle">2. जितनी चाहे फाइलें चुनें (Batch Send)</h3>
         
@@ -675,22 +653,23 @@
           <input type="file" id="fileUploadInput" multiple onchange="handleFileSelection(event)">
           <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary); margin-bottom: 8px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
           <div style="font-weight: 700; font-size: 1.05rem;" id="fileSelectionLabel" data-i18n="dropzonePrompt">यहाँ टैप करके PDF, फोटो या वीडियो चुनें (एक या अनेक)</div>
-          <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">मल्टी-चंक डायरेक्ट P2P पाइपलाइन — कोई साइज लिमिट नहीं</div>
+          <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">मल्टी-फ़ाइल डायरेक्ट P2P पाइपलाइन — कोई साइज लिमिट नहीं</div>
         </div>
 
-        <!-- Selected Files Tray -->
+        <!-- Selected Files Preview Tray -->
         <div class="selected-files-tray" id="selectedFilesTray"></div>
 
-        <!-- Sender Snake Cyber Progress Bar -->
+        <!-- Overall Batch Snake Cyber Progress Bar -->
         <div id="senderProgressWrap" style="display: none; margin-top: 14px;">
           <div class="snake-progress-container">
             <div class="snake-fill" id="senderProgressBar"></div>
             <div class="snake-text">
-              <span id="senderProgressTitle">🐍 सेंडिंग...</span>
+              <span id="senderProgressTitle">🐍 कुल प्रगति...</span>
               <span id="senderProgressSpeed">0 MB/s</span>
               <span id="senderProgressText">0%</span>
             </div>
           </div>
+          <div id="batchSubStatus" style="font-size: 0.8rem; color: var(--primary); font-weight: 700; text-align: center; margin-top: 4px;">फ़ाइल 1/1 भेजी जा रही है...</div>
         </div>
 
         <button class="btn btn-primary" id="btnSendAction" style="width: 100%; margin-top: 18px; padding: 15px; justify-content: center; font-size: 1.05rem;" onclick="sendSelectedFilesBatch()" data-i18n="btnSendFiles">
@@ -729,11 +708,12 @@
   <iframe id="printFrame"></iframe>
   <canvas id="qrScanCanvas" style="display: none;"></canvas>
 
+  <!-- Success Modal (Only when ALL files reach 100%) -->
   <div class="modal-overlay" id="successModal">
     <div class="modal-card">
       <div style="font-size: 3.5rem; margin-bottom: 10px;">🎉</div>
       <h3 style="margin-bottom: 8px; color: var(--primary);" data-i18n="successTitle">सभी फाइलें सफलतापूर्वक पहुँच गईं!</h3>
-      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;" data-i18n="successDesc">काउंटर पर आपकी सभी फाइलें 100% लोड हो चुकी हैं।</p>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;" id="successModalDesc">काउंटर पर आपकी सभी फाइलें 100% लोड हो चुकी हैं।</p>
       <button class="btn btn-primary" style="justify-content: center; padding: 12px; width: 100%;" onclick="closeSuccessModal()" data-i18n="btnOk">ठीक है (OK)</button>
     </div>
   </div>
@@ -818,7 +798,7 @@
         btnConnect: "लिंक करें",
         filesTitle: "2. जितनी चाहे फाइलें चुनें (Batch Send)",
         dropzonePrompt: "यहाँ टैप करके PDF, फोटो या वीडियो चुनें (एक या अनेक)",
-        dropzoneSub: "मल्टी-चंक डायरेक्ट P2P पाइपलाइन — कोई साइज लिमिट नहीं",
+        dropzoneSub: "मल्टी-फ़ाइल डायरेक्ट P2P पाइपलाइन — कोई साइज लिमिट नहीं",
         btnSendFiles: "सभी फाइलें एक साथ भेजें 🚀",
         cropTitle: "🖼️ QR क्रॉप व एडजस्ट करें",
         cropDesc: "QR कोड को गाइड बॉक्स के बीच में ज़ूम या रोटेट करें",
@@ -827,7 +807,6 @@
         btnCancel: "रद्द करें",
         btnConfirmQR: "✓ OK, QR स्कैन करें",
         successTitle: "सभी फाइलें सफलतापूर्वक पहुँच गईं!",
-        successDesc: "काउंटर पर आपकी सभी फाइलें 100% लोड हो चुकी हैं।",
         btnOk: "ठीक है (OK)",
         footerNote: "100% Client-Side Peer-to-Peer Transfer • कोई डेटा सर्वर पर स्टोर नहीं होता",
         navHow: "💡 यह कैसे काम करता है?",
@@ -856,7 +835,7 @@
         btnConnect: "Link Counter",
         filesTitle: "2. Select Multiple Files (Batch Send)",
         dropzonePrompt: "Tap here to select PDF, Photos or Videos (Single or Multiple)",
-        dropzoneSub: "Multi-chunk direct P2P pipeline — Zero size limits",
+        dropzoneSub: "Multi-file direct P2P pipeline — Zero size limits",
         btnSendFiles: "Send All Files Together 🚀",
         cropTitle: "🖼️ Crop & Adjust QR",
         cropDesc: "Zoom or rotate to position QR inside guide box",
@@ -865,7 +844,6 @@
         btnCancel: "Cancel",
         btnConfirmQR: "✓ OK, Scan QR",
         successTitle: "All Files Sent Successfully!",
-        successDesc: "All your files are 100% loaded at the counter terminal.",
         btnOk: "OK (Done)",
         footerNote: "100% Client-Side Peer-to-Peer Transfer • Zero Server Storage",
         navHow: "💡 How It Works",
@@ -995,6 +973,7 @@
       });
     }
 
+    /* 🐍 RECEIVER SIDE DATA HANDLER */
     let lastAckTime = 0;
     function handleIncomingData(data) {
       if (data.type === "TRANSFER_START") {
@@ -1025,7 +1004,8 @@
             conn.send({
               type: "SYNC_ACK",
               id: data.id,
-              percent: progressPercent
+              percent: progressPercent,
+              receivedBytes: transfer.receivedBytes
             });
           }
         }
@@ -1038,7 +1018,7 @@
         updateSnakeProgress(data.id, 100, transfer.meta.fileSize, transfer.meta.fileSize);
         
         if (conn && conn.open) {
-          conn.send({ type: "SYNC_ACK", id: data.id, percent: 100 });
+          conn.send({ type: "FILE_COMPLETED_ACK", id: data.id });
         }
 
         const ext = transfer.meta.fileName.split('.').pop().toLowerCase();
@@ -1117,7 +1097,6 @@
       }, 300);
     }
 
-    /* 🌟 सुपर स्मूथ प्रीव्यू (Zero Black Box Fix) 🌟 */
     function renderCardActions(id, blob, meta, mimeType, container) {
       const objectUrl = URL.createObjectURL(blob);
       const isImg = mimeType.startsWith("image/");
@@ -1179,21 +1158,14 @@
       const vid = document.getElementById("vid_" + id);
       const btn = document.getElementById("playBtn_" + id);
       if (!vid) return;
-
-      if (vid.paused) {
-        vid.play();
-        btn.innerText = "⏸ पॉज़";
-      } else {
-        vid.pause();
-        btn.innerText = "▶ प्ले";
-      }
+      if (vid.paused) { vid.play(); btn.innerText = "⏸ पॉज़"; }
+      else { vid.pause(); btn.innerText = "▶ प्ले"; }
     }
 
     function toggleMuteVideo(id) {
       const vid = document.getElementById("vid_" + id);
       const btn = document.getElementById("muteBtn_" + id);
       if (!vid) return;
-
       vid.muted = !vid.muted;
       btn.innerText = vid.muted ? "🔇 अनम्यूट" : "🔊 म्यूट";
     }
@@ -1296,8 +1268,11 @@
       });
     }
 
-    /* 🚀 STRICT SYNC BATCH SENDER (सेंडर और रिसीवर दोनों एक साथ 1:1 चलेंगे) 🚀 */
-    let currentBatchAckPercent = 0;
+    /* 🚀 REAL TOTAL-BATCH SENDER (जब तक सारी फाइलें न जाएँ, बधाई नहीं आएगी) 🚀 */
+    let isCurrentFileCompleted = false;
+    let totalBatchBytes = 0;
+    let totalBatchSentBytes = 0;
+
     async function sendSelectedFilesBatch() {
       if (!conn || !conn.open) {
         alert((currentLang === "hi") ? "कृपया पहले ऊपर दुकान के काउंटर से लिंक करें!" : "Please connect to counter first!");
@@ -1315,20 +1290,27 @@
       const pWrap = document.getElementById("senderProgressWrap");
       const pBar = document.getElementById("senderProgressBar");
       const pTitle = document.getElementById("senderProgressTitle");
+      const pSub = document.getElementById("batchSubStatus");
+      const pText = document.getElementById("senderProgressText");
+      const pSpeed = document.getElementById("senderProgressSpeed");
 
       btn.disabled = true;
       btn.style.opacity = "0.5";
       pWrap.style.display = "block";
       pBar.style.width = "0%";
+      pText.innerText = "0%";
 
       const CHUNK_SIZE = 64 * 1024;
       const dc = conn.dataChannel;
 
+      totalBatchBytes = selectedFiles.reduce((acc, f) => acc + f.size, 0);
+      totalBatchSentBytes = 0;
+      const totalFilesCount = selectedFiles.length;
+
       const waitForBuffer = () => {
         return new Promise(resolve => {
-          if (!dc || dc.bufferedAmount <= 2 * 1024 * 1024) {
-            resolve();
-          } else {
+          if (!dc || dc.bufferedAmount <= 2 * 1024 * 1024) resolve();
+          else {
             const check = () => {
               if (dc.bufferedAmount <= 512 * 1024) resolve();
               else setTimeout(check, 4);
@@ -1339,14 +1321,15 @@
       };
 
       try {
-        const totalFiles = selectedFiles.length;
+        let startTime = Date.now();
 
-        for (let i = 0; i < totalFiles; i++) {
+        for (let i = 0; i < totalFilesCount; i++) {
           const file = selectedFiles[i];
           const transferId = Date.now() + "_" + Math.random().toString(36).substr(2, 5);
-          currentBatchAckPercent = 0;
+          isCurrentFileCompleted = false;
 
-          pTitle.innerText = `🐍 फ़ाइल (${i + 1}/${totalFiles}): ${file.name.substring(0, 15)}...`;
+          pTitle.innerText = `🐍 फ़ाइल ${i + 1}/${totalFilesCount}`;
+          pSub.innerText = `भेज रहे हैं: ${file.name} (${i + 1}/${totalFilesCount}) | ${totalFilesCount - (i + 1)} फाइलें बाकी`;
 
           conn.send({
             type: "TRANSFER_START",
@@ -1373,6 +1356,18 @@
             });
 
             offset += buffer.byteLength;
+            totalBatchSentBytes += buffer.byteLength;
+
+            // ⚡ कुल (Total Batch) प्रोग्रेस की गणना
+            const overallPercent = Math.min(99, Math.round((totalBatchSentBytes / totalBatchBytes) * 100));
+            pBar.style.width = overallPercent + "%";
+            pText.innerText = overallPercent + "%";
+
+            const elapsed = (Date.now() - startTime) / 1000;
+            if (elapsed > 0.3) {
+              const speedMb = ((totalBatchSentBytes / (1024 * 1024)) / elapsed).toFixed(1);
+              pSpeed.innerText = `${speedMb} MB/s`;
+            }
           }
 
           conn.send({
@@ -1380,11 +1375,11 @@
             id: transferId
           });
 
-          // ⚡ जब तक रिसीवर चिल्लाकर 100% न कहे, सेंडर अगली फ़ाइल पर नहीं भागेगा
+          // ⚡ जब तक रिसीवर इस फ़ाइल का ACK न दे, तब तक अगली फ़ाइल शुरू न करो
           await new Promise((resolve, reject) => {
             const timeout = setTimeout(() => resolve(), 8000);
             const checkAck = setInterval(() => {
-              if (currentBatchAckPercent >= 100) {
+              if (isCurrentFileCompleted) {
                 clearTimeout(timeout);
                 clearInterval(checkAck);
                 resolve();
@@ -1394,16 +1389,34 @@
                 clearInterval(checkAck);
                 reject(new Error("Connection disconnected"));
               }
-            }, 50);
+            }, 30);
           });
         }
+
+        // 🌟 जब सारी की सारी फ़ाइलें सफलतापूर्वक पहुँच गईं, सिर्फ़ तब 100% और बधाई!
+        pBar.style.width = "100%";
+        pText.innerText = "100%";
+        pSub.innerText = `✓ पूरी ${totalFilesCount} फाइलें सफलतापूर्वक पहुँच गईं!`;
+        playAudioTone("complete");
+
+        setTimeout(() => {
+          btn.disabled = false;
+          btn.style.opacity = "1";
+          pWrap.style.display = "none";
+          confetti({ particleCount: 160, spread: 85, origin: { y: 0.6 } });
+          
+          document.getElementById("successModalDesc").innerText = `काउंटर पर आपकी पूरी ${totalFilesCount} फाइलें सफलतापूर्वक पहुँच चुकी हैं।`;
+          document.getElementById("successModal").classList.add("active");
+          selectedFiles = [];
+          renderSelectedFilesTray();
+        }, 400);
 
       } catch (err) {
         isConnectedOrTransferring = false;
         btn.disabled = false;
         btn.style.opacity = "1";
         pBar.style.background = "#ff4d6d";
-        alert("ट्रांसफर रुक गया! काउंटर से कनेक्शन टूट गया।");
+        alert("ट्रांसफर बीच में रुक गया! काउंटर से कनेक्शन टूट गया।");
       }
     }
 
@@ -1429,41 +1442,9 @@
         alertBox.style.color = "var(--primary)";
         alertBox.innerText = (currentLang === "hi") ? "✓ काउंटर से सुरक्षित रूप से कनेक्टेड! अब फाइलें भेजें।" : "✓ Securely connected to counter!";
 
-        // ⚡ रिसीवर से 1:1 रियल-टाइम प्रोग्रेस सिंक
-        let lastReportTime = Date.now();
         conn.on("data", (data) => {
-          if (data.type === "SYNC_ACK") {
-            currentBatchAckPercent = data.percent;
-            const pBar = document.getElementById("senderProgressBar");
-            const pText = document.getElementById("senderProgressText");
-            const pSpeed = document.getElementById("senderProgressSpeed");
-
-            if (pBar && pText) {
-              pBar.style.width = data.percent + "%";
-              pText.innerText = `${data.percent}%`;
-            }
-
-            const now = Date.now();
-            const elapsed = (now - lastReportTime) / 1000;
-            if (elapsed > 0.4 && pSpeed) {
-              lastReportTime = now;
-              pSpeed.innerText = `सिंक्ड ⚡`;
-            }
-
-            if (data.percent >= 100) {
-              playAudioTone("complete");
-              const btn = document.getElementById("btnSendAction");
-              btn.disabled = false;
-              btn.style.opacity = "1";
-
-              setTimeout(() => {
-                document.getElementById("senderProgressWrap").style.display = "none";
-                confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-                document.getElementById("successModal").classList.add("active");
-                selectedFiles = [];
-                renderSelectedFilesTray();
-              }, 400);
-            }
+          if (data.type === "FILE_COMPLETED_ACK") {
+            isCurrentFileCompleted = true;
           }
         });
       });
