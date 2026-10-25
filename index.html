@@ -235,7 +235,7 @@
       background: linear-gradient(90deg, rgba(0, 255, 163, 0.3), var(--primary) 70%, var(--snake-glow) 100%);
       position: relative;
       border-radius: 20px;
-      transition: width 0.1s linear;
+      transition: width 0.08s linear;
       box-shadow: 0 0 15px var(--primary-glow);
     }
     .snake-fill::after {
@@ -308,7 +308,7 @@
     .btn-secondary:hover { border-color: var(--primary); }
     .btn-danger { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(255,77,109,0.3); }
 
-    /* 🖼️ अल्ट्रा-क्लियर प्रीव्यू बॉक्स (काला बॉक्स बग हमेशा के लिए खत्म) 🖼️ */
+    /* 🖼️ अल्ट्रा-क्लियर प्रीव्यू बॉक्स (Zero Black Box) 🖼️ */
     .preview-box {
       min-height: 200px;
       max-height: 380px;
@@ -580,7 +580,7 @@
 
   <main>
     <div class="trust-hero">
-      <div class="trust-tag">⚡ ULTRA BATCH STREAM • INSTANT PREVIEW • ZERO CLOUD UPLOAD</div>
+      <div class="trust-tag">⚡ 100% P2P • SYNCED SNAKE STREAM • ZERO CLOUD UPLOAD</div>
       <h2 data-i18n="heroTitle">नो नंबर, नो रिस्क — सीधा सुरक्षित प्रिंट!</h2>
       <p data-i18n="heroDesc">बिना दुकानदार का मोबाइल नंबर सेव किए जितनी चाहे फाइलें (PDF/फोटो/वीडियो) सीधे काउंटर पर एक साथ भेजें।</p>
     </div>
@@ -750,12 +750,13 @@
   </footer>
 
   <script>
-    let isTransferring = false;
+    let isConnectedOrTransferring = false;
 
+    /* 🛡️ दोनों तरफ़ रिफ़्रेश रोकने वाली सख्त चेतावनी */
     window.addEventListener("beforeunload", (e) => {
-      if (isTransferring) {
+      if (isConnectedOrTransferring) {
         e.preventDefault();
-        e.returnValue = "सावधान! फाइल अभी ट्रांसफर हो रही है। अगर बैक या कट करेंगे तो फाइल नष्ट हो जाएगी!";
+        e.returnValue = "चेतावनी: लाइव P2P कनेक्शन सक्रिय है! यदि आप रिफ्रेश करेंगे तो फाइल नष्ट हो जाएगी और कनेक्शन टूट जाएगा।";
         return e.returnValue;
       }
     });
@@ -967,11 +968,14 @@
 
       peer.on("connection", (c) => {
         conn = c;
+        isConnectedOrTransferring = true;
+
         c.on("data", (data) => {
           handleIncomingData(data);
         });
 
         c.on("close", () => {
+          isConnectedOrTransferring = false;
           for (let transferId in incomingTransfers) {
             const txt = document.getElementById("text_" + transferId);
             const bar = document.getElementById("bar_" + transferId);
@@ -994,7 +998,7 @@
     let lastAckTime = 0;
     function handleIncomingData(data) {
       if (data.type === "TRANSFER_START") {
-        isTransferring = true;
+        isConnectedOrTransferring = true;
         playAudioTone("start");
         incomingTransfers[data.id] = {
           meta: data,
@@ -1013,7 +1017,7 @@
         const progressPercent = Math.min(100, Math.round((transfer.receivedBytes / transfer.meta.fileSize) * 100));
         
         const now = Date.now();
-        if (now - lastAckTime > 60 || progressPercent === 100) {
+        if (now - lastAckTime > 50 || progressPercent === 100) {
           lastAckTime = now;
           updateSnakeProgress(data.id, progressPercent, transfer.receivedBytes, transfer.meta.fileSize);
 
@@ -1030,7 +1034,6 @@
         const transfer = incomingTransfers[data.id];
         if (!transfer) return;
 
-        isTransferring = false;
         playAudioTone("complete");
         updateSnakeProgress(data.id, 100, transfer.meta.fileSize, transfer.meta.fileSize);
         
@@ -1111,10 +1114,10 @@
           body.style.display = "flex";
           renderCardActions(id, blob, meta, mimeType, body);
         }
-      }, 350);
+      }, 300);
     }
 
-    /* 🌟 सुपर स्मूथ प्रीव्यू और कस्टम वीडियो प्लेयर 🌟 */
+    /* 🌟 सुपर स्मूथ प्रीव्यू (Zero Black Box Fix) 🌟 */
     function renderCardActions(id, blob, meta, mimeType, container) {
       const objectUrl = URL.createObjectURL(blob);
       const isImg = mimeType.startsWith("image/");
@@ -1164,7 +1167,6 @@
         </div>
       `;
 
-      // फ़ोर्स इमेज री-पेंट (ताकि काला बॉक्स कभी न रहे)
       if (isImg) {
         requestAnimationFrame(() => {
           const img = document.getElementById("img_" + id);
@@ -1294,6 +1296,8 @@
       });
     }
 
+    /* 🚀 STRICT SYNC BATCH SENDER (सेंडर और रिसीवर दोनों एक साथ 1:1 चलेंगे) 🚀 */
+    let currentBatchAckPercent = 0;
     async function sendSelectedFilesBatch() {
       if (!conn || !conn.open) {
         alert((currentLang === "hi") ? "कृपया पहले ऊपर दुकान के काउंटर से लिंक करें!" : "Please connect to counter first!");
@@ -1304,15 +1308,13 @@
         return;
       }
 
-      isTransferring = true;
+      isConnectedOrTransferring = true;
       playAudioTone("start");
 
       const btn = document.getElementById("btnSendAction");
       const pWrap = document.getElementById("senderProgressWrap");
       const pBar = document.getElementById("senderProgressBar");
       const pTitle = document.getElementById("senderProgressTitle");
-      const pText = document.getElementById("senderProgressText");
-      const pSpeed = document.getElementById("senderProgressSpeed");
 
       btn.disabled = true;
       btn.style.opacity = "0.5";
@@ -1342,6 +1344,7 @@
         for (let i = 0; i < totalFiles; i++) {
           const file = selectedFiles[i];
           const transferId = Date.now() + "_" + Math.random().toString(36).substr(2, 5);
+          currentBatchAckPercent = 0;
 
           pTitle.innerText = `🐍 फ़ाइल (${i + 1}/${totalFiles}): ${file.name.substring(0, 15)}...`;
 
@@ -1354,7 +1357,6 @@
           });
 
           let offset = 0;
-          let startTime = Date.now();
 
           while (offset < file.size) {
             if (!conn || !conn.open) throw new Error("Connection lost");
@@ -1371,27 +1373,37 @@
             });
 
             offset += buffer.byteLength;
-
-            const elapsed = (Date.now() - startTime) / 1000;
-            if (elapsed > 0.3) {
-              const speedMb = ((offset / (1024 * 1024)) / elapsed).toFixed(1);
-              pSpeed.innerText = `${speedMb} MB/s`;
-            }
           }
 
           conn.send({
             type: "TRANSFER_END",
             id: transferId
           });
+
+          // ⚡ जब तक रिसीवर चिल्लाकर 100% न कहे, सेंडर अगली फ़ाइल पर नहीं भागेगा
+          await new Promise((resolve, reject) => {
+            const timeout = setTimeout(() => resolve(), 8000);
+            const checkAck = setInterval(() => {
+              if (currentBatchAckPercent >= 100) {
+                clearTimeout(timeout);
+                clearInterval(checkAck);
+                resolve();
+              }
+              if (!conn || !conn.open) {
+                clearTimeout(timeout);
+                clearInterval(checkAck);
+                reject(new Error("Connection disconnected"));
+              }
+            }, 50);
+          });
         }
 
       } catch (err) {
-        isTransferring = false;
+        isConnectedOrTransferring = false;
         btn.disabled = false;
         btn.style.opacity = "1";
-        pText.innerText = "❌ त्रुटि!";
         pBar.style.background = "#ff4d6d";
-        alert("ट्रांसफर बाधित हुआ!");
+        alert("ट्रांसफर रुक गया! काउंटर से कनेक्शन टूट गया।");
       }
     }
 
@@ -1412,17 +1424,30 @@
       conn = peer.connect(targetId, { reliable: true });
 
       conn.on("open", () => {
+        isConnectedOrTransferring = true;
         connectingBox.style.display = "none";
         alertBox.style.color = "var(--primary)";
         alertBox.innerText = (currentLang === "hi") ? "✓ काउंटर से सुरक्षित रूप से कनेक्टेड! अब फाइलें भेजें।" : "✓ Securely connected to counter!";
 
+        // ⚡ रिसीवर से 1:1 रियल-टाइम प्रोग्रेस सिंक
+        let lastReportTime = Date.now();
         conn.on("data", (data) => {
           if (data.type === "SYNC_ACK") {
+            currentBatchAckPercent = data.percent;
             const pBar = document.getElementById("senderProgressBar");
             const pText = document.getElementById("senderProgressText");
+            const pSpeed = document.getElementById("senderProgressSpeed");
+
             if (pBar && pText) {
               pBar.style.width = data.percent + "%";
               pText.innerText = `${data.percent}%`;
+            }
+
+            const now = Date.now();
+            const elapsed = (now - lastReportTime) / 1000;
+            if (elapsed > 0.4 && pSpeed) {
+              lastReportTime = now;
+              pSpeed.innerText = `सिंक्ड ⚡`;
             }
 
             if (data.percent >= 100) {
@@ -1432,7 +1457,6 @@
               btn.style.opacity = "1";
 
               setTimeout(() => {
-                isTransferring = false;
                 document.getElementById("senderProgressWrap").style.display = "none";
                 confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
                 document.getElementById("successModal").classList.add("active");
@@ -1445,6 +1469,7 @@
       });
 
       conn.on("close", () => {
+        isConnectedOrTransferring = false;
         alertBox.style.color = "var(--danger)";
         alertBox.innerText = "⚠️ काउंटर से कनेक्शन टूट गया!";
       });
