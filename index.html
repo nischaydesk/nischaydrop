@@ -215,7 +215,7 @@
     }
     .status-dot { width: 9px; height: 9px; border-radius: 50%; background: currentColor; }
 
-    /* 🐍 स्नेक साइबर प्रोग्रेस बार (Glowing Snake Pulse) 🐍 */
+    /* 🐍 स्नेक साइबर प्रोग्रेस बार 🐍 */
     .snake-progress-container {
       width: 100%;
       height: 44px;
@@ -238,7 +238,6 @@
       transition: width 0.1s linear;
       box-shadow: 0 0 15px var(--primary-glow);
     }
-    /* सांप का चमकता हुआ सिर (Snake Head) */
     .snake-fill::after {
       content: "";
       position: absolute;
@@ -309,19 +308,78 @@
     .btn-secondary:hover { border-color: var(--primary); }
     .btn-danger { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(255,77,109,0.3); }
 
+    /* 🖼️ अल्ट्रा-क्लियर प्रीव्यू बॉक्स (काला बॉक्स बग हमेशा के लिए खत्म) 🖼️ */
     .preview-box {
-      max-height: 220px;
+      min-height: 200px;
+      max-height: 380px;
       width: 100%;
-      background: #000;
-      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.45);
+      border-radius: 14px;
       overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 8px;
-      border: 1px dashed var(--card-border);
+      border: 1px solid var(--card-border);
+      position: relative;
     }
-    .preview-box img, .preview-box video { max-height: 200px; max-width: 100%; object-fit: contain; }
+    .preview-box img {
+      max-height: 360px;
+      max-width: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+      display: block;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+    .preview-box img.loaded {
+      opacity: 1;
+    }
+
+    /* 🎬 कस्टम वीडियो प्लेयर 🎬 */
+    .video-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .video-wrapper video {
+      width: 100%;
+      max-height: 320px;
+      background: #000;
+      border-radius: 12px;
+      object-fit: contain;
+    }
+    .video-controls-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.65);
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+      flex-wrap: wrap;
+    }
+    .video-ctrl-btn {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .video-speed-select {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      color: var(--primary);
+      padding: 6px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      outline: none;
+    }
 
     /* File Selection Chips */
     .selected-files-tray {
@@ -522,7 +580,7 @@
 
   <main>
     <div class="trust-hero">
-      <div class="trust-tag">⚡ ULTRA BATCH STREAM • NO SIZE LIMIT • ZERO CLOUD UPLOAD</div>
+      <div class="trust-tag">⚡ ULTRA BATCH STREAM • INSTANT PREVIEW • ZERO CLOUD UPLOAD</div>
       <h2 data-i18n="heroTitle">नो नंबर, नो रिस्क — सीधा सुरक्षित प्रिंट!</h2>
       <p data-i18n="heroDesc">बिना दुकानदार का मोबाइल नंबर सेव किए जितनी चाहे फाइलें (PDF/फोटो/वीडियो) सीधे काउंटर पर एक साथ भेजें।</p>
     </div>
@@ -609,7 +667,7 @@
         <div id="customerConnAlert" style="font-size: 0.8rem; margin-top: 10px; font-weight: 700;"></div>
       </div>
 
-      <!-- File Select Section (Multi-Files Batch System) -->
+      <!-- File Select Section -->
       <div class="card" id="senderTransferBox">
         <h3 style="margin-bottom: 12px; font-size: 1.05rem;" data-i18n="filesTitle">2. जितनी चाहे फाइलें चुनें (Batch Send)</h3>
         
@@ -620,7 +678,7 @@
           <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">मल्टी-चंक डायरेक्ट P2P पाइपलाइन — कोई साइज लिमिट नहीं</div>
         </div>
 
-        <!-- Selected Files Preview Tray -->
+        <!-- Selected Files Tray -->
         <div class="selected-files-tray" id="selectedFilesTray"></div>
 
         <!-- Sender Snake Cyber Progress Bar -->
@@ -642,7 +700,7 @@
     </div>
   </main>
 
-  <!-- ✂️ Crop Modal (Gallery QR Only) -->
+  <!-- Crop Modal -->
   <div class="modal-overlay" id="cropModal">
     <div class="modal-card">
       <h3 style="color: var(--primary); font-size: 1.15rem; margin-bottom: 4px;" data-i18n="cropTitle">🖼️ QR क्रॉप व एडजस्ट करें</h3>
@@ -702,7 +760,6 @@
       }
     });
 
-    /* 🔊 स्पष्ट और लाउड साउंड इंजन */
     function playAudioTone(type = "beep") {
       try {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -884,7 +941,6 @@
       }
     }
 
-    /* 🛡️ DUKANDAAR RECEIVER INITIALIZATION */
     function initReceiverPeer() {
       if (peer && !peer.destroyed) return;
 
@@ -935,7 +991,6 @@
       });
     }
 
-    /* 🐍 RECEIVER DATA HANDLER WITH SNAKE ANIMATION 🐍 */
     let lastAckTime = 0;
     function handleIncomingData(data) {
       if (data.type === "TRANSFER_START") {
@@ -983,8 +1038,16 @@
           conn.send({ type: "SYNC_ACK", id: data.id, percent: 100 });
         }
 
-        const finalBlob = new Blob(transfer.chunks, { type: transfer.meta.fileType });
-        completeSnakeProgress(data.id, finalBlob, transfer.meta);
+        const ext = transfer.meta.fileName.split('.').pop().toLowerCase();
+        let mime = transfer.meta.fileType;
+        if (!mime || mime === "application/octet-stream") {
+          if (["jpg", "jpeg", "png", "webp", "gif"].includes(ext)) mime = "image/" + (ext === "jpg" ? "jpeg" : ext);
+          else if (["mp4", "webm", "mkv", "mov"].includes(ext)) mime = "video/mp4";
+          else if (ext === "pdf") mime = "application/pdf";
+        }
+
+        const finalBlob = new Blob(transfer.chunks, { type: mime });
+        completeSnakeProgress(data.id, finalBlob, transfer.meta, mime);
         delete incomingTransfers[data.id];
       }
     }
@@ -1033,7 +1096,7 @@
       }
     }
 
-    function completeSnakeProgress(id, blob, meta) {
+    function completeSnakeProgress(id, blob, meta, mimeType) {
       const bar = document.getElementById("bar_" + id);
       const txt = document.getElementById("text_" + id);
       const progWrap = document.getElementById("progWrap_" + id);
@@ -1046,33 +1109,96 @@
         if (progWrap) progWrap.style.display = "none";
         if (body) {
           body.style.display = "flex";
-          renderCardActions(id, blob, meta, body);
+          renderCardActions(id, blob, meta, mimeType, body);
         }
       }, 350);
     }
 
-    function renderCardActions(id, blob, meta, container) {
+    /* 🌟 सुपर स्मूथ प्रीव्यू और कस्टम वीडियो प्लेयर 🌟 */
+    function renderCardActions(id, blob, meta, mimeType, container) {
       const objectUrl = URL.createObjectURL(blob);
-      const isImg = meta.fileType.startsWith("image/");
-      const isVideo = meta.fileType.startsWith("video/");
+      const isImg = mimeType.startsWith("image/");
+      const isVideo = mimeType.startsWith("video/");
+      const isPdf = mimeType.includes("pdf");
       fileRotations[id] = 0;
 
       let previewHtml = '';
       if (isImg) {
-        previewHtml = `<div class="preview-box"><img src="${objectUrl}" id="img_${id}" alt="Preview"></div>`;
+        previewHtml = `
+          <div class="preview-box">
+            <img src="${objectUrl}" id="img_${id}" alt="Preview" onload="this.classList.add('loaded')">
+          </div>
+        `;
       } else if (isVideo) {
-        previewHtml = `<div class="preview-box"><video src="${objectUrl}" controls></video></div>`;
+        previewHtml = `
+          <div class="video-wrapper">
+            <video id="vid_${id}" src="${objectUrl}" playsinline preload="metadata"></video>
+            <div class="video-controls-bar">
+              <button class="video-ctrl-btn" onclick="togglePlayVideo('${id}')" id="playBtn_${id}">▶ प्ले</button>
+              <button class="video-ctrl-btn" onclick="toggleMuteVideo('${id}')" id="muteBtn_${id}">🔊 म्यूट</button>
+              <select class="video-speed-select" onchange="setVideoSpeed('${id}', this.value)">
+                <option value="1">1.0x गति</option>
+                <option value="1.25">1.25x गति</option>
+                <option value="1.5">1.5x गति</option>
+                <option value="2">2.0x गति</option>
+              </select>
+            </div>
+          </div>
+        `;
+      } else if (isPdf) {
+        previewHtml = `
+          <div class="preview-box" style="min-height: 120px; flex-direction: column; gap: 8px;">
+            <div style="font-size: 2.8rem;">📄</div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary);">PDF दस्तावेज़ तैयार है</div>
+          </div>
+        `;
       }
 
       container.innerHTML = `
         ${previewHtml}
         <div class="action-group">
-          ${(!isVideo) ? `<button class="btn btn-primary" onclick="directPrintDoc('${objectUrl}', '${meta.fileType}', '${id}')">🖨️ डायरेक्ट प्रिंट</button>` : ''}
+          ${(!isVideo) ? `<button class="btn btn-primary" onclick="directPrintDoc('${objectUrl}', '${mimeType}', '${id}')">🖨️ डायरेक्ट प्रिंट</button>` : ''}
           ${isImg ? `<button class="btn btn-secondary" onclick="rotateImage('${id}')">🔄 घुमाएं</button>` : ''}
           <a class="btn btn-secondary" href="${objectUrl}" download="${meta.fileName}" style="text-decoration:none;">💾 सेव करें</a>
           <button class="btn btn-danger" onclick="shredDocument('fileCard_${id}', '${objectUrl}')">🔥 नष्ट करें</button>
         </div>
       `;
+
+      // फ़ोर्स इमेज री-पेंट (ताकि काला बॉक्स कभी न रहे)
+      if (isImg) {
+        requestAnimationFrame(() => {
+          const img = document.getElementById("img_" + id);
+          if (img && img.complete) img.classList.add("loaded");
+        });
+      }
+    }
+
+    function togglePlayVideo(id) {
+      const vid = document.getElementById("vid_" + id);
+      const btn = document.getElementById("playBtn_" + id);
+      if (!vid) return;
+
+      if (vid.paused) {
+        vid.play();
+        btn.innerText = "⏸ पॉज़";
+      } else {
+        vid.pause();
+        btn.innerText = "▶ प्ले";
+      }
+    }
+
+    function toggleMuteVideo(id) {
+      const vid = document.getElementById("vid_" + id);
+      const btn = document.getElementById("muteBtn_" + id);
+      if (!vid) return;
+
+      vid.muted = !vid.muted;
+      btn.innerText = vid.muted ? "🔇 अनम्यूट" : "🔊 म्यूट";
+    }
+
+    function setVideoSpeed(id, speed) {
+      const vid = document.getElementById("vid_" + id);
+      if (vid) vid.playbackRate = parseFloat(speed);
     }
 
     function rotateImage(fileId) {
@@ -1133,7 +1259,6 @@
       if (!peer) peer = new Peer();
     }
 
-    /* 🌟 BATCH FILE SELECTION TRAY (जितनी चाहे उतनी फाइलें) 🌟 */
     function handleFileSelection(event) {
       const newFiles = Array.from(event.target.files);
       selectedFiles = selectedFiles.concat(newFiles);
@@ -1169,7 +1294,6 @@
       });
     }
 
-    /* 🚀 ROCKET-SPEED BATCH SENDER (बैक-टू-बैक ऑल फाइल्स) 🚀 */
     async function sendSelectedFilesBatch() {
       if (!conn || !conn.open) {
         alert((currentLang === "hi") ? "कृपया पहले ऊपर दुकान के काउंटर से लिंक करें!" : "Please connect to counter first!");
@@ -1195,7 +1319,7 @@
       pWrap.style.display = "block";
       pBar.style.width = "0%";
 
-      const CHUNK_SIZE = 64 * 1024; // 64KB Max Speed
+      const CHUNK_SIZE = 64 * 1024;
       const dc = conn.dataChannel;
 
       const waitForBuffer = () => {
@@ -1248,7 +1372,6 @@
 
             offset += buffer.byteLength;
 
-            // स्पीड कैलकुलेटर
             const elapsed = (Date.now() - startTime) / 1000;
             if (elapsed > 0.3) {
               const speedMb = ((offset / (1024 * 1024)) / elapsed).toFixed(1);
@@ -1333,7 +1456,7 @@
       });
     }
 
-    /* ✂️ CROP ONLY FOR GALLERY QR */
+    /* ✂️ Gallery QR Crop Logic */
     let qrCropFile = null;
     let qrCropRotation = 0;
     let qrCropZoom = 1;
