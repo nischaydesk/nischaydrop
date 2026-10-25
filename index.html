@@ -9,7 +9,6 @@
 
   <link rel="canonical" href="https://nischaydesk.github.io/nischaydrop/" />
   <meta name="author" content="Prince Kumar">
-  <meta name="description" content="NischayDrop is a zero-contact, peer-to-peer print file transfer utility by NischayDesk.">
 
   <!-- Core Libraries -->
   <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
@@ -20,46 +19,45 @@
   <meta name="theme-color" content="#00ffa3">
 
   <style>
-    /* Dark Theme */
     :root[data-theme="dark"] {
-      --bg: #070d12;
-      --surface: rgba(14, 23, 31, 0.88);
-      --card: rgba(19, 32, 43, 0.78);
-      --card-border: rgba(0, 255, 163, 0.22);
+      --bg: #060b0e;
+      --surface: rgba(13, 22, 29, 0.9);
+      --card: rgba(18, 30, 40, 0.85);
+      --card-border: rgba(0, 255, 163, 0.25);
       --primary: #00ffa3;
       --primary-hover: #00d989;
-      --primary-glow: rgba(0, 255, 163, 0.4);
+      --primary-glow: rgba(0, 255, 163, 0.45);
       --text: #f0f7f5;
       --text-muted: #8ca2a6;
       --danger: #ff4d6d;
-      --danger-bg: rgba(255, 77, 109, 0.14);
+      --danger-bg: rgba(255, 77, 109, 0.15);
       --badge-bg: rgba(0, 255, 163, 0.12);
       --qr-bg: #ffffff;
-      --shadow: 0 12px 35px rgba(0, 0, 0, 0.65);
+      --shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
     }
 
-    /* Light Theme */
     :root[data-theme="light"] {
-      --bg: #f2f6f5;
-      --surface: rgba(255, 255, 255, 0.92);
-      --card: rgba(255, 255, 255, 0.82);
-      --card-border: rgba(0, 168, 132, 0.25);
+      --bg: #f2f7f5;
+      --surface: rgba(255, 255, 255, 0.95);
+      --card: rgba(255, 255, 255, 0.88);
+      --card-border: rgba(0, 168, 132, 0.28);
       --primary: #00a884;
       --primary-hover: #008f6f;
-      --primary-glow: rgba(0, 168, 132, 0.3);
+      --primary-glow: rgba(0, 168, 132, 0.35);
       --text: #0e1e1b;
       --text-muted: #576d69;
       --danger: #dc2626;
-      --danger-bg: rgba(220, 38, 38, 0.1);
+      --danger-bg: rgba(220, 38, 38, 0.12);
       --badge-bg: rgba(0, 168, 132, 0.12);
       --qr-bg: #ffffff;
-      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --shadow: 0 12px 35px rgba(0, 0, 0, 0.09);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; transition: background-color 0.25s ease, color 0.2s ease, border-color 0.2s ease; }
     body {
       background: var(--bg);
-      background-image: radial-gradient(circle at 50% 0%, var(--primary-glow), transparent 45%);
+      background-image: radial-gradient(circle at 50% 0%, var(--primary-glow), transparent 50%),
+                        radial-gradient(circle at 100% 100%, rgba(0, 168, 132, 0.08), transparent 50%);
       color: var(--text);
       min-height: 100vh;
       display: flex;
@@ -90,7 +88,7 @@
       border: 1px solid var(--card-border);
       color: var(--text);
       padding: 7px 13px;
-      border-radius: 10px;
+      border-radius: 12px;
       font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
@@ -181,33 +179,6 @@
       position: relative;
     }
 
-    /* Radar Search Animation */
-    .radar-container {
-      display: none;
-      position: relative;
-      width: 130px;
-      height: 130px;
-      margin: 16px auto;
-      align-items: center;
-      justify-content: center;
-    }
-    .radar-circle {
-      position: absolute;
-      border: 2px solid var(--primary);
-      border-radius: 50%;
-      width: 100%;
-      height: 100%;
-      animation: radarPulse 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
-      opacity: 0;
-    }
-    .radar-circle:nth-child(2) { animation-delay: 0.6s; }
-    .radar-circle:nth-child(3) { animation-delay: 1.2s; }
-    .radar-center-icon { font-size: 2.2rem; z-index: 2; }
-    @keyframes radarPulse {
-      0% { transform: scale(0.2); opacity: 0.9; }
-      100% { transform: scale(1.3); opacity: 0; }
-    }
-
     .qr-hero-section { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px; }
     .qr-wrapper {
       background: var(--qr-bg);
@@ -244,6 +215,53 @@
     }
     .status-dot { width: 9px; height: 9px; border-radius: 50%; background: currentColor; }
 
+    /* 🌊 पानी जैसा लिक्विड वेव प्रोग्रेस बार (Water Wave Liquid Progress) 🌊 */
+    .liquid-progress-container {
+      width: 100%;
+      height: 38px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      border: 2px solid var(--primary);
+      box-shadow: 0 0 15px var(--primary-glow) inset, 0 0 10px var(--primary-glow);
+      position: relative;
+      overflow: hidden;
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+    }
+    .liquid-wave-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #00ffa3, #00b4d8);
+      position: relative;
+      transition: width 0.08s ease-out;
+      border-radius: 18px 0 0 18px;
+    }
+    .liquid-wave-fill::after {
+      content: "";
+      position: absolute;
+      top: 0; right: 0; bottom: 0; width: 20px;
+      background: rgba(255, 255, 255, 0.4);
+      filter: blur(4px);
+      animation: waterRipples 1s linear infinite;
+    }
+    @keyframes waterRipples {
+      0% { opacity: 0.3; transform: scaleY(0.9); }
+      50% { opacity: 0.8; transform: scaleY(1.1); }
+      100% { opacity: 0.3; transform: scaleY(0.9); }
+    }
+    .liquid-progress-text {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 900;
+      color: #ffffff;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+      pointer-events: none;
+      z-index: 5;
+    }
+
     .incoming-list { display: flex; flex-direction: column; gap: 14px; margin-top: 14px; }
     .incoming-card {
       background: var(--card);
@@ -255,7 +273,7 @@
       gap: 12px;
       border-left: 5px solid var(--primary);
       box-shadow: 0 8px 24px rgba(0, 255, 163, 0.12);
-      animation: superFileEntrance 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+      animation: superFileEntrance 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
     }
 
     @keyframes superFileEntrance {
@@ -280,36 +298,6 @@
     .file-name { font-weight: 700; font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
     .file-meta { font-size: 0.8rem; color: var(--text-muted); display: flex; gap: 8px; align-items: center; }
     .instruction-tag { background: var(--badge-bg); color: var(--primary); padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 0.78rem; }
-    
-    .progress-container {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      overflow: hidden;
-      margin: 8px 0;
-      position: relative;
-      height: 24px;
-      display: flex;
-      align-items: center;
-      border: 1px solid var(--card-border);
-    }
-    .progress-bar-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #00ffa3, #00a884);
-      transition: width 0.12s linear;
-      border-radius: 10px;
-    }
-    .progress-text-overlay {
-      position: absolute;
-      width: 100%;
-      text-align: center;
-      font-size: 0.76rem;
-      font-weight: 800;
-      color: #ffffff;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.85);
-      pointer-events: none;
-    }
 
     .action-group { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
     .btn {
@@ -481,7 +469,7 @@
     @keyframes modalFade { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
     .modal-icon { font-size: 3.2rem; margin-bottom: 12px; }
 
-    /* ✂️ Crop & Adjust (Only for Gallery QR) */
+    /* Crop Workspace for Gallery QR */
     .crop-canvas-wrapper {
       position: relative;
       width: 100%;
@@ -542,7 +530,7 @@
 
   <main>
     <div class="trust-hero">
-      <div class="trust-tag">⚡ 100% P2P • DIRECT PEER PIPELINE • ZERO CLOUD STORAGE</div>
+      <div class="trust-tag">⚡ 100% P2P • SYNCED WATER WAVE • ZERO CLOUD STORAGE</div>
       <h2 data-i18n="heroTitle">नो नंबर, नो रिस्क — सीधा सुरक्षित प्रिंट!</h2>
       <p data-i18n="heroDesc">बिना दुकानदार का मोबाइल नंबर सेव किए अपने दस्तावेज सीधे प्रिंटर पर भेजें। फाइल किसी सर्वर पर अपलोड नहीं होती।</p>
     </div>
@@ -581,7 +569,7 @@
 
         <div class="incoming-list" id="incomingList">
           <div id="emptyQueueMsg" style="text-align: center; padding: 36px 10px; color: var(--text-muted); font-size: 0.85rem;" data-i18n="emptyQueue">
-            जैसे ही ग्राहक फाइल भेजेगा, यहाँ 0% से 100% लाइव प्रोग्रेस लोड होते हुए दिखेगा।
+            जैसे ही ग्राहक फाइल भेजेगा, यहाँ 0% से 100% लाइव प्रोग्रेस पानी जैसा लोड होते हुए दिखेगा।
           </div>
         </div>
       </div>
@@ -592,14 +580,6 @@
       <div class="card">
         <h3 style="margin-bottom: 6px; font-size: 1.05rem;" data-i18n="connectTitle">1. दुकान के काउंटर से लिंक करें</h3>
         <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 14px;" data-i18n="connectDesc">दुकान के काउंटर पर दिख रहा QR स्कैन करें या कोड डालकर लिंक करें।</p>
-
-        <!-- AirDrop Radar Animation -->
-        <div class="radar-container" id="radarAnimation">
-          <div class="radar-circle"></div>
-          <div class="radar-circle"></div>
-          <div class="radar-circle"></div>
-          <div class="radar-center-icon">📡</div>
-        </div>
 
         <div style="display: flex; flex-direction: column; gap: 10px;">
           <div style="display: flex; gap: 8px;">
@@ -645,7 +625,7 @@
           <input type="file" id="fileUploadInput" multiple onchange="handleFileSelection(event)">
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary); margin-bottom: 8px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
           <div style="font-weight: 700; font-size: 1rem;" id="fileSelectionLabel" data-i18n="dropzonePrompt">यहाँ टैप करके PDF, फोटो या वीडियो चुनें</div>
-          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;" data-i18n="dropzoneSub">P2P चंक पाइपलाइन द्वारा हाई-स्पीड ट्रांसमिशन</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;" data-i18n="dropzoneSub">P2P हाई-स्पीड पाइपलाइन द्वारा रियल-टाइम ट्रांसफर</div>
         </div>
 
         <div class="settings-grid">
@@ -674,10 +654,11 @@
           </div>
         </div>
 
+        <!-- Sender Water Wave Progress -->
         <div id="senderProgressWrap" style="display: none; margin-top: 14px;">
-          <div class="progress-container">
-            <div class="progress-bar-fill" id="senderProgressBar"></div>
-            <div class="progress-text-overlay" id="senderProgressText">भेजा जा रहा है... 0%</div>
+          <div class="liquid-progress-container">
+            <div class="liquid-wave-fill" id="senderProgressBar"></div>
+            <div class="liquid-progress-text" id="senderProgressText">भेजा जा रहा है... 0%</div>
           </div>
         </div>
 
@@ -740,36 +721,51 @@
   <script>
     let isTransferring = false;
 
+    /* 🛡️ ब्राउज़र कट करने पर अलर्ट वार्निंग */
     window.addEventListener("beforeunload", (e) => {
       if (isTransferring) {
         e.preventDefault();
-        e.returnValue = "फाइल ट्रांसफर जारी है!";
+        e.returnValue = "सावधान! फाइल अभी ट्रांसफर हो रही है। अगर बैक या कट करेंगे तो फाइल नष्ट हो जाएगी!";
+        return e.returnValue;
       }
     });
 
-    function playBeepSound(success = false) {
+    /* 🔊 स्पष्ट और लाउड साउंड इंजन */
+    function playAudioTone(type = "beep") {
       try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = "sine";
-        if (success) {
-          osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
-          osc.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 0.2);
-        } else {
-          osc.frequency.setValueAtTime(440, audioCtx.currentTime);
-          osc.frequency.exponentialRampToValueAtTime(659.25, audioCtx.currentTime + 0.15);
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+
+        if (type === "start") {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(520, ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15);
+          gain.gain.setValueAtTime(0.3, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.2);
+        } else if (type === "complete") {
+          const now = ctx.currentTime;
+          [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.frequency.setValueAtTime(freq, now + (i * 0.08));
+            gain.gain.setValueAtTime(0.3, now + (i * 0.08));
+            gain.gain.exponentialRampToValueAtTime(0.01, now + (i * 0.08) + 0.25);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + (i * 0.08));
+            osc.stop(now + (i * 0.08) + 0.25);
+          });
         }
-        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.25);
       } catch (e) {}
     }
 
-    /* 🌐 Solid Bilingual Translation Dictionary (Hindi / English) */
     const translations = {
       hi: {
         heroTitle: "नो नंबर, नो रिस्क — सीधा सुरक्षित प्रिंट!",
@@ -780,7 +776,7 @@
         qrInstruction: "प्रिंट निकालने के लिए कस्टमर से यह QR कोड स्कैन करवाएं या 6-अक्षरों का कोड डलवाएं।",
         counterCodeLabel: "काउंटर कोड",
         incomingTitle: "📥 आई हुई फाइल्स (Live Queue)",
-        emptyQueue: "जैसे ही ग्राहक फाइल भेजेगा, यहाँ 0% से 100% लाइव प्रोग्रेस लोड होते हुए दिखेगा।",
+        emptyQueue: "जैसे ही ग्राहक फाइल भेजेगा, यहाँ 0% से 100% लाइव प्रोग्रेस पानी जैसा लोड होते हुए दिखेगा।",
         connectTitle: "1. दुकान के काउंटर से लिंक करें",
         connectDesc: "दुकान के काउंटर पर दिख रहा QR स्कैन करें या कोड डालकर लिंक करें।",
         btnScanCamera: "दुकान का QR स्कैन करें",
@@ -792,7 +788,7 @@
         btnConnect: "लिंक करें",
         filesTitle: "2. फाइलें चुनें व प्रिंट निर्देश दें",
         dropzonePrompt: "यहाँ टैप करके PDF, फोटो या वीडियो चुनें",
-        dropzoneSub: "P2P चंक पाइपलाइन द्वारा हाई-स्पीड ट्रांसमिशन",
+        dropzoneSub: "P2P हाई-स्पीड पाइपलाइन द्वारा रियल-टाइम ट्रांसफर",
         lblCopies: "कॉपी (Copies)",
         lblColor: "कलर मोड",
         lblSide: "साइड (Sides)",
@@ -818,10 +814,10 @@
         tabReceive: "Shopkeeper Mode (Receiver)",
         tabSend: "Customer Mode (Sender)",
         statusConnecting: "Initializing Counter...",
-        qrInstruction: "Ask customer to scan this QR code or enter the 6-character code below to print.",
+        qrInstruction: "Ask customer to scan this QR code or enter code to print.",
         counterCodeLabel: "Counter Code",
         incomingTitle: "📥 Incoming Files (Live Queue)",
-        emptyQueue: "Files sent by customer will show live 0% to 100% loading progress here.",
+        emptyQueue: "Files sent by customer will show live water-wave loading progress here.",
         connectTitle: "1. Link to Shop Counter",
         connectDesc: "Scan the counter QR or enter code manually to link.",
         btnScanCamera: "Scan Counter QR",
@@ -833,7 +829,7 @@
         btnConnect: "Link Counter",
         filesTitle: "2. Select Files & Print Preferences",
         dropzonePrompt: "Tap here to select PDF, Photos or Videos",
-        dropzoneSub: "High-speed transmission via P2P chunk pipeline",
+        dropzoneSub: "Real-time transfer via P2P high-speed pipeline",
         lblCopies: "Copies",
         lblColor: "Color Mode",
         lblSide: "Sides",
@@ -922,7 +918,7 @@
       }
     }
 
-    /* 🛡️ RECEIVER INITIALIZATION (QR Guaranteed) */
+    /* 🛡️ RECEIVER PEER SETUP */
     function initReceiverPeer() {
       if (peer && !peer.destroyed) return;
 
@@ -958,7 +954,7 @@
             const txt = document.getElementById("text_" + transferId);
             const bar = document.getElementById("bar_" + transferId);
             if (txt) {
-              txt.innerText = (currentLang === "hi") ? "❌ कनेक्शन टूटा! सेंडर ने पेज बंद किया।" : "❌ Connection lost! Sender left.";
+              txt.innerText = (currentLang === "hi") ? "❌ कनेक्शन टूटा! सेंडर ने बंद किया।" : "❌ Connection lost! Sender left.";
               txt.style.color = "#ff4d6d";
             }
             if (bar) bar.style.background = "#ff4d6d";
@@ -973,9 +969,11 @@
       });
     }
 
+    /* 🌊 RECEIVER DATA HANDLER WITH SYNCED ACK 🌊 */
     function handleIncomingData(data) {
       if (data.type === "TRANSFER_START") {
-        playBeepSound(false);
+        isTransferring = true;
+        playAudioTone("start");
         incomingTransfers[data.id] = {
           meta: data,
           receivedBytes: 0,
@@ -991,15 +989,26 @@
         transfer.receivedBytes += data.chunk.byteLength || data.chunk.size || 0;
 
         const progressPercent = Math.min(100, Math.round((transfer.receivedBytes / transfer.meta.fileSize) * 100));
-        updateProgressCard(data.id, progressPercent, transfer.receivedBytes, transfer.meta.fileSize);
+        updateLiquidProgress(data.id, progressPercent, transfer.receivedBytes, transfer.meta.fileSize);
+
+        // ⚡ तुरंत सेंडर को रियल ACK भेजें ताकि दोनों फोन का प्रोग्रेस एक साथ 1:1 चले
+        if (conn && conn.open) {
+          conn.send({
+            type: "SYNC_ACK",
+            id: data.id,
+            percent: progressPercent,
+            receivedBytes: transfer.receivedBytes
+          });
+        }
       } 
       else if (data.type === "TRANSFER_END") {
         const transfer = incomingTransfers[data.id];
         if (!transfer) return;
 
-        playBeepSound(true);
+        isTransferring = false;
+        playAudioTone("complete");
         const finalBlob = new Blob(transfer.chunks, { type: transfer.meta.fileType });
-        completeProgressCard(data.id, finalBlob, transfer.meta);
+        completeLiquidProgress(data.id, finalBlob, transfer.meta);
         delete incomingTransfers[data.id];
       }
     }
@@ -1017,15 +1026,15 @@
           <div class="file-details">
             <div class="file-name" title="${meta.fileName}">${meta.fileName}</div>
             <div class="file-meta">
-              <span>${(meta.fileSize / (1024 * 1024)).toFixed(2)} MB</span>
+              <span>${(meta.fileSize / 1024).toFixed(1)} KB</span>
               <span class="instruction-tag">${meta.instructions.copies} Copy • ${meta.instructions.color} • ${meta.instructions.side}</span>
             </div>
           </div>
         </div>
 
-        <div id="progWrap_${meta.id}" class="progress-container">
-          <div class="progress-bar-fill" id="bar_${meta.id}"></div>
-          <div class="progress-text-overlay" id="text_${meta.id}">📥 प्राप्त हो रहा है... 0%</div>
+        <div id="progWrap_${meta.id}" class="liquid-progress-container">
+          <div class="liquid-wave-fill" id="bar_${meta.id}"></div>
+          <div class="liquid-progress-text" id="text_${meta.id}">🌊 लोड हो रहा है... 0%</div>
         </div>
 
         <div id="body_${meta.id}" style="display: none; flex-direction: column; gap: 12px;"></div>
@@ -1035,25 +1044,25 @@
       updateQueueCount();
     }
 
-    function updateProgressCard(id, percent, loaded, total) {
+    function updateLiquidProgress(id, percent, loaded, total) {
       const bar = document.getElementById("bar_" + id);
       const txt = document.getElementById("text_" + id);
       if (bar) bar.style.width = percent + "%";
       if (txt) {
-        const loadedMb = (loaded / (1024 * 1024)).toFixed(1);
-        const totalMb = (total / (1024 * 1024)).toFixed(1);
-        txt.innerText = (currentLang === "hi") ? `📥 प्राप्त हो रहा है... ${percent}% (${loadedMb}/${totalMb} MB)` : `📥 Receiving... ${percent}% (${loadedMb}/${totalMb} MB)`;
+        const loadedKb = (loaded / 1024).toFixed(1);
+        const totalKb = (total / 1024).toFixed(1);
+        txt.innerText = (currentLang === "hi") ? `🌊 आ रहा है... ${percent}% (${loadedKb}/${totalKb} KB)` : `🌊 Receiving... ${percent}% (${loadedKb}/${totalKb} KB)`;
       }
     }
 
-    function completeProgressCard(id, blob, meta) {
+    function completeLiquidProgress(id, blob, meta) {
       const bar = document.getElementById("bar_" + id);
       const txt = document.getElementById("text_" + id);
       const progWrap = document.getElementById("progWrap_" + id);
       const body = document.getElementById("body_" + id);
 
       if (bar) bar.style.width = "100%";
-      if (txt) txt.innerText = (currentLang === "hi") ? "✓ 100% पूरा हुआ!" : "✓ 100% Completed!";
+      if (txt) txt.innerText = (currentLang === "hi") ? "✓ 100% पूरा हुआ!" : "✓ 100% Loaded!";
       
       setTimeout(() => {
         if (progWrap) progWrap.style.display = "none";
@@ -1061,7 +1070,7 @@
           body.style.display = "flex";
           renderCardActions(id, blob, meta, body);
         }
-      }, 400);
+      }, 350);
     }
 
     function renderCardActions(id, blob, meta, container) {
@@ -1150,13 +1159,161 @@
       if (!peer) peer = new Peer();
     }
 
-    /* 🌟 NORMAL FILE SELECTION */
     function handleFileSelection(event) {
       selectedFiles = Array.from(event.target.files);
       if (selectedFiles.length > 0) {
-        const totalMb = (selectedFiles.reduce((a,b)=>a+b.size,0)/(1024*1024)).toFixed(2);
-        document.getElementById("fileSelectionLabel").innerText = (currentLang === "hi") ? `${selectedFiles.length} फाइलें चुनी गईं (${totalMb} MB)` : `${selectedFiles.length} files selected (${totalMb} MB)`;
+        const totalKb = (selectedFiles.reduce((a,b)=>a+b.size,0)/1024).toFixed(1);
+        document.getElementById("fileSelectionLabel").innerText = (currentLang === "hi") ? `${selectedFiles.length} फाइलें चुनी गईं (${totalKb} KB)` : `${selectedFiles.length} files selected (${totalKb} KB)`;
       }
+    }
+
+    /* ⚡ ULTRA-FAST P2P SENDER (No Fake Delay + Real-time Sync) ⚡ */
+    async function sendSelectedFiles() {
+      if (!conn || !conn.open) {
+        alert((currentLang === "hi") ? "कृपया पहले ऊपर दुकान के काउंटर से लिंक करें!" : "Please connect to counter first!");
+        return;
+      }
+      if (selectedFiles.length === 0) {
+        alert((currentLang === "hi") ? "कृपया पहले फाइल चुनें!" : "Please select files first!");
+        return;
+      }
+
+      isTransferring = true;
+      playAudioTone("start");
+
+      const btn = document.getElementById("btnSendAction");
+      const pWrap = document.getElementById("senderProgressWrap");
+      const pBar = document.getElementById("senderProgressBar");
+      const pText = document.getElementById("senderProgressText");
+
+      btn.disabled = true;
+      btn.style.opacity = "0.5";
+      pWrap.style.display = "block";
+      pBar.style.width = "0%";
+      pText.innerText = "तैयार हो रहा है... 0%";
+
+      const instructions = {
+        copies: document.getElementById("optCopies").value,
+        color: document.getElementById("optColor").value,
+        side: document.getElementById("optSide").value
+      };
+
+      // ⚡ 16KB सुपर फास्ट चंक साइज (शून्य लैग)
+      const CHUNK_SIZE = 16 * 1024;
+
+      try {
+        for (let i = 0; i < selectedFiles.length; i++) {
+          const file = selectedFiles[i];
+          const transferId = Date.now() + "_" + Math.random().toString(36).substr(2, 5);
+
+          conn.send({
+            type: "TRANSFER_START",
+            id: transferId,
+            fileName: file.name,
+            fileSize: file.size,
+            fileType: file.type || "application/octet-stream",
+            instructions: instructions
+          });
+
+          let offset = 0;
+          while (offset < file.size) {
+            if (!conn || !conn.open) throw new Error("Connection lost");
+
+            // WebRTC बफर जाम से बचाव (Backpressure Check)
+            const dataChannel = conn.dataChannel;
+            if (dataChannel && dataChannel.bufferedAmount > 64 * 1024) {
+              await new Promise(r => setTimeout(r, 8));
+            }
+
+            const slice = file.slice(offset, offset + CHUNK_SIZE);
+            const buffer = await slice.arrayBuffer();
+
+            conn.send({
+              type: "TRANSFER_CHUNK",
+              id: transferId,
+              chunk: buffer
+            });
+
+            offset += buffer.byteLength;
+          }
+
+          conn.send({
+            type: "TRANSFER_END",
+            id: transferId
+          });
+        }
+
+      } catch (err) {
+        isTransferring = false;
+        btn.disabled = false;
+        btn.style.opacity = "1";
+        pText.innerText = "❌ ट्रांसफर बाधित!";
+        pBar.style.background = "#ff4d6d";
+        alert((currentLang === "hi") ? "ट्रांसफर रुक गया! काउंटर से कनेक्शन टूट गया।" : "Transfer interrupted!");
+      }
+    }
+
+    function connectToCounter(autoId = null) {
+      const targetId = autoId || document.getElementById("targetPeerCode").value.trim().toUpperCase();
+      if (!targetId) {
+        alert((currentLang === "hi") ? "कृपया काउंटर कोड दर्ज करें!" : "Please enter counter code!");
+        return;
+      }
+
+      const connectingBox = document.getElementById("connectingBox");
+      const alertBox = document.getElementById("customerConnAlert");
+      
+      connectingBox.style.display = "flex";
+      alertBox.innerText = "";
+
+      if (!peer) initSenderPeer();
+
+      conn = peer.connect(targetId, { reliable: true });
+
+      conn.on("open", () => {
+        connectingBox.style.display = "none";
+        alertBox.style.color = "var(--primary)";
+        alertBox.innerText = (currentLang === "hi") ? "✓ काउंटर से सुरक्षित रूप से कनेक्टेड! अब फाइलें भेजें।" : "✓ Securely connected to counter!";
+
+        // ⚡ सेंडर को रिसीवर से रियल ACK सुनना
+        conn.on("data", (data) => {
+          if (data.type === "SYNC_ACK") {
+            const pBar = document.getElementById("senderProgressBar");
+            const pText = document.getElementById("senderProgressText");
+            if (pBar && pText) {
+              pBar.style.width = data.percent + "%";
+              pText.innerText = (currentLang === "hi") ? `🌊 जा रहा है... ${data.percent}%` : `🌊 Sending... ${data.percent}%`;
+            }
+
+            if (data.percent >= 100) {
+              isTransferring = false;
+              playAudioTone("complete");
+              const btn = document.getElementById("btnSendAction");
+              btn.disabled = false;
+              btn.style.opacity = "1";
+
+              setTimeout(() => {
+                document.getElementById("senderProgressWrap").style.display = "none";
+                confetti({ particleCount: 140, spread: 80, origin: { y: 0.6 } });
+                document.getElementById("successModal").classList.add("active");
+                selectedFiles = [];
+                document.getElementById("fileSelectionLabel").innerText = (currentLang === "hi") ? "यहाँ टैप करके PDF, फोटो या वीडियो चुनें" : "Tap here to select PDF, Photos or Videos";
+              }, 400);
+            }
+          }
+        });
+      });
+
+      conn.on("close", () => {
+        alertBox.style.color = "var(--danger)";
+        alertBox.innerText = (currentLang === "hi") ? "⚠️ काउंटर से कनेक्शन टूट गया!" : "⚠️ Disconnected from counter!";
+      });
+
+      conn.on("error", () => {
+        connectingBox.style.display = "none";
+        alertBox.style.color = "var(--danger)";
+        alertBox.innerText = (currentLang === "hi") ? "काउंटर से संपर्क नहीं हो सका।" : "Failed to connect.";
+      });
     }
 
     /* ✂️ CROP ONLY FOR GALLERY QR */
@@ -1226,143 +1383,8 @@
         closeCropModal();
         handleScannedData(code.data);
       } else {
-        alert((currentLang === "hi") ? "QR कोड डिटेक्ट नहीं हुआ! कृपया थोड़ा और ज़ूम करें या कोड को सीधा घुमाएं।" : "QR Code not detected! Please zoom in or rotate code properly.");
+        alert((currentLang === "hi") ? "QR कोड डिटेक्ट नहीं हुआ! थोड़ा और ज़ूम या रोटेट करें।" : "QR Code not detected! Zoom in or rotate.");
       }
-    }
-
-    async function sendSelectedFiles() {
-      if (!conn || !conn.open) {
-        alert((currentLang === "hi") ? "कृपया पहले ऊपर दुकान के काउंटर से लिंक करें!" : "Please connect to counter first!");
-        return;
-      }
-      if (selectedFiles.length === 0) {
-        alert((currentLang === "hi") ? "कृपया पहले फाइल चुनें!" : "Please select files first!");
-        return;
-      }
-
-      isTransferring = true;
-      const btn = document.getElementById("btnSendAction");
-      const pWrap = document.getElementById("senderProgressWrap");
-      const pBar = document.getElementById("senderProgressBar");
-      const pText = document.getElementById("senderProgressText");
-
-      btn.disabled = true;
-      btn.style.opacity = "0.6";
-      pWrap.style.display = "block";
-
-      const instructions = {
-        copies: document.getElementById("optCopies").value,
-        color: document.getElementById("optColor").value,
-        side: document.getElementById("optSide").value
-      };
-
-      const CHUNK_SIZE = 64 * 1024;
-
-      try {
-        for (let i = 0; i < selectedFiles.length; i++) {
-          const file = selectedFiles[i];
-          const transferId = Date.now() + "_" + Math.random().toString(36).substr(2, 5);
-
-          conn.send({
-            type: "TRANSFER_START",
-            id: transferId,
-            fileName: file.name,
-            fileSize: file.size,
-            fileType: file.type || "application/octet-stream",
-            instructions: instructions
-          });
-
-          let offset = 0;
-          while (offset < file.size) {
-            if (!conn || !conn.open) throw new Error("Connection lost");
-
-            const slice = file.slice(offset, offset + CHUNK_SIZE);
-            const buffer = await slice.arrayBuffer();
-
-            conn.send({
-              type: "TRANSFER_CHUNK",
-              id: transferId,
-              chunk: buffer
-            });
-
-            offset += buffer.byteLength;
-            const pct = Math.min(100, Math.round((offset / file.size) * 100));
-            pBar.style.width = pct + "%";
-            pText.innerText = (currentLang === "hi") ? `भेज रहे हैं (${i + 1}/${selectedFiles.length}): ${pct}%` : `Sending (${i + 1}/${selectedFiles.length}): ${pct}%`;
-
-            if (offset % (CHUNK_SIZE * 4) === 0) {
-              await new Promise(r => setTimeout(r, 15));
-            }
-          }
-
-          conn.send({
-            type: "TRANSFER_END",
-            id: transferId
-          });
-        }
-
-        isTransferring = false;
-        pText.innerText = (currentLang === "hi") ? "✓ सब कुछ भेजा जा चुका है!" : "✓ Transfer complete!";
-        setTimeout(() => {
-          btn.disabled = false;
-          btn.style.opacity = "1";
-          pWrap.style.display = "none";
-          pBar.style.width = "0%";
-          
-          confetti({ particleCount: 140, spread: 80, origin: { y: 0.6 } });
-          document.getElementById("successModal").classList.add("active");
-          selectedFiles = [];
-          document.getElementById("fileSelectionLabel").innerText = (currentLang === "hi") ? "यहाँ टैप करके PDF, फोटो या वीडियो चुनें" : "Tap here to select PDF, Photos or Videos";
-        }, 500);
-
-      } catch (err) {
-        isTransferring = false;
-        btn.disabled = false;
-        btn.style.opacity = "1";
-        pText.innerText = (currentLang === "hi") ? "❌ ट्रांसफर बाधित हुआ!" : "❌ Transfer interrupted!";
-        pBar.style.background = "#ff4d6d";
-        alert((currentLang === "hi") ? "ट्रांसफर रुक गया! काउंटर से कनेक्शन टूट गया है।" : "Transfer stopped! Counter disconnected.");
-      }
-    }
-
-    function connectToCounter(autoId = null) {
-      const targetId = autoId || document.getElementById("targetPeerCode").value.trim().toUpperCase();
-      if (!targetId) {
-        alert((currentLang === "hi") ? "कृपया काउंटर कोड दर्ज करें!" : "Please enter counter code!");
-        return;
-      }
-
-      const connectingBox = document.getElementById("connectingBox");
-      const alertBox = document.getElementById("customerConnAlert");
-      const radar = document.getElementById("radarAnimation");
-      
-      connectingBox.style.display = "flex";
-      radar.style.display = "flex";
-      alertBox.innerText = "";
-
-      if (!peer) initSenderPeer();
-
-      conn = peer.connect(targetId, { reliable: true });
-
-      conn.on("open", () => {
-        connectingBox.style.display = "none";
-        radar.style.display = "none";
-        alertBox.style.color = "var(--primary)";
-        alertBox.innerText = (currentLang === "hi") ? "✓ काउंटर से सुरक्षित रूप से कनेक्टेड! अब फाइलें भेजें।" : "✓ Securely connected to counter! Ready to send.";
-      });
-
-      conn.on("close", () => {
-        radar.style.display = "none";
-        alertBox.style.color = "var(--danger)";
-        alertBox.innerText = (currentLang === "hi") ? "⚠️ काउंटर से कनेक्शन टूट गया!" : "⚠️ Disconnected from counter!";
-      });
-
-      conn.on("error", () => {
-        connectingBox.style.display = "none";
-        radar.style.display = "none";
-        alertBox.style.color = "var(--danger)";
-        alertBox.innerText = (currentLang === "hi") ? "काउंटर से संपर्क नहीं हो सका। कोड दोबारा जांचें।" : "Failed to connect. Check code.";
-      });
     }
 
     async function startNativeScanner() {
@@ -1377,7 +1399,7 @@
         try {
           await launchCameraStream(true);
         } catch (finalErr) {
-          alert((currentLang === "hi") ? "कैमरा चालू नहीं हो सका। कृपया परमिशन दें या 'गैलरी QR' का उपयोग करें!" : "Camera failed. Please allow permission or use 'Gallery QR'!");
+          alert((currentLang === "hi") ? "कैमरा चालू नहीं हो सका। 'गैलरी QR' का उपयोग करें!" : "Camera failed. Use 'Gallery QR'!");
           stopNativeScanner();
         }
       }
